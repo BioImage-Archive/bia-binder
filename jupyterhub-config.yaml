@@ -1,0 +1,82 @@
+# Configuration for JupyterHub staging deployment
+# Overridden in production deployments
+
+hub:
+  baseUrl: /staging/
+  db:
+    type: sqlite-memory
+  networkPolicy:
+    enabled: true
+
+auth:
+  type: tmp
+
+proxy:
+  secretToken: # GitLab secret
+  service:
+    type: ClusterIP
+  networkPolicy:
+    enabled: true
+
+cull:
+  timeout: 600
+  every: 300
+
+singleuser:
+  storage:
+    type: none
+  image:
+    name: manics/jupyter-docker
+    tag: merge
+    pullPolicy: Always
+  networkTools:
+      tag: 81c2613
+  startTimeout: 1800
+  memory:
+    limit: 1G
+    guarantee: 100M
+  networkPolicy:
+    enabled: true
+    # Block all except:
+    # - internal DNS
+    # - EMBL-EBI and University of Dundee
+    egress:
+      - to:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+        ports:
+        - port: 53
+          protocol: UDP
+      - to:
+        - ipBlock:
+            cidr: 193.60.0.0/14
+        - ipBlock:
+            cidr: 134.36.0.0/16
+  extraEnv:
+    IDR_HOST: idr.openmicroscopy.org
+    IDR_USER: public
+  cmd: jupyter-labhub
+
+prePuller:
+  hook:
+    enabled: true
+
+ingress:
+  enabled: true
+  hosts:
+  - idr-training.openmicroscopy.org
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # It's unclear whether the generic ingress annotations are supported...
+    ingress.kubernetes.io/proxy-body-size: 16m
+    ingress.kubernetes.io/proxy-read-timeout: 3600
+    ingress.kubernetes.io/proxy-send-timeout: 3600
+    # ... or whether the nginx specific ones are required
+    nginx.ingress.kubernetes.io/proxy-body-size: 16m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: 3600
+    nginx.ingress.kubernetes.io/proxy-send-timeout: 3600
+    # For example # https://github.com/kubernetes/ingress-gce/blob/master/docs/annotations.md#miscellaneous
+    # claims ingress.kubernetes.io/proxy-body-size is standard but it doesn't work with nginx-ingress
+  tls:
+  - hosts:
+    - idr-training.openmicroscopy.org

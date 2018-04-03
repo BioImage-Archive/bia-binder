@@ -1,0 +1,15 @@
+# https://gitlab.com/charts/charts.gitlab.io/blob/master/charts/gitlab-runner/values.yaml
+# helm upgrade --install --namespace gitlab gitlab-runner -f gitlab-runner/helm-config.yaml gitlab/gitlab-runner
+
+gitlabUrl: https://gitlab.com/
+runnerRegistrationToken: # Secret
+rbac:
+  # Setup our own permissions
+  create: false
+  #clusterWideAccess: true
+  serviceAccountName: gitlab-runner
+
+# Private fork:
+runners:
+  environment:
+    KUBERNETES_SERVICE_ACCOUNT_OVERWRITE_ALLOWED: ".*"
