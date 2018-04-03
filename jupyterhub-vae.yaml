@@ -1,0 +1,17 @@
+hub:
+  baseUrl: /vae/
+
+auth:
+  type: github
+  github:
+    clientId: # GitLab secret
+    clientSecret: # GitLab secret
+    callbackUrl: "https://idr-training.openmicroscopy.org/vae/hub/oauth_callback"
+    org_whitelist:
+    - idr-contrib
+  scopes:
+  - read:org
+
+singleuser:
+  storage:
+    type: none
