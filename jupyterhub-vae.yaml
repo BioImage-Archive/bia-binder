@@ -1,5 +1,9 @@
 hub:
   baseUrl: /vae/
+  db:
+    type: sqlite-pvc
+    pvc:
+      storageClassName: gluster
 
 auth:
   type: github
@@ -12,9 +16,25 @@ auth:
   scopes:
   - read:org
 
+cull:
+  timeout: 3600
+  every: 600
+
 singleuser:
   storage:
-    type: none
+    type: dynamic
+    dynamic:
+      storageClass: gluster
+    # For gluster dynamic volumes the minimum is 1Gi
+    capacity: 100Mi
+    homeMountPath: /home/jovyan/scratch
+    extra-volumes:
+      - name: jupyter-sharedscratch
+        persistentVolumeClaim:
+          claimName: jupyter-sharedscratch-rw
+    extra-volume-mounts:
+      - name: jupyter-sharedscratch
+        mountPath: /home/jovyan/shared
 
 ingress:
   annotations:
