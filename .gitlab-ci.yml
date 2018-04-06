@@ -75,3 +75,16 @@ deploy_production_vaeaai:
   only:
   - master
   when: manual
+
+# Website requires a manual trigger
+# Upgrades if already installed
+deploy_website:
+  stage: deploy_production
+  script:
+    - helmfile --selector deployment=website sync --args '--wait --timeout=300'
+  environment:
+    name: production-website
+    url: https://idr-training.openmicroscopy.org/
+  only:
+  - master
+  when: manual

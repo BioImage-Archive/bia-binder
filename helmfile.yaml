@@ -71,3 +71,9 @@ releases:
         value: "{{ env \"SECRET_AAI_CLIENTID\" }}"
       - name: hub.extraEnv.OAUTH_CLIENT_SECRET
         value: "{{ env \"SECRET_AAI_CLIENTSECRET\" }}"
+
+  - name: idr-analysis-website
+    namespace: idr-analysis-website
+    chart: ./charts/idr-analysis-website
+    labels:
+      deployment: website
