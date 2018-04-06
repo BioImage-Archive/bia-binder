@@ -54,6 +54,12 @@ releases:
       - name: auth.github.clientSecret
         value: "{{ env \"SECRET_GITHUB_CLIENTSECRET\" }}"
 
+  - name: jupyterhub-vae-shared-storage
+    namespace: jupyterhub-vae
+    chart: ./charts/jupyterhub-shared-scratch
+    labels:
+      deployment: vae
+
   - <<: *RELEASE_COMMON
     name: jupyterhub-vae-aai
     namespace: jupyterhub-vae-aai

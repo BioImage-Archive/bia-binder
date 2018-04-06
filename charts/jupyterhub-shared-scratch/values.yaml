@@ -1,0 +1,5 @@
+storage:
+  # Dynamic storage class name
+  className: gluster
+  # On our gluster setup the minimum allocation is 1 GB
+  requestSize: 100Mi
