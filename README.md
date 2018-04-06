@@ -38,11 +38,13 @@ If the upstream chart is updated and released installation will be simpler:
     helm repo add gitlab https://charts.gitlab.io
     helm install --namespace gitlab --name gitlab-runner gitlab/gitlab-runner -f gitlab-runner/helm-config.yaml
 
+This repo is used for deployments so shared GitLab runners cannot be used, irrespective of whether they are public or inside the group.
 Ensure you `Disable shared Runners`.
-This repo is used for deployments so shared GitLab runners cannot be used.
 
 **WARNING**: GitLab allows you to share runners across multiple projects.
 Ensure it is disabled since this runner has administrative permissions to manage the deployments so only fully trusted scripts should be run.
+
+![GitLab protect runner](docs/gitlab-protect-runner.png)
 
 
 ## Configure secret variables for the deployment
@@ -52,6 +54,9 @@ Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml):
 - `SECRET_IDR_PASSWORD`
 - `SECRET_GITHUB_CLIENTID` (production-vae only)
 - `SECRET_GITHUB_CLIENTSECRET` (production-vae only)
+- `SECRET_AAI_CLIENTID`: (production-vae-aai only)
+- `SECRET_AAI_CLIENTSECRET`: (production-vae-aai only)
+
 
 ![GitLab secret variables](docs/gitlab-secret-variables.png)
 
