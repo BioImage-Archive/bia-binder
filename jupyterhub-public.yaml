@@ -1,2 +1,20 @@
 hub:
   baseUrl: /public/
+  networkPolicy:
+    enabled: true
+proxy:
+  networkPolicy:
+    enabled: true
+singleuser:
+  networkPolicy:
+    enabled: true
+    egress:
+    - ports:
+      - port: 53
+        protocol: UDP
+    - ports:
+      - port: 80
+        protocol: TCP
+    - ports:
+      - port: 433
+        protocol: TCP
