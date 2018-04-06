@@ -1,0 +1,73 @@
+# Common configuration
+RELEASE_COMMON: &RELEASE_COMMON
+  chart: jupyterhub/jupyterhub
+  version: v0.7-4104389
+
+repositories:
+  - name: jupyterhub
+    url: https://jupyterhub.github.io/helm-chart/
+
+releases:
+
+  - <<: *RELEASE_COMMON
+    name: jupyterhub-staging
+    namespace: jupyterhub-staging
+    labels:
+      deployment: staging
+    values:
+      - jupyterhub-config.yaml
+    set:
+      - name: proxy.secretToken
+        value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"
+      - name: singleuser.extraEnv.IDR_PASSWORD
+        value: "{{ env \"SECRET_IDR_PASSWORD\" }}"
+
+  - <<: *RELEASE_COMMON
+    name: jupyterhub-public
+    namespace: jupyterhub-public
+    labels:
+      deployment: public
+    values:
+      - jupyterhub-config.yaml
+      - jupyterhub-public.yaml
+    set:
+      - name: proxy.secretToken
+        value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"
+      - name: singleuser.extraEnv.IDR_PASSWORD
+        value: "{{ env \"SECRET_IDR_PASSWORD\" }}"
+
+  - <<: *RELEASE_COMMON
+    name: jupyterhub-vae
+    namespace: jupyterhub-vae
+    labels:
+      deployment: vae
+    values:
+      - jupyterhub-config.yaml
+      - jupyterhub-vae.yaml
+    set:
+      - name: proxy.secretToken
+        value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"
+      - name: singleuser.extraEnv.IDR_PASSWORD
+        value: "{{ env \"SECRET_IDR_PASSWORD\" }}"
+      - name: auth.github.clientId
+        value: "{{ env \"SECRET_GITHUB_CLIENTID\" }}"
+      - name: auth.github.clientSecret
+        value: "{{ env \"SECRET_GITHUB_CLIENTSECRET\" }}"
+
+  - <<: *RELEASE_COMMON
+    name: jupyterhub-vae-aai
+    namespace: jupyterhub-vae-aai
+    labels:
+      deployment: vae-aai
+    values:
+      - jupyterhub-config.yaml
+      - jupyterhub-vae-aai.yaml
+    set:
+      - name: proxy.secretToken
+        value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"
+      - name: singleuser.extraEnv.IDR_PASSWORD
+        value: "{{ env \"SECRET_IDR_PASSWORD\" }}"
+      - name: hub.extraEnv.OAUTH_CLIENT_ID
+        value: "{{ env \"SECRET_AAI_CLIENTID\" }}"
+      - name: hub.extraEnv.OAUTH_CLIENT_SECRET
+        value: "{{ env \"SECRET_AAI_CLIENTSECRET\" }}"

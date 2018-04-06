@@ -1,6 +1,6 @@
-# Test GitLab continuous deployment
+# Continuous deployment for the IDR Kubernetes analysis platform
 
-This is a temporary repository for testing GitLab continuous deployment with GitHub.
+Setup GitLab continuous deployment for IDR K8s analysis.
 
 
 ## Create a `CI/CD for external repo` project on GitLab
@@ -27,14 +27,22 @@ This will give the GitLab runner almost full administrative access to the cluste
 https://docs.gitlab.com/ee/install/kubernetes/gitlab_runner_chart.html#installing-gitlab-runner-using-the-helm-chart
 
 Go to the `Runners settings` tab under https://gitlab.com/USERNAME/REPOSITORY/settings/ci_cd.
-Get the Runner registration token from and set `runnerRegistrationToken` in gitlab-runner/helm-config.yaml to this value
-Deploy the GitLab runner:
+Get the Runner registration token from and set `runnerRegistrationToken` in gitlab-runner/helm-config.yaml to this value.
+The gitlab runner requires additional configuration that is not supported by the chart so at present you must [checkout a fork/PR](https://gitlab.com/charts/charts.gitlab.io/merge_requests/120):
+
+    git clone --branch runner-environment https://gitlab.com/manics/charts.gitlab.io.git
+    helm install --namespace gitlab --name gitlab-runner charts.gitlab.io/charts/gitlab-runner/ -f gitlab-runner/helm-config.yaml
+
+If the upstream chart is updated and released installation will be simpler:
 
     helm repo add gitlab https://charts.gitlab.io
-    helm install --namespace gitlab --name gitlab-runner -f gitlab/gitlab-runner gitlab-runner/helm-config.yaml
+    helm install --namespace gitlab --name gitlab-runner gitlab/gitlab-runner -f gitlab-runner/helm-config.yaml
 
 Ensure you `Disable shared Runners`.
 This repo is used for deployments so shared GitLab runners cannot be used.
+
+**WARNING**: GitLab allows you to share runners across multiple projects.
+Ensure it is disabled since this runner has administrative permissions to manage the deployments so only fully trusted scripts should be run.
 
 
 ## Configure secret variables for the deployment

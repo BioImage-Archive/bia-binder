@@ -1,82 +1,77 @@
-# Common parameters for all stages
-image: manics/kube-helm:latest
-before_script:
-  - sh deploy/before.sh
+######################################################################
+# Common settings
+
+image: manics/kube-helm:0.1.0
 
 stages:
-  # Staging is run automatically when master is updated
-  # Deletes an existing deployment before installing
   - deploy_staging
-  # Public (no login) production requires a manual trigger
-  # Upgrades if already installed
-  - deploy_production_public
-  # VAE production requires a manual trigger
-  # Upgrades if already installed
-  - deploy_production_vae
+  - deploy_production
 
 variables:
   # Don't use default since we need extra permissions for deployment
   KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab-runner
-  JUPYTERHUB_CHART_VERSION: v0.7-4104389
 
+before_script:
+  - helm list
+
+
+######################################################################
+# Jobs
+
+# Staging is run automatically when master is updated
+# Deletes an existing deployment before installing
 deploy_staging:
   stage: deploy_staging
-  variables:
-    JUPYTERHUB_DEPLOYMENT_NAME: jupyterhub-staging
+  before_script:
+    - helm list
+    - helmfile --selector deployment=staging delete || true
   script:
-    - helm delete --purge $JUPYTERHUB_DEPLOYMENT_NAME || true
-    - >
-        sh deploy/deploy.sh
-        -f jupyterhub-config.yaml
-        --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
-        --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
+    - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
   environment:
-    name: staging
-    url: https://idr-training.openmicroscopy.org/staging
+    name: staging-staging
+    url: https://idr-analysis.openmicroscopy.org/staging
   only:
   - master
 
+# Public (no login) production requires a manual trigger
+# Upgrades if already installed
 deploy_production_public:
-  stage: deploy_production_public
-  variables:
-    JUPYTERHUB_DEPLOYMENT_NAME: jupyterhub-public
-  before_script:
-    - sh deploy/before.sh
+  stage: deploy_production
   script:
-    - >
-        sh deploy/deploy.sh
-        -f jupyterhub-config.yaml
-        -f jupyterhub-public.yaml
-        --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
-        --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
+    - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
   environment:
     name: production-public
-    url: https://idr-training.openmicroscopy.org/public
+    url: https://idr-analysis.openmicroscopy.org/public
   only:
   - master
   when: manual
 
+# VAE production requires a manual trigger
+# Upgrades if already installed
 deploy_production_vae:
-  stage: deploy_production_vae
-  variables:
-    JUPYTERHUB_DEPLOYMENT_NAME: jupyterhub-vae
-  before_script:
-    - sh deploy/before.sh
+  stage: deploy_production
   script:
-    - >
-        sh deploy/deploy.sh
-        -f jupyterhub-config.yaml
-        -f jupyterhub-vae.yaml
-        --set proxy.secretToken=$SECRET_JUPYTERHUB_PROXY_TOKEN
-        --set singleuser.extraEnv.IDR_PASSWORD=$SECRET_IDR_PASSWORD
-        --set auth.github.clientId=$SECRET_GITHUB_CLIENTID
-        --set auth.github.clientSecret=$SECRET_GITHUB_CLIENTSECRET
+    - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
   environment:
     name: production-vae
-    url: https://idr-training.openmicroscopy.org/vae
+    url: https://idr-analysis.openmicroscopy.org/vae
+  only:
+  - master
+  when: manual
+
+# VAE AAI production requires a manual trigger
+# Upgrades if already installed
+deploy_production_vaeaai:
+  stage: deploy_production
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: production-vae-aai
+    url: https://idr-analysis.openmicroscopy.org/vae
   only:
   - master
   when: manual
