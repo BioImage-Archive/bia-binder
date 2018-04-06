@@ -1,16 +1,21 @@
 hub:
-  baseUrl: /vae/
+  baseUrl: /vae-aai/
+  extraEnv:
+    OAUTH2_AUTHORIZE_URL: https://login.elixir-czech.org/oidc/authorize
+    OAUTH2_TOKEN_URL: https://login.elixir-czech.org/oidc/token
+    OAUTH2_USERDATA_URL: https://login.elixir-czech.org/oidc/userinfo
+    OAUTH_CALLBACK_URL: https://idr-analysis.openmicroscopy.org/vae-aai/hub/oauth_callback
+    OAUTH_CLIENT_ID: # GitLab secret
+    OAUTH_CLIENT_SECRET: # GitLab secret
+
 
 auth:
-  type: github
-  github:
-    clientId: # GitLab secret
-    clientSecret: # GitLab secret
-    callbackUrl: https://idr-analysis.openmicroscopy.org/vae/hub/oauth_callback
-    org_whitelist:
-    - idr-contrib
-  scopes:
-  - read:org
+  type: custom
+  custom:
+    className: oauthenticator.generic.GenericOAuthenticator
+    config:
+      username_key: sub
+      login_service: Elixir AAI
 
 singleuser:
   storage:
