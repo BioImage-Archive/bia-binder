@@ -28,11 +28,11 @@ singleuser:
     # For gluster dynamic volumes the minimum is 1Gi
     capacity: 100Mi
     homeMountPath: /home/jovyan/scratch
-    extra-volumes:
+    extraVolumes:
       - name: jupyter-sharedscratch
         persistentVolumeClaim:
           claimName: jupyter-sharedscratch-rw
-    extra-volume-mounts:
+    extraVolumeMounts:
       - name: jupyter-sharedscratch
         mountPath: /home/jovyan/shared
   networkPolicy:
