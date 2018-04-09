@@ -29,11 +29,11 @@ singleuser:
     capacity: 100Mi
     homeMountPath: /home/jovyan/scratch
     extraVolumes:
-      - name: jupyter-sharedscratch
+      - name: jupyterhub-sharedscratch-rw
         persistentVolumeClaim:
-          claimName: jupyter-sharedscratch-rw
+          claimName: jupyterhub-sharedscratch-rw
     extraVolumeMounts:
-      - name: jupyter-sharedscratch
+      - name: jupyterhub-sharedscratch-rw
         mountPath: /home/jovyan/shared
   networkPolicy:
     enabled: true
