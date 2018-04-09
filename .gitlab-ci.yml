@@ -4,8 +4,9 @@
 image: manics/kube-helm:0.1.0
 
 stages:
-  - deploy_staging
-  - deploy_production
+  - staging
+  - approval
+  - production
 
 variables:
   # Don't use default since we need extra permissions for deployment
@@ -20,11 +21,11 @@ before_script:
 
 # Staging is run automatically when master is updated
 # Deletes an existing deployment before installing
-deploy_staging:
-  stage: deploy_staging
+staging:
+  stage: staging
   before_script:
     - helm list
-    - helmfile --selector deployment=staging delete || true
+    - helmfile --selector application=staging delete || true
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -34,10 +35,20 @@ deploy_staging:
   only:
   - master
 
-# Public (no login) production requires a manual trigger
+# Production requires a manual trigger
+approval:
+  stage: approval
+  script:
+    - echo Manual approval required
+  allow_failure: false
+  only:
+  - master
+  when: manual
+
+# Public (no login) production
 # Upgrades if already installed
-deploy_production_public:
-  stage: deploy_production
+deploy_public:
+  stage: production
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -46,12 +57,11 @@ deploy_production_public:
     url: https://idr-analysis.openmicroscopy.org/public
   only:
   - master
-  when: manual
 
-# VAE production requires a manual trigger
+# VAE production
 # Upgrades if already installed
-deploy_production_vae:
-  stage: deploy_production
+deploy_vae:
+  stage: production
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -60,12 +70,11 @@ deploy_production_vae:
     url: https://idr-analysis.openmicroscopy.org/vae
   only:
   - master
-  when: manual
 
-# VAE AAI production requires a manual trigger
+# VAE AAI production
 # Upgrades if already installed
-deploy_production_vaeaai:
-  stage: deploy_production
+deploy_vaeaai:
+  stage: production
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -74,17 +83,15 @@ deploy_production_vaeaai:
     url: https://idr-analysis.openmicroscopy.org/vae
   only:
   - master
-  when: manual
 
-# Website requires a manual trigger
+# Website
 # Upgrades if already installed
 deploy_website:
-  stage: deploy_production
+  stage: production
   script:
-    - helmfile --selector deployment=website sync --args '--wait --timeout=300'
+    - helmfile --selector application=website sync --args '--wait --timeout=300'
   environment:
     name: production-website
     url: https://idr-training.openmicroscopy.org/
   only:
   - master
-  when: manual
