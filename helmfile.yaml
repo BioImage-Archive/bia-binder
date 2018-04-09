@@ -14,6 +14,7 @@ releases:
     namespace: jupyterhub-staging
     labels:
       deployment: staging
+      application: staging
     values:
       - jupyterhub-config.yaml
     set:
@@ -26,7 +27,8 @@ releases:
     name: jupyterhub-public
     namespace: jupyterhub-public
     labels:
-      deployment: public
+      deployment: production
+      application: public
     values:
       - jupyterhub-config.yaml
       - jupyterhub-public.yaml
@@ -40,7 +42,8 @@ releases:
     name: jupyterhub-vae
     namespace: jupyterhub-vae
     labels:
-      deployment: vae
+      deployment: production
+      application: vae
     values:
       - jupyterhub-config.yaml
       - jupyterhub-vae.yaml
@@ -58,13 +61,15 @@ releases:
     namespace: jupyterhub-vae
     chart: ./charts/jupyterhub-shared-scratch
     labels:
-      deployment: vae
+      deployment: production
+      application: vae
 
   - <<: *RELEASE_COMMON
     name: jupyterhub-vae-aai
     namespace: jupyterhub-vae-aai
     labels:
-      deployment: vae-aai
+      deployment: production
+      application: vae-aai
     values:
       - jupyterhub-config.yaml
       - jupyterhub-vae-aai.yaml
@@ -82,4 +87,5 @@ releases:
     namespace: idr-analysis-website
     chart: ./charts/idr-analysis-website
     labels:
-      deployment: website
+      deployment: production
+      application: website
