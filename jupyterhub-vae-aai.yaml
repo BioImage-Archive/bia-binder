@@ -18,8 +18,29 @@ auth:
       login_service: Elixir AAI
 
 singleuser:
-  storage:
-    type: none
+  networkPolicy:
+    # Allow
+    # - internal DNS
+    # - all EMBL-EBI and University of Dundee
+    # - all HTTP and HTTPS
+    egress:
+      - to:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+        ports:
+        - port: 53
+          protocol: UDP
+      - to:
+        - ipBlock:
+            cidr: 193.60.0.0/14
+        - ipBlock:
+            cidr: 134.36.0.0/16
+      - to:
+        ports:
+        - port: 80
+          protocol: TCP
+        - port: 443
+          protocol: TCP
 
 ingress:
   annotations:

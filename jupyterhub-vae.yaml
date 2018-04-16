@@ -42,7 +42,6 @@ singleuser:
       - name: jupyterhub-sharedscratch-rw
         mountPath: /home/jovyan/shared
   networkPolicy:
-    enabled: true
     # Allow
     # - internal DNS
     # - all EMBL-EBI and University of Dundee
