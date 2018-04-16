@@ -2,7 +2,7 @@
 replicaCount: 1
 image:
   repository: manics/idr-analysis.openmicroscopy.org
-  tag: latest
+  tag: 0.0.1
   pullPolicy: IfNotPresent
 service:
   name: nginx
