@@ -26,11 +26,8 @@ singleuser:
   storage:
     type: none
   image:
-    name: manics/jupyter-docker
-    tag: merge
-    pullPolicy: Always
-  networkTools:
-      tag: 81c2613
+    name: imagedata/idr-notebooks
+    tag: 0.7.0
   startTimeout: 1800
   memory:
     limit: 1G
