@@ -41,6 +41,13 @@ singleuser:
     extraVolumeMounts:
       - name: jupyterhub-sharedscratch-rw
         mountPath: /home/jovyan/shared
+  # Official VAE users get extra resources
+  cpu:
+    limit: 2
+    guarantee: 0.1
+  memory:
+    limit: 1G
+    guarantee: 100M
   networkPolicy:
     # Allow
     # - internal DNS
