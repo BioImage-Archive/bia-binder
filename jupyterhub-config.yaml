@@ -29,8 +29,11 @@ singleuser:
     name: imagedata/idr-notebooks
     tag: 0.7.0
   startTimeout: 1800
+  cpu:
+    limit: 1
+    guarantee: 0.1
   memory:
-    limit: 1G
+    limit: 512M
     guarantee: 100M
   networkPolicy:
     enabled: true
