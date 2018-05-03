@@ -1,8 +1,8 @@
 # Default values for idr-analysis-static-web.
 replicaCount: 1
 image:
-  repository: manics/idr-analysis.openmicroscopy.org
-  tag: 0.0.1
+  repository: imagedata/idr-analysis.openmicroscopy.org
+  tag: 0.0.2
   pullPolicy: IfNotPresent
 service:
   name: nginx
