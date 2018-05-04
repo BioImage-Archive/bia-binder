@@ -46,8 +46,8 @@ singleuser:
     limit: 2
     guarantee: 0.1
   memory:
-    limit: 1G
-    guarantee: 100M
+    limit: 2G
+    guarantee: 512M
   networkPolicy:
     # Allow
     # - internal DNS
