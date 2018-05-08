@@ -54,9 +54,13 @@ Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml):
 - `SECRET_GITHUB_CLIENTSECRET` (production-vae only)
 - `SECRET_AAI_CLIENTID`: (production-vae-aai only)
 - `SECRET_AAI_CLIENTSECRET`: (production-vae-aai only)
-
+- `SECRET_GRAFANA_GITHUB_CLIENTID`: (production-monitoring only)
+- `SECRET_GRAFANA_GITHUB_SECRET`: (production-monitoring only)
 
 ![GitLab secret variables](docs/gitlab-secret-variables.png)
+
+In future we may move to manually creating Kubernetes secrets in advance if supported by the corresponding Helm charts, for example https://github.com/kubernetes/charts/pull/5435
+
 
 ## Additional notes
 
