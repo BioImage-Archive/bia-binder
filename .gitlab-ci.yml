@@ -95,3 +95,15 @@ deploy_website:
     url: https://idr-analysis.openmicroscopy.org/
   only:
   - master
+
+# Monitoring
+# Upgrades if already installed
+deploy_monitoring:
+  stage: production
+  script:
+    - helmfile --selector application=monitoring sync --args '--wait --timeout=300'
+  environment:
+    name: production-monitoring
+    url: https://idr-analysis.openmicroscopy.org/grafana
+  only:
+  - master
