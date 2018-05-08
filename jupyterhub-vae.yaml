@@ -4,6 +4,8 @@ hub:
     type: sqlite-pvc
     pvc:
       storageClassName: gluster
+  extraConfig: |
+    c.JupyterHub.cleanup_servers = False
 
 auth:
   type: github
