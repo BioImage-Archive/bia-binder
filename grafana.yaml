@@ -17,6 +17,8 @@ persistence:
   enabled: true
   size: 2G
   storageClass: gluster
+  accessModes:
+  - ReadWriteOnce
 
 # https://github.com/kubernetes/charts/blob/master/stable/grafana/templates/configmap.yaml
 # http://docs.grafana.org/installation/configuration/
