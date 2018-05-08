@@ -25,7 +25,7 @@ staging:
   stage: staging
   before_script:
     - helm list
-    - helmfile --selector application=staging delete || true
+    - helmfile --hide-args --selector application=staging delete || true
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
@@ -89,7 +89,7 @@ deploy_vaeaai:
 deploy_website:
   stage: production
   script:
-    - helmfile --selector application=website sync --args '--wait --timeout=300'
+    - helmfile --hide-args --selector application=website sync --args '--wait --timeout=300'
   environment:
     name: production-website
     url: https://idr-analysis.openmicroscopy.org/
@@ -101,7 +101,7 @@ deploy_website:
 deploy_monitoring:
   stage: production
   script:
-    - helmfile --selector application=monitoring sync --args '--wait --timeout=300'
+    - helmfile --hide-args --selector application=monitoring sync --args '--wait --timeout=300'
   environment:
     name: production-monitoring
     url: https://idr-analysis.openmicroscopy.org/grafana
