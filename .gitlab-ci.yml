@@ -18,6 +18,9 @@ before_script:
 
 ######################################################################
 # Jobs
+# Deployment logs are public so ensure all you never echo any secret
+# variables
+
 
 # Staging is run automatically when master is updated
 # Deletes an existing deployment before installing
