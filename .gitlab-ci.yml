@@ -92,6 +92,6 @@ deploy_website:
     - helmfile --selector application=website sync --args '--wait --timeout=300'
   environment:
     name: production-website
-    url: https://idr-training.openmicroscopy.org/
+    url: https://idr-analysis.openmicroscopy.org/
   only:
   - master
