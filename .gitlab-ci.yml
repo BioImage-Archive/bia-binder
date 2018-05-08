@@ -1,7 +1,7 @@
 ######################################################################
 # Common settings
 
-image: manics/kube-helm:0.1.0
+image: imagedata/kube-helm-docker:0.1.0
 
 stages:
   - staging
