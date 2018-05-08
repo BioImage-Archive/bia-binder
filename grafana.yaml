@@ -1,6 +1,10 @@
 # Based on
 # https://github.com/jupyterhub/mybinder.org-deploy/blob/d53420cdbc94d2148018594d33cd35810bbffbf1/mybinder/values.yaml#L164
 
+image:
+  # Use 5.1.X to display GitHub login button
+  tag: 5.1.1
+
 ingress:
   enabled: true
   annotations:
