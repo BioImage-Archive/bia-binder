@@ -10,6 +10,10 @@ repositories:
 
 releases:
 
+
+######################################################################
+# JupyterHub staging
+
   - <<: *RELEASE_COMMON
     name: jupyterhub-staging
     namespace: jupyterhub-staging
@@ -23,6 +27,9 @@ releases:
         value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"
       - name: singleuser.extraEnv.IDR_PASSWORD
         value: "{{ env \"SECRET_IDR_PASSWORD\" }}"
+
+######################################################################
+# JupyterHub production
 
   - <<: *RELEASE_COMMON
     name: jupyterhub-public
@@ -84,9 +91,45 @@ releases:
       - name: hub.extraEnv.OAUTH_CLIENT_SECRET
         value: "{{ env \"SECRET_AAI_CLIENTSECRET\" }}"
 
+
+######################################################################
+# Website
+
   - name: idr-analysis-website
     namespace: idr-analysis-website
     chart: ./charts/idr-analysis-website
     labels:
       deployment: production
       application: website
+
+
+######################################################################
+# Monitoring
+
+  - name: prometheus
+    namespace: monitoring
+    chart: stable/prometheus
+    version: 6.3.3
+    labels:
+      deployment: production
+      application: monitoring
+    values:
+      - prometheus.yaml
+
+  - name: grafana
+    namespace: monitoring
+    chart: stable/grafana
+    version: 1.3.0
+    labels:
+      deployment: production
+      application: monitoring
+    values:
+      - grafana.yaml
+    set:
+      - name: env.GF_AUTH_GITHUB_CLIENT_ID
+        value: "{{ env \"SECRET_GRAFANA_GITHUB_CLIENTID\" }}"
+      - name: env.GF_AUTH_GITHUB_CLIENT_SECRET
+        value: "{{ env \"SECRET_GRAFANA_GITHUB_SECRET\" }}"
+
+    # To get the auto-generated Grafana admin password:
+    # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo

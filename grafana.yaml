@@ -1,0 +1,65 @@
+# Based on
+# https://github.com/jupyterhub/mybinder.org-deploy/blob/d53420cdbc94d2148018594d33cd35810bbffbf1/mybinder/values.yaml#L164
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  path: /grafana
+  hosts:
+  - idr-analysis.openmicroscopy.org
+  tls:
+  - hosts:
+    - idr-analysis.openmicroscopy.org
+
+persistence:
+  enabled: true
+  size: 2G
+  storageClass: gluster
+
+# https://github.com/kubernetes/charts/blob/master/stable/grafana/templates/configmap.yaml
+# http://docs.grafana.org/installation/configuration/
+env:
+  # TODO: GF_AUTH_ANONYMOUS_ENABLED: "true"
+  GF_AUTH_GITHUB_ENABLED: "true"
+  GF_AUTH_GITHUB_ALLOW_SIGN_UP: "true"
+  #GF_AUTH_GITHUB_CLIENT_ID: # GitLab secret
+  #GF_AUTH_GITHUB_CLIENT_SECRET: # GitLab secret
+  GF_AUTH_GITHUB_SCOPES: user:email,read:org
+  GF_AUTH_GITHUB_AUTH_URL: https://github.com/login/oauth/authorize
+  GF_AUTH_GITHUB_TOKEN_URL: https://github.com/login/oauth/access_token
+  GF_AUTH_GITHUB_API_URL: https://api.github.com/user
+  GF_AUTH_GITHUB_ALLOWED_ORGANISATIONS: openmicroscopy
+  GF_SERVER_DOMAIN: idr-analysis.openmicroscopy.org
+  GF_SERVER_ROOT_URL: "https://%(domain)s/grafana/"
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server
+      access: proxy
+      isDefault: true
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards
+
+dashboards:
+  # Install https://grafana.com/dashboards/5849
+  idr-jupyter-servers:
+    gnetId: 5849
+    revision: 1
+    datasource: Prometheus
