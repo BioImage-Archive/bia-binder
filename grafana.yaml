@@ -16,7 +16,7 @@ ingress:
 persistence:
   enabled: true
   size: 2G
-  storageClass: gluster
+  storageClassName: gluster
   accessModes:
   - ReadWriteOnce
 
