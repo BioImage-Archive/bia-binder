@@ -7,6 +7,10 @@ hub:
     type: sqlite-memory
   networkPolicy:
     enabled: true
+  # Storing the db in memory means it's lost on restart
+  # This may help to avoid dangling servers
+  extraConfig: |
+    c.JupyterHub.cleanup_servers = True
 
 auth:
   type: tmp
