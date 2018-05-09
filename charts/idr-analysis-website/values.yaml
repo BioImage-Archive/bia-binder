@@ -2,7 +2,7 @@
 replicaCount: 1
 image:
   repository: imagedata/idr-analysis.openmicroscopy.org
-  tag: 0.0.2
+  tag: IDR-0.5.0
   pullPolicy: IfNotPresent
 service:
   name: nginx
