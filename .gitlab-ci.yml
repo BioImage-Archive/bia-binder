@@ -38,6 +38,19 @@ staging:
   only:
   - master
 
+# Training is run automatically as part of staging
+# Upgrades if already installed
+training:
+  stage: staging
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: staging-training
+    url: https://idr-analysis.openmicroscopy.org/training
+  only:
+  - master
+
 # Production requires a manual trigger
 approval:
   stage: approval
