@@ -3,9 +3,7 @@ hub:
 
 singleuser:
   image:
-    name: imagedata/jupyter-docker
-    tag: 0.8.1
-#    name: openmicroscopy/training-notebooks
-#    tag: 0.1.0
+    name: openmicroscopy/training-notebooks
+    tag: 0.1.0
 
 # Use the same cpu memory and networkPolicy limits as staging
