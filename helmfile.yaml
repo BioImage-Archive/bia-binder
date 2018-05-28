@@ -28,6 +28,25 @@ releases:
       - name: singleuser.extraEnv.IDR_PASSWORD
         value: "{{ env \"SECRET_IDR_PASSWORD\" }}"
 
+
+######################################################################
+# JupyterHub training
+# This is deployed as part of staging for now
+
+  - <<: *RELEASE_COMMON
+    name: jupyterhub-training
+    namespace: jupyterhub-training
+    labels:
+      deployment: staging
+      application: training
+    values:
+      - jupyterhub-config.yaml
+      - jupyterhub-training.yaml
+    set:
+      - name: proxy.secretToken
+        value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"
+
+
 ######################################################################
 # JupyterHub production
 
