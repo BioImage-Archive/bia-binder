@@ -125,6 +125,19 @@ releases:
 ######################################################################
 # Monitoring
 
+  - name: prometheus-auth
+    namespace: monitoring
+    chart: ./charts/kubernetes-secret
+    labels:
+      deployment: production
+      application: monitoring
+    set:
+      - name: data.auth
+        value: {{ env "SECRET_PROMETHEUS_AUTH_HTPASSWD" }}
+    # To create this value:
+    # htpasswd -bc auth username password
+    # base64 auth
+
   - name: prometheus
     namespace: monitoring
     chart: stable/prometheus
