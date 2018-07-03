@@ -5,5 +5,10 @@ singleuser:
   image:
     name: openmicroscopy/training-notebooks
     tag: 0.2.0
-
-# Use the same cpu memory and networkPolicy limits as staging
+  # Increase resources since some training notebooks are resources intensive
+  cpu:
+    limit: 2
+    guarantee: 0.1
+  memory:
+    limit: 2G
+    guarantee: 512M
