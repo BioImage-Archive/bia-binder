@@ -28,7 +28,8 @@ staging:
   stage: staging
   before_script:
     - helm list
-    - helmfile --hide-args --selector application=staging delete || true
+    # Disable delete for now to see if it fixes an redeployment problem
+    #- helmfile --hide-args --selector application=staging delete || true
   script:
     - sh gitlab-ci/deploy.sh
     # TODO: Check we can run singleuser servers
