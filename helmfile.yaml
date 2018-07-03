@@ -133,7 +133,7 @@ releases:
       application: monitoring
     set:
       - name: data.auth
-        value: {{ env "SECRET_PROMETHEUS_AUTH_HTPASSWD" }}
+        value: "{{ env \"SECRET_PROMETHEUS_AUTH_HTPASSWD\" }}"
     # To create this value:
     # htpasswd -bc auth username password
     # base64 auth
