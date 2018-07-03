@@ -4,6 +4,6 @@ hub:
 singleuser:
   image:
     name: openmicroscopy/training-notebooks
-    tag: 0.1.0
+    tag: 0.2.0
 
 # Use the same cpu memory and networkPolicy limits as staging
