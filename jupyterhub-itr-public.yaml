@@ -1,0 +1,35 @@
+hub:
+  baseUrl: /itr-public/
+
+singleuser:
+  image:
+    name: imagedata/idr-notebooks
+    tag: VAE-0.5.1
+  # Increase resources since some notebooks are resource intensive
+  cpu:
+    limit: 2
+    guarantee: 0.1
+  memory:
+    limit: 2G
+    guarantee: 512M
+  networkPolicy:
+    enabled: true
+    # Block all except:
+    # - internal DNS
+    # - EMBL-EBI and University of Dundee
+    egress:
+      - to:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+        ports:
+        # BUG: https://github.com/jupyterhub/zero-to-jupyterhub-k8s/pull/824
+        # Temporary workaround: allow egress to port 8081 on internal IPs
+        - port: 8081
+        - port: 53
+          protocol: UDP
+      - to:
+        - ipBlock:
+            cidr: 193.60.0.0/14
+        - ipBlock:
+            cidr: 134.36.0.0/16
+  cmd: jupyterhub-singleuser
