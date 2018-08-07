@@ -62,6 +62,19 @@ approval:
   - master
   when: manual
 
+# ITR Public (no login) production
+# Upgrades if already installed
+deploy_itr_public:
+  stage: production
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: production-itr-public
+    url: https://idr-analysis.openmicroscopy.org/itr-public
+  only:
+  - master
+
 # Public (no login) production
 # Upgrades if already installed
 deploy_public:
