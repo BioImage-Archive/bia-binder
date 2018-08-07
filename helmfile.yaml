@@ -65,6 +65,8 @@ releases:
     set:
       - name: proxy.secretToken
         value: "{{ env \"SECRET_JUPYTERHUB_PROXY_TOKEN\" }}"
+      - name: singleuser.extraEnv.IDR_PASSWORD
+        value: "{{ env \"SECRET_IDR_PASSWORD\" }}"
 
 
 ######################################################################
