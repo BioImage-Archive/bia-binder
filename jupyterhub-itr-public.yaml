@@ -33,3 +33,8 @@ singleuser:
         - ipBlock:
             cidr: 134.36.0.0/16
   cmd: jupyterhub-singleuser
+
+# Since this is a newer jupyterhub let's try re-enabling the prepuller
+prePuller:
+  hook:
+    enabled: true
