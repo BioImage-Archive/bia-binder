@@ -10,7 +10,7 @@ singleuser:
     limit: 2
     guarantee: 0.1
   memory:
-    limit: 2G
+    limit: 6.5G
     guarantee: 512M
   cmd: jupyterhub-singleuser
 
