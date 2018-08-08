@@ -52,8 +52,8 @@ releases:
 
   # Note this is newer than the version in RELEASE_COMMON
   - chart: jupyterhub/jupyterhub
-    # Mon, 06 Aug 2018 06:36:53 +0000
-    version: v0.7-92ccb36
+    # Tue, 07 Aug 2018 19:55:47 +0000
+    version: v0.7-15e87d6
     name: jupyterhub-itr-public
     namespace: jupyterhub-itr-public
     labels:
