@@ -4,7 +4,7 @@ hub:
 singleuser:
   image:
     name: imagedata/idr-notebooks
-    tag: VAE-0.5.1
+    tag: VAE-0.5.2
   # Increase resources since some notebooks are resource intensive
   cpu:
     limit: 2
