@@ -19,7 +19,4 @@ cull:
   timeout: 1200
   every: 300
 
-# Since this is a newer jupyterhub let's try re-enabling the prepuller
-prePuller:
-  hook:
-    enabled: true
+# Don't enable the prepuller, possible weird k8s token permissions problems
