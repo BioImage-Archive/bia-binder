@@ -10,7 +10,7 @@ test -n "$APPLICATION_NAME"
 JUPYTERHUB_URL="http://proxy-public.jupyterhub-${APPLICATION_NAME}/${APPLICATION_NAME}"
 
 
-helmfile --hide-args --selector application=${APPLICATION_NAME} sync --args '--wait --timeout=1200'
+helmfile --hide-args --selector application=${APPLICATION_NAME} sync --args '--wait --timeout=1200 --force'
 
 
 # Is this necessary? Or should helm --wait take care of this?
