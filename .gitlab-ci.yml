@@ -110,7 +110,7 @@ deploy_vaeaai:
     # TODO: Check we can run singleuser servers
   environment:
     name: production-vae-aai
-    url: https://idr-analysis.openmicroscopy.org/vae
+    url: https://idr-analysis.openmicroscopy.org/vae-aai
   only:
   - master
 
