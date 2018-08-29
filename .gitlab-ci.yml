@@ -39,19 +39,6 @@ staging:
   only:
   - master
 
-# Training is run automatically as part of staging
-# Upgrades if already installed
-training:
-  stage: staging
-  script:
-    - sh gitlab-ci/deploy.sh
-    # TODO: Check we can run singleuser servers
-  environment:
-    name: staging-training
-    url: https://idr-analysis.openmicroscopy.org/training
-  only:
-  - master
-
 # Production requires a manual trigger
 approval:
   stage: approval
@@ -61,6 +48,19 @@ approval:
   only:
   - master
   when: manual
+
+# Training (no login) production
+# Upgrades if already installed
+training:
+  stage: production
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: production-training
+    url: https://idr-analysis.openmicroscopy.org/training
+  only:
+  - master
 
 # ITR Public (no login) production
 # Upgrades if already installed
