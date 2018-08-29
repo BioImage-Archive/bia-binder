@@ -51,7 +51,7 @@ approval:
 
 # Training (no login) production
 # Upgrades if already installed
-training:
+deploy_training:
   stage: production
   script:
     - sh gitlab-ci/deploy.sh
