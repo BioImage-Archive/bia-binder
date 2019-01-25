@@ -63,9 +63,9 @@ singleuser:
 
 prePuller:
   hook:
-    # TODO: The prepuller fails intermittently, re-enable when we upgrade
-    # zero-to-jupyterhub
-    enabled: false
+    # The pre-puller has been improved but if it still causes problems
+    # set enabled: false
+    enabled: true
 
 ingress:
   enabled: true
