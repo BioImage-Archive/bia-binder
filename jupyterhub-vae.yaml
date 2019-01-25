@@ -78,11 +78,6 @@ singleuser:
 ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
-    # It's unclear whether the generic ingress annotations are supported...
-    ingress.kubernetes.io/proxy-body-size: 16m
-    ingress.kubernetes.io/proxy-read-timeout: 3600
-    ingress.kubernetes.io/proxy-send-timeout: 3600
-    # ... or whether the nginx specific ones are required
     nginx.ingress.kubernetes.io/proxy-body-size: 16m
     nginx.ingress.kubernetes.io/proxy-read-timeout: 3600
     nginx.ingress.kubernetes.io/proxy-send-timeout: 3600
