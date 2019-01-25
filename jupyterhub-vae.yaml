@@ -4,8 +4,9 @@ hub:
     type: sqlite-pvc
     pvc:
       storageClassName: gluster
-  extraConfig: |
-    c.JupyterHub.cleanup_servers = False
+  extraConfig:
+    config: |
+      c.JupyterHub.cleanup_servers = False
 
 auth:
   type: github
@@ -13,7 +14,7 @@ auth:
     clientId: # GitLab secret
     clientSecret: # GitLab secret
     callbackUrl: https://idr-analysis.openmicroscopy.org/vae/hub/oauth_callback
-    org_whitelist:
+    orgWhitelist:
     - idr-contrib
   scopes:
   - read:org
