@@ -73,12 +73,7 @@ ingress:
   - idr-analysis.openmicroscopy.org
   annotations:
     kubernetes.io/ingress.class: nginx
-    # It's unclear whether the generic ingress annotations are supported...
-    ingress.kubernetes.io/proxy-body-size: 2m
-    # ... or whether the nginx specific ones are required
     nginx.ingress.kubernetes.io/proxy-body-size: 2m
-    # For example # https://github.com/kubernetes/ingress-gce/blob/master/docs/annotations.md#miscellaneous
-    # claims ingress.kubernetes.io/proxy-body-size is standard but it doesn't work with nginx-ingress
   tls:
   - hosts:
     - idr-analysis.openmicroscopy.org
