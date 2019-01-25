@@ -1,0 +1,6 @@
+ingress:
+  hosts:
+  - 192.168.99.100.xip.io
+  tls:
+  - hosts:
+    - 192.168.99.100.xip.io

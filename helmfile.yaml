@@ -31,6 +31,9 @@ releases:
       application: staging
     values:
       - jupyterhub-config.yaml
+    {{ range .Environment.Values.jupyterhub_staging_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -52,6 +55,9 @@ releases:
     values:
       - jupyterhub-config.yaml
       - jupyterhub-training.yaml
+    {{ range .Environment.Values.jupyterhub_training_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -71,6 +77,9 @@ releases:
     values:
       - jupyterhub-config.yaml
       - jupyterhub-itr-public.yaml
+    {{ range .Environment.Values.jupyterhub_itr_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -92,6 +101,9 @@ releases:
     values:
       - jupyterhub-config.yaml
       - jupyterhub-public.yaml
+    {{ range .Environment.Values.jupyterhub_public_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -109,6 +121,9 @@ releases:
     values:
       - jupyterhub-config.yaml
       - jupyterhub-vae.yaml
+    {{ range .Environment.Values.jupyterhub_vae_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -125,6 +140,11 @@ releases:
     labels:
       deployment: production
       application: vae
+    values:
+    {{ range .Environment.Values.jupyterhub_vae_shared_storage_overrides }}
+      - {{ . }}
+    {{ end }}
+
   - name: jupyterhub-vae-aai
     chart: jupyterhub/jupyterhub
     # Wed, 23 Jan 2019 15:37:58 +0000
@@ -157,10 +177,16 @@ releases:
     labels:
       deployment: production
       application: website
+    values:
+    {{ range .Environment.Values.idr_analysis_website_overrides }}
+      - {{ . }}
+    {{ end }}
 
 
 ######################################################################
 # Monitoring
+
+{{ if .Environment.Values.enable_monitoring }}
 
   - name: prometheus-auth
     namespace: monitoring
@@ -202,3 +228,13 @@ releases:
 
     # To get the auto-generated Grafana admin password:
     # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+
+{{ end }}
+
+environments:
+  default:
+    values:
+      - production.yaml
+  minikube:
+    values:
+      - minikube.yaml

@@ -1,0 +1,25 @@
+# Minikube values
+
+jupyterhub_staging_overrides:
+  - values/minikube/jupyterhub-config.yaml
+
+jupyterhub_training_overrides:
+  - values/minikube/jupyterhub-config.yaml
+
+jupyterhub_itr_overrides:
+  - values/minikube/jupyterhub-config.yaml
+
+jupyterhub_public_overrides:
+  - values/minikube/jupyterhub-config.yaml
+
+jupyterhub_vae_overrides:
+  - values/minikube/jupyterhub-config.yaml
+  - values/minikube/jupyterhub-vae.yaml
+
+jupyterhub_vae_shared_storage_overrides:
+  - values/minikube/jupyterhub-shared-scratch-storage.yaml
+
+idr_analysis_website_overrides:
+  - values/minikube/idr-analysis-website.yaml
+
+enable_monitoring: False
