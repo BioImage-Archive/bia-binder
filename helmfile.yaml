@@ -30,7 +30,7 @@ releases:
       deployment: staging
       application: staging
     values:
-      - jupyterhub-config.yaml
+      - values/jupyterhub-config.yaml
     {{ range .Environment.Values.jupyterhub_staging_overrides }}
       - {{ . }}
     {{ end }}
@@ -53,8 +53,8 @@ releases:
       deployment: production
       application: training
     values:
-      - jupyterhub-config.yaml
-      - jupyterhub-training.yaml
+      - values/jupyterhub-config.yaml
+      - values/jupyterhub-training.yaml
     {{ range .Environment.Values.jupyterhub_training_overrides }}
       - {{ . }}
     {{ end }}
@@ -75,8 +75,8 @@ releases:
       deployment: production
       application: itr-public
     values:
-      - jupyterhub-config.yaml
-      - jupyterhub-itr-public.yaml
+      - values/jupyterhub-config.yaml
+      - values/jupyterhub-itr-public.yaml
     {{ range .Environment.Values.jupyterhub_itr_overrides }}
       - {{ . }}
     {{ end }}
@@ -99,8 +99,8 @@ releases:
       deployment: production
       application: public
     values:
-      - jupyterhub-config.yaml
-      - jupyterhub-public.yaml
+      - values/jupyterhub-config.yaml
+      - values/jupyterhub-public.yaml
     {{ range .Environment.Values.jupyterhub_public_overrides }}
       - {{ . }}
     {{ end }}
@@ -119,8 +119,8 @@ releases:
       deployment: production
       application: vae
     values:
-      - jupyterhub-config.yaml
-      - jupyterhub-vae.yaml
+      - values/jupyterhub-config.yaml
+      - values/jupyterhub-vae.yaml
     {{ range .Environment.Values.jupyterhub_vae_overrides }}
       - {{ . }}
     {{ end }}
@@ -154,8 +154,8 @@ releases:
       deployment: production
       application: vae-aai
     values:
-      - jupyterhub-config.yaml
-      - jupyterhub-vae-aai.yaml
+      - values/jupyterhub-config.yaml
+      - values/jupyterhub-vae-aai.yaml
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -209,7 +209,7 @@ releases:
       deployment: production
       application: monitoring
     values:
-      - prometheus.yaml
+      - values/prometheus.yaml
 
   - name: grafana
     namespace: monitoring
@@ -219,7 +219,7 @@ releases:
       deployment: production
       application: monitoring
     values:
-      - grafana.yaml
+      - values/grafana.yaml
     set:
       - name: env.GF_AUTH_GITHUB_CLIENT_ID
         value: {{ requiredEnv "SECRET_GRAFANA_GITHUB_CLIENTID" }}
