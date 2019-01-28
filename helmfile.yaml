@@ -186,8 +186,6 @@ releases:
 ######################################################################
 # Monitoring
 
-{{ if .Environment.Values.enable_monitoring }}
-
   - name: prometheus-auth
     namespace: monitoring
     chart: ./charts/kubernetes-secret
@@ -210,6 +208,9 @@ releases:
       application: monitoring
     values:
       - values/prometheus.yaml
+    {{ range .Environment.Values.prometheus_overrides }}
+      - {{ . }}
+    {{ end }}
 
   - name: grafana
     namespace: monitoring
@@ -220,6 +221,9 @@ releases:
       application: monitoring
     values:
       - values/grafana.yaml
+    {{ range .Environment.Values.grafana_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: env.GF_AUTH_GITHUB_CLIENT_ID
         value: {{ requiredEnv "SECRET_GRAFANA_GITHUB_CLIENTID" }}
@@ -229,7 +233,6 @@ releases:
     # To get the auto-generated Grafana admin password:
     # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
 
-{{ end }}
 
 environments:
   default:
