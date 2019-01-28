@@ -1,6 +1,6 @@
 ingress:
   hosts:
-  - 192.168.99.100.xip.io
+  - minikube.local
   tls:
   - hosts:
-    - 192.168.99.100.xip.io
+    - minikube.local
