@@ -14,4 +14,6 @@ jupyterhub_vae_shared_storage_overrides: []
 
 idr_analysis_website_overrides: []
 
-enable_monitoring: True
+prometheus_overrides: []
+
+grafana_overrides: []
