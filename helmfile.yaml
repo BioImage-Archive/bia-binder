@@ -215,7 +215,7 @@ releases:
   - name: grafana
     namespace: monitoring
     chart: stable/grafana
-    version: 1.3.0
+    version: 1.25.4
     labels:
       deployment: production
       application: monitoring
