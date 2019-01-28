@@ -202,7 +202,7 @@ releases:
   - name: prometheus
     namespace: monitoring
     chart: stable/prometheus
-    version: 6.3.3
+    version: 8.4.7
     labels:
       deployment: production
       application: monitoring
