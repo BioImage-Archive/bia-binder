@@ -1,0 +1,11 @@
+server:
+  baseURL: https://minikube.local/prometheus
+  ingress:
+    hosts:
+    - minikube.local/prometheus
+    tls:
+    - hosts:
+      - minikube.local
+  persistentVolume:
+    size: 100M
+    storageClass:

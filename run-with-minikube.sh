@@ -3,7 +3,11 @@
 # A helper script to start a Docker environment with kubectl helm helmfile
 # preinstalled and configured for connecting to minikube
 
-# helmfile -e minikube sync
+# Install all
+#     helmfile -e minikube sync
+# Install a subset of charts
+#     helmfile -e minikube -l application=public sync
+#     helmfile -e minikube -l application=vae -l application=monitoring sync
 
 if [ "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" != "$PWD" ]; then
     echo Must be run from script parent directory

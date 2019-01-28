@@ -22,4 +22,8 @@ jupyterhub_vae_shared_storage_overrides:
 idr_analysis_website_overrides:
   - values/minikube/idr-analysis-website.yaml
 
-enable_monitoring: False
+prometheus_overrides:
+  - values/minikube/prometheus.yaml
+
+grafana_overrides:
+  - values/minikube/grafana.yaml
