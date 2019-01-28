@@ -5,7 +5,7 @@ hub:
 
 auth:
   github:
-    callbackUrl: https://192.168.99.100.xip.io/vae/hub/oauth_callback
+    callbackUrl: https://minikube.local/vae/hub/oauth_callback
 
 singleuser:
   storage:
