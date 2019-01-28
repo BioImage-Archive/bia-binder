@@ -3,6 +3,8 @@
 # A helper script to start a Docker environment with kubectl helm helmfile
 # preinstalled and configured for connecting to minikube
 
+# helmfile -e minikube sync
+
 if [ "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" != "$PWD" ]; then
     echo Must be run from script parent directory
     exit 2
