@@ -31,7 +31,7 @@ singleuser:
     type: none
   image:
     name: imagedata/idr-notebooks
-    tag: 0.8.0
+    tag: 0.9.0
   startTimeout: 1800
   cpu:
     limit: 1
