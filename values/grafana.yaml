@@ -69,5 +69,5 @@ dashboards:
     # Install https://grafana.com/dashboards/6012
     node-resources:
       gnetId: 6012
-      revision: 1
+      revision: 2
       datasource: Prometheus
