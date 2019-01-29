@@ -10,7 +10,9 @@ test -n "$APPLICATION_NAME"
 JUPYTERHUB_URL="http://proxy-public.jupyterhub-${APPLICATION_NAME}/${APPLICATION_NAME}"
 
 
-helmfile --selector application=${APPLICATION_NAME} apply
+# TODO: Use "apply" instead of "sync" to update only changed charts
+# Waiting for https://github.com/roboll/helmfile/issues/458
+helmfile --selector application=${APPLICATION_NAME} sync
 
 
 # Is this necessary? Or should helm --wait take care of this?
