@@ -47,15 +47,17 @@ Ensure it is disabled since this runner has administrative permissions to manage
 
 ## Configure secret variables for the deployment
 
-Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml):
+Setup Secret variables referenced in [`.gitlab-ci.yml`](.gitlab-ci.yml).
+These should be visible to `All environments`.
 - `SECRET_JUPYTERHUB_PROXY_TOKEN`
 - `SECRET_IDR_PASSWORD`
-- `SECRET_GITHUB_CLIENTID` (production-vae only)
-- `SECRET_GITHUB_CLIENTSECRET` (production-vae only)
-- `SECRET_AAI_CLIENTID`: (production-vae-aai only)
-- `SECRET_AAI_CLIENTSECRET`: (production-vae-aai only)
-- `SECRET_GRAFANA_GITHUB_CLIENTID`: (production-monitoring only)
-- `SECRET_GRAFANA_GITHUB_SECRET`: (production-monitoring only)
+- `SECRET_GITHUB_CLIENTID`
+- `SECRET_GITHUB_CLIENTSECRET`
+- `SECRET_AAI_CLIENTID`
+- `SECRET_AAI_CLIENTSECRET`
+- `SECRET_GRAFANA_GITHUB_CLIENTID`
+- `SECRET_GRAFANA_GITHUB_SECRET`
+- `SECRET_PROMETHEUS_AUTH_HTPASSWD`
 
 ![GitLab secret variables](docs/gitlab-secret-variables.png)
 
