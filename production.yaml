@@ -1,0 +1,19 @@
+# Production values
+
+jupyterhub_staging_overrides: []
+
+jupyterhub_training_overrides: []
+
+jupyterhub_itr_overrides: []
+
+jupyterhub_public_overrides: []
+
+jupyterhub_vae_overrides: []
+
+jupyterhub_vae_shared_storage_overrides: []
+
+idr_analysis_website_overrides: []
+
+prometheus_overrides: []
+
+grafana_overrides: []

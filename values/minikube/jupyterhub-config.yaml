@@ -1,0 +1,6 @@
+ingress:
+  hosts:
+  - minikube.local
+  tls:
+  - hosts:
+    - minikube.local

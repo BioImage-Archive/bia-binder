@@ -1,10 +1,6 @@
 # Based on
 # https://github.com/jupyterhub/mybinder.org-deploy/blob/d53420cdbc94d2148018594d33cd35810bbffbf1/mybinder/values.yaml#L164
 
-image:
-  # Use 5.1.X to display GitHub login button
-  tag: 5.1.1
-
 ingress:
   enabled: true
   annotations:
@@ -61,16 +57,17 @@ dashboardProviders:
       disableDeletion: false
       editable: true
       options:
-        path: /var/lib/grafana/dashboards
+        path: /var/lib/grafana/dashboards/default
 
 dashboards:
-  # Install https://grafana.com/dashboards/5849
-  idr-jupyter-servers:
-    gnetId: 5849
-    revision: 1
-    datasource: Prometheus
-  # Install https://grafana.com/dashboards/6012
-  node-resources:
-    gnetId: 6012
-    revision: 1
-    datasource: Prometheus
+  default:
+    # Install https://grafana.com/dashboards/5849
+    idr-jupyter-servers:
+      gnetId: 5849
+      revision: 1
+      datasource: Prometheus
+    # Install https://grafana.com/dashboards/6012
+    node-resources:
+      gnetId: 6012
+      revision: 2
+      datasource: Prometheus
