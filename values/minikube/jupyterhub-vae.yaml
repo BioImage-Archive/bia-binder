@@ -1,0 +1,19 @@
+hub:
+  db:
+    pvc:
+      storageClassName:
+
+auth:
+  github:
+    callbackUrl: https://minikube.local/vae/hub/oauth_callback
+
+singleuser:
+  storage:
+    dynamic:
+      storageClass:
+    # extraVolumes: []
+    # extraVolumeMounts: []
+
+prePuller:
+  hook:
+    enabled: true

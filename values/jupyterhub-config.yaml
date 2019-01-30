@@ -31,7 +31,7 @@ singleuser:
     type: none
   image:
     name: imagedata/idr-notebooks
-    tag: 0.8.0
+    tag: 0.9.0
   startTimeout: 1800
   cpu:
     limit: 1
@@ -63,9 +63,9 @@ singleuser:
 
 prePuller:
   hook:
-    # TODO: The prepuller fails intermittently, re-enable when we upgrade
-    # zero-to-jupyterhub
-    enabled: false
+    # The pre-puller has been improved but if it still causes problems
+    # set enabled: false
+    enabled: true
 
 ingress:
   enabled: true
@@ -73,12 +73,7 @@ ingress:
   - idr-analysis.openmicroscopy.org
   annotations:
     kubernetes.io/ingress.class: nginx
-    # It's unclear whether the generic ingress annotations are supported...
-    ingress.kubernetes.io/proxy-body-size: 2m
-    # ... or whether the nginx specific ones are required
     nginx.ingress.kubernetes.io/proxy-body-size: 2m
-    # For example # https://github.com/kubernetes/ingress-gce/blob/master/docs/annotations.md#miscellaneous
-    # claims ingress.kubernetes.io/proxy-body-size is standard but it doesn't work with nginx-ingress
   tls:
   - hosts:
     - idr-analysis.openmicroscopy.org

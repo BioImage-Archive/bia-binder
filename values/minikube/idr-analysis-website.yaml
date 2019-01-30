@@ -1,0 +1,3 @@
+ingress:
+  hosts:
+    - minikube.local
