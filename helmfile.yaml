@@ -31,6 +31,9 @@ releases:
       application: staging
     values:
       - values/jupyterhub-config.yaml
+    {{ range .Environment.Values.jupyterhub_staging_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -52,6 +55,9 @@ releases:
     values:
       - values/jupyterhub-config.yaml
       - values/jupyterhub-training.yaml
+    {{ range .Environment.Values.jupyterhub_training_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -71,6 +77,9 @@ releases:
     values:
       - values/jupyterhub-config.yaml
       - values/jupyterhub-itr-public.yaml
+    {{ range .Environment.Values.jupyterhub_itr_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -92,6 +101,9 @@ releases:
     values:
       - values/jupyterhub-config.yaml
       - values/jupyterhub-public.yaml
+    {{ range .Environment.Values.jupyterhub_public_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -109,6 +121,9 @@ releases:
     values:
       - values/jupyterhub-config.yaml
       - values/jupyterhub-vae.yaml
+    {{ range .Environment.Values.jupyterhub_vae_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
@@ -126,6 +141,9 @@ releases:
       deployment: production
       application: vae
     values:
+    {{ range .Environment.Values.jupyterhub_vae_shared_storage_overrides }}
+      - {{ . }}
+    {{ end }}
 
   - name: jupyterhub-vae-aai
     chart: jupyterhub/jupyterhub
@@ -160,6 +178,9 @@ releases:
       deployment: production
       application: website
     values:
+    {{ range .Environment.Values.idr_analysis_website_overrides }}
+      - {{ . }}
+    {{ end }}
 
 
 ######################################################################
@@ -187,6 +208,9 @@ releases:
       application: monitoring
     values:
       - values/prometheus.yaml
+    {{ range .Environment.Values.prometheus_overrides }}
+      - {{ . }}
+    {{ end }}
 
   - name: grafana
     namespace: monitoring
@@ -197,6 +221,9 @@ releases:
       application: monitoring
     values:
       - values/grafana.yaml
+    {{ range .Environment.Values.grafana_overrides }}
+      - {{ . }}
+    {{ end }}
     set:
       - name: env.GF_AUTH_GITHUB_CLIENT_ID
         value: {{ requiredEnv "SECRET_GRAFANA_GITHUB_CLIENTID" }}
@@ -205,3 +232,12 @@ releases:
 
     # To get the auto-generated Grafana admin password:
     # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+
+
+environments:
+  default:
+    values:
+      - production.yaml
+  minikube:
+    values:
+      - minikube.yaml
