@@ -131,7 +131,7 @@ deploy_vaeaai:
 deploy_website:
   stage: production
   script:
-    - helmfile --hide-args --selector application=website sync --args '--wait --timeout=300'
+    - helmfile --selector application=website sync
   environment:
     name: production-website
     url: https://idr-analysis.openmicroscopy.org/
@@ -143,7 +143,7 @@ deploy_website:
 deploy_monitoring:
   stage: production
   script:
-    - helmfile --hide-args --selector application=monitoring sync --args '--wait --timeout=300'
+    - helmfile --selector application=monitoring sync
   environment:
     name: production-monitoring
     url: https://idr-analysis.openmicroscopy.org/grafana
