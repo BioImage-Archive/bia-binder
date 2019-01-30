@@ -1,9 +1,10 @@
 ######################################################################
 # Common settings
 
-image: imagedata/kube-helm-docker:0.1.0
+image: imagedata/kube-helm-docker:0.2.0
 
 stages:
+  - setup
   - staging
   - approval
   - production
@@ -13,7 +14,9 @@ variables:
   KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab-runner
 
 before_script:
-  - helm list
+  # Helm may not be installed so don't fail
+  - helm version || true
+  - helm list || true
 
 
 ######################################################################
@@ -21,6 +24,15 @@ before_script:
 # Deployment logs are public so ensure all you never echo any secret
 # variables
 
+
+# Install or upgrade helm
+# This is always run
+setup:
+  stage: setup
+  script:
+    - sh gitlab-ci/install-helm.sh
+  only:
+  - master
 
 # Staging is run automatically when master is updated
 # Deletes an existing deployment before installing
