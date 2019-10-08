@@ -27,16 +27,13 @@ This will give the GitLab runner almost full administrative access to the cluste
 https://docs.gitlab.com/ee/install/kubernetes/gitlab_runner_chart.html#installing-gitlab-runner-using-the-helm-chart
 
 Go to the `Runners settings` tab under https://gitlab.com/USERNAME/REPOSITORY/settings/ci_cd.
-Get the Runner registration token from and set `runnerRegistrationToken` in gitlab-runner/helm-config.yaml to this value.
-The gitlab runner requires additional configuration that is not supported by the chart so at present you must [checkout a fork/PR](https://gitlab.com/charts/charts.gitlab.io/merge_requests/120):
+Get the Runner registration token from and set `runnerRegistrationToken` in [`gitlab-runner/helm-config.yaml`](../gitlab-runner/helm-config.yaml) to this value.
 
-    git clone --branch runner-environment https://gitlab.com/manics/charts.gitlab.io.git
-    helm install --namespace gitlab --name gitlab-runner charts.gitlab.io/charts/gitlab-runner/ -f gitlab-runner/helm-config.yaml
-
-If the upstream chart is updated and released installation will be simpler:
+Install the chart (`0.9.1` is the current stable release on 2019-10-07):
 
     helm repo add gitlab https://charts.gitlab.io
-    helm install --namespace gitlab --name gitlab-runner gitlab/gitlab-runner -f gitlab-runner/helm-config.yaml
+    helm repo update
+    helm upgrade --install --namespace gitlab gitlab-runner gitlab/gitlab-runner --version 0.9.1 -f gitlab-runner/helm-config.yaml
 
 This repo is used for deployments so shared GitLab runners cannot be used, irrespective of whether they are public or inside the group.
 Ensure you `Disable shared Runners`.
