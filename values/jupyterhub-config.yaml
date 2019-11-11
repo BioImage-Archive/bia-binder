@@ -59,7 +59,7 @@ singleuser:
   extraEnv:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public
-    JUPYTER_ENABLE_LAB: true
+    JUPYTER_ENABLE_LAB: "true"
 
 prePuller:
   hook:
