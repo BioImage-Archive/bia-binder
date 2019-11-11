@@ -60,6 +60,7 @@ singleuser:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public
     JUPYTER_ENABLE_LAB: "true"
+  cmd: "/usr/local/bin/start-singleuser.sh"
 
 prePuller:
   hook:
