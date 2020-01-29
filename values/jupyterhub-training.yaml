@@ -4,7 +4,7 @@ hub:
 singleuser:
   image:
     name: openmicroscopy/training-notebooks
-    tag: 0.7.1
+    tag: 0.7.2
   # Increase resources since some training notebooks are resources intensive
   cpu:
     limit: 2
