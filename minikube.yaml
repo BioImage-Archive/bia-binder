@@ -9,12 +9,12 @@ jupyterhub_training_overrides:
 jupyterhub_itr_overrides:
   - values/minikube/jupyterhub-config.yaml
 
-jupyterhub_public_overrides:
+jupyterhub_sandbox_overrides:
   - values/minikube/jupyterhub-config.yaml
 
-jupyterhub_vae_overrides:
+jupyterhub_github_overrides:
   - values/minikube/jupyterhub-config.yaml
-  - values/minikube/jupyterhub-vae.yaml
+  - values/minikube/jupyterhub-github.yaml
 
 jupyterhub_vae_shared_storage_overrides:
   - values/minikube/jupyterhub-shared-scratch-storage.yaml

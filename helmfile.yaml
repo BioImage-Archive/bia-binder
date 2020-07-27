@@ -1,6 +1,6 @@
 helmDefaults:
   wait: true
-  timeout: 1200
+  timeout: 12000
   force: true
 
 # TODO: Common configuration
@@ -15,23 +15,51 @@ repositories:
   - name: jupyterhub
     url: https://jupyterhub.github.io/helm-chart/
 
+environments:
+  default:
+    values:
+      - production.yaml
+  minikube:
+    values:
+      - minikube.yaml
+
+
+
 releases:
 
 
 ######################################################################
 # JupyterHub staging
 
-  - name: jupyterhub-staging
+  # - name: jupyterhub-staging
+  #   chart: jupyterhub/jupyterhub
+  #   # Wed, 23 Jan 2019 15:37:58 +0000
+  #   # version: 0.8-d470e4f
+  #   namespace: jupyterhub-staging
+  #   labels:
+  #     deployment: staging
+  #     application: staging
+  #   values:
+  #     - values/jupyterhub-config.yaml
+  #   {{ range .Environment.Values.jupyterhub_staging_overrides }}
+  #     - {{ . }}
+  #   {{ end }}
+  #   set:
+  #     - name: proxy.secretToken
+  #       value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
+
+  - name: jupyterhub-sandbox
     chart: jupyterhub/jupyterhub
     # Wed, 23 Jan 2019 15:37:58 +0000
-    version: 0.8-d470e4f
-    namespace: jupyterhub-staging
+    # version: 0.8-d470e4f
+    namespace: jupyterhub-sandbox
     labels:
-      deployment: staging
-      application: staging
+      deployment: production
+      application: sandbox
     values:
       - values/jupyterhub-config.yaml
-    {{ range .Environment.Values.jupyterhub_staging_overrides }}
+      - values/jupyterhub-sandbox.yaml
+    {{ range .Environment.Values.jupyterhub_sandbox_overrides }}
       - {{ . }}
     {{ end }}
     set:
@@ -41,87 +69,20 @@ releases:
         value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}
 
 
-######################################################################
-# JupyterHub training
+# # JupyterHub github login
 
-  - name: jupyterhub-training
+  - name: jupyterhub-github
     chart: jupyterhub/jupyterhub
     # Wed, 23 Jan 2019 15:37:58 +0000
-    version: 0.8-d470e4f
-    namespace: jupyterhub-training
+    # version: 0.8-d470e4f
+    namespace: jupyterhub-github
     labels:
       deployment: production
-      application: training
+      application: github
     values:
       - values/jupyterhub-config.yaml
-      - values/jupyterhub-training.yaml
-    {{ range .Environment.Values.jupyterhub_training_overrides }}
-      - {{ . }}
-    {{ end }}
-    set:
-      - name: proxy.secretToken
-        value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
-
-
-######################################################################
-# JupyterHub ITR production
-
-  - name: jupyterhub-itr-public
-    chart: jupyterhub/jupyterhub
-    # Wed, 23 Jan 2019 15:37:58 +0000
-    version: 0.8-d470e4f
-    namespace: jupyterhub-itr-public
-    labels:
-      deployment: production
-      application: itr-public
-    values:
-      - values/jupyterhub-config.yaml
-      - values/jupyterhub-itr-public.yaml
-    {{ range .Environment.Values.jupyterhub_itr_overrides }}
-      - {{ . }}
-    {{ end }}
-    set:
-      - name: proxy.secretToken
-        value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
-      - name: singleuser.extraEnv.IDR_PASSWORD
-        value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}
-
-
-######################################################################
-# JupyterHub production
-
-  - name: jupyterhub-public
-    chart: jupyterhub/jupyterhub
-    # Wed, 23 Jan 2019 15:37:58 +0000
-    version: 0.8-d470e4f
-    namespace: jupyterhub-public
-    labels:
-      deployment: production
-      application: public
-    values:
-      - values/jupyterhub-config.yaml
-      - values/jupyterhub-public.yaml
-    {{ range .Environment.Values.jupyterhub_public_overrides }}
-      - {{ . }}
-    {{ end }}
-    set:
-      - name: proxy.secretToken
-        value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
-      - name: singleuser.extraEnv.IDR_PASSWORD
-        value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}
-
-  - name: jupyterhub-vae
-    chart: jupyterhub/jupyterhub
-    # Wed, 23 Jan 2019 15:37:58 +0000
-    version: 0.8-d470e4f
-    namespace: jupyterhub-vae
-    labels:
-      deployment: production
-      application: vae
-    values:
-      - values/jupyterhub-config.yaml
-      - values/jupyterhub-vae.yaml
-    {{ range .Environment.Values.jupyterhub_vae_overrides }}
+      - values/jupyterhub-github.yaml
+    {{ range .Environment.Values.jupyterhub_github_overrides }}
       - {{ . }}
     {{ end }}
     set:
@@ -134,110 +95,46 @@ releases:
       - name: auth.github.clientSecret
         value: {{ requiredEnv "SECRET_GITHUB_CLIENTSECRET" }}
 
-  - name: jupyterhub-vae-shared-storage
-    namespace: jupyterhub-vae
-    chart: ./charts/jupyterhub-shared-scratch
-    labels:
-      deployment: production
-      application: vae
-    values:
-    {{ range .Environment.Values.jupyterhub_vae_shared_storage_overrides }}
-      - {{ . }}
-    {{ end }}
+        ######################################################################
+# JupyterHub ITR production
 
-  - name: jupyterhub-vae-aai
-    chart: jupyterhub/jupyterhub
-    # Wed, 23 Jan 2019 15:37:58 +0000
-    version: 0.8-d470e4f
-    namespace: jupyterhub-vae-aai
-    labels:
-      deployment: production
-      application: vae-aai
-    values:
-      - values/jupyterhub-config.yaml
-      - values/jupyterhub-vae-aai.yaml
-    set:
-      - name: proxy.secretToken
-        value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
-      - name: singleuser.extraEnv.IDR_PASSWORD
-        value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}
-      - name: hub.extraEnv.OAUTH_CLIENT_ID
-        value: {{ requiredEnv "SECRET_AAI_CLIENTID" }}
-      - name: hub.extraEnv.OAUTH_CLIENT_SECRET
-        value: {{ requiredEnv "SECRET_AAI_CLIENTSECRET" }}
+  # - name: jupyterhub-test
+  #   chart: jupyterhub/jupyterhub
+  #   # Wed, 23 Jan 2019 15:37:58 +0000
+  #   # version: 0.8-d470e4f
+  #   namespace: jupyterhub-test
+  #   labels:
+  #     deployment: staging
+  #     application: staging
+  #   values:
+  #     - values/jupyterhub-config.yaml
+  #   {{ range .Environment.Values.jupyterhub_staging_overrides }}
+  #     - {{ . }}
+  #   {{ end }}
+  #   set:
+  #     - name: proxy.secretToken
+  #       value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
 
 
 
-######################################################################
-# Website
-
-  - name: idr-analysis-website
-    namespace: idr-analysis-website
-    chart: ./charts/idr-analysis-website
-    labels:
-      deployment: production
-      application: website
-    values:
-    {{ range .Environment.Values.idr_analysis_website_overrides }}
-      - {{ . }}
-    {{ end }}
 
 
-######################################################################
-# Monitoring
-
-  - name: prometheus-auth
-    namespace: monitoring
-    chart: ./charts/kubernetes-secret
-    labels:
-      deployment: production
-      application: monitoring
-    set:
-      - name: data.auth
-        value: {{ requiredEnv "SECRET_PROMETHEUS_AUTH_HTPASSWD" }}
-    # To create this value:
-    # htpasswd -bc auth username password
-    # base64 auth
-
-  - name: prometheus
-    namespace: monitoring
-    chart: stable/prometheus
-    version: 8.4.7
-    labels:
-      deployment: production
-      application: monitoring
-    values:
-      - values/prometheus.yaml
-    {{ range .Environment.Values.prometheus_overrides }}
-      - {{ . }}
-    {{ end }}
-
-  - name: grafana
-    namespace: monitoring
-    chart: stable/grafana
-    version: 1.25.4
-    labels:
-      deployment: production
-      application: monitoring
-    values:
-      - values/grafana.yaml
-    {{ range .Environment.Values.grafana_overrides }}
-      - {{ . }}
-    {{ end }}
-    set:
-      - name: env.GF_AUTH_GITHUB_CLIENT_ID
-        value: {{ requiredEnv "SECRET_GRAFANA_GITHUB_CLIENTID" }}
-      - name: env.GF_AUTH_GITHUB_CLIENT_SECRET
-        value: {{ requiredEnv "SECRET_GRAFANA_GITHUB_SECRET" }}
-
-    # To get the auto-generated Grafana admin password:
-    # kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
-
-
-environments:
-  default:
-    values:
-      - production.yaml
-  minikube:
-    values:
-      - minikube.yaml
+  # - name: jupyterhub-sandbox
+  #   chart: jupyterhub/jupyterhub
+  #   # Wed, 23 Jan 2019 15:37:58 +0000
+  #   # version: 0.8-d470e4f
+  #   namespace: jupyterhub-sandbox
+  #   labels:
+  #     deployment: staging
+  #     application: staging
+  #   values:
+  #     - values/jupyterhub-config.yaml
+  #     - values/jupyterhub-sandbox.yaml
+  #   {{ range .Environment.Values.jupyterhub_sandbox_overrides }}
+  #     - {{ . }}
+  #   {{ end }}
+  #   set:
+  #     - name: proxy.secretToken
+  #       value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
+  #     # - name: singleuser.extraEnv.IDR_PASSWORD
+  #       value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}

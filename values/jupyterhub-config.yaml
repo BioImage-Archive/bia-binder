@@ -16,7 +16,7 @@ auth:
   type: tmp
 
 proxy:
-  secretToken: # GitLab secret
+  secretToken: { SECRET_JUPYTERHUB_PROXY_TOKEN }
   service:
     type: ClusterIP
   networkPolicy:
@@ -30,8 +30,8 @@ singleuser:
   storage:
     type: none
   image:
-    name: imagedata/idr-notebooks
-    tag: 0.9.0
+    name: bioimagearchive/imageanalysis-notebook
+    tag: latest
   startTimeout: 1800
   cpu:
     limit: 1
@@ -46,16 +46,16 @@ singleuser:
     # - EMBL-EBI and University of Dundee
     egress:
       - to:
-        - ipBlock:
-            cidr: 10.0.0.0/8
+          - ipBlock:
+              cidr: 10.0.0.0/8
         ports:
-        - port: 53
-          protocol: UDP
+          - port: 53
+            protocol: UDP
       - to:
-        - ipBlock:
-            cidr: 193.60.0.0/14
-        - ipBlock:
-            cidr: 134.36.0.0/16
+          - ipBlock:
+              cidr: 193.60.0.0/14
+          - ipBlock:
+              cidr: 134.36.0.0/16
   extraEnv:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public
@@ -71,10 +71,10 @@ prePuller:
 ingress:
   enabled: true
   hosts:
-  - idr-analysis.openmicroscopy.org
+    - idr-analysis.openmicroscopy.org
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 2m
   tls:
-  - hosts:
-    - idr-analysis.openmicroscopy.org
+    - hosts:
+        - idr-analysis.openmicroscopy.org
