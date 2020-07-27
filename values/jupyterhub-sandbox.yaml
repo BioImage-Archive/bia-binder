@@ -1,0 +1,20 @@
+hub:
+  baseUrl: /sandbox
+# singleuser:
+#   image:
+#     name: bioimagearchive/imageanalysis-notebook
+#     tag: latest
+#   # Increase resources since some notebooks are resource intensive
+#   cpu:
+#     limit: 2
+#     guarantee: 0.1
+#   memory:
+#     limit: 6.5G
+#     guarantee: 512M
+#   cmd: jupyterhub-singleuser
+
+# cull:
+#   # Cull after 20 minutes of inactivity
+#   timeout: 1200
+#   every: 300
+# # Don't enable the prepuller, possible weird k8s token permissions problems

@@ -1,0 +1,119 @@
+hub:
+  baseUrl: /github
+  # db:
+  #   type: sqlite-pvc
+  #   pvc:
+  #     storageClassName: gluster
+  extraConfig:
+    config: |
+      c.JupyterHub.cleanup_servers = False
+
+auth:
+  admin:
+    access: true
+    users:
+      - ctr26
+
+  type: github
+  github:
+    clientId: ""
+    clientSecret: ""
+    callbackUrl: "http://45.86.170.228/github/hub/oauth_callback"
+    org_whitelist:
+      - "bioimagearchive"
+    orgWhitelist:
+      - "bioimagearchive"
+  scopes:
+    - "read:org"
+
+cull:
+  timeout: 3600
+  every: 600
+
+singleuser:
+  extraEnv:
+    GRANT_SUDO: "yes"
+    NOTEBOOK_ARGS: "--allow-root"
+  uid: 0
+  storage:
+    capacity: 15G
+    extraVolumes:
+      - name: shm-volume
+        emptyDir:
+          medium: Memory
+    extraVolumeMounts:
+      - name: shm-volume
+        mountPath: /dev/shm
+  memory:
+    limit: 1G
+    guarantee: 1G
+  cpu:
+    limit: .5
+    guarantee: .5
+  lifecycleHooks:
+  postStart:
+    exec:
+      command: ["cp", "-a", "src", "target"]
+  profileList:
+    - display_name: "Minimal"
+      description: "Spawns a notebook server with 1G ram and 1 CPU core"
+      kubespawner_override:
+        cpu:
+          limit: .5
+          guarantee: .5
+        memory:
+          limit: 1G
+          guarantee: 1G
+    - display_name: "8GB - 2 core"
+      description: "Spawns a notebook server with 8Gb ram and 2 CPU cores"
+      kubespawner_override:
+        cpu:
+          limit: 4
+          guarantee: 2
+        memory:
+          limit: 8G
+          guarantee: 8G
+    - display_name: "16GB - 4 core"
+      description: "Spawns a notebook server with 16Gb ram and 4 CPU cores"
+      kubespawner_override:
+        cpu:
+          limit: 4
+          guarantee: 4
+        memory:
+          limit: 16G
+          guarantee: 16G
+
+  # networkPolicy:
+  #   # Allow
+  #   # - internal DNS
+  #   # - all EMBL-EBI and University of Dundee
+  #   # - all HTTP and HTTPS
+  #   egress:
+  #     - to:
+  #         - ipBlock:
+  #             cidr: 10.0.0.0/8
+  #       ports:
+  #         - port: 53
+  #           protocol: UDP
+  #     - to:
+  #         - ipBlock:
+  #             cidr: 193.60.0.0/14
+  #         - ipBlock:
+  #             cidr: 134.36.0.0/16
+  #     - to:
+  #       ports:
+  #         - port: 80
+  #           protocol: TCP
+  #         - port: 443
+  #           protocol: TCP
+
+ingress:
+  enabled: true
+  hosts:
+    - localhost
+    - ""
+  # annotations:
+  #   kubernetes.io/ingress.class: nginx
+  #   nginx.ingress.kubernetes.io/proxy-body-size: 16m
+  #   nginx.ingress.kubernetes.io/proxy-read-timeout: 3600
+  #   nginx.ingress.kubernetes.io/proxy-send-timeout: 3600
