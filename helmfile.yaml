@@ -66,7 +66,7 @@ releases:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
       - name: singleuser.extraEnv.IDR_PASSWORD
-        value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}
+        value: {{ requiredEnv "SECRET_HUB_PASSWORD" }}
 
 
 # # JupyterHub github login
@@ -89,7 +89,7 @@ releases:
       - name: proxy.secretToken
         value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
       - name: singleuser.extraEnv.IDR_PASSWORD
-        value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}
+        value: {{ requiredEnv "SECRET_HUB_PASSWORD" }}
       - name: auth.github.clientId
         value: {{ requiredEnv "SECRET_GITHUB_CLIENTID" }}
       - name: auth.github.clientSecret
@@ -137,4 +137,4 @@ releases:
   #     - name: proxy.secretToken
   #       value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
   #     # - name: singleuser.extraEnv.IDR_PASSWORD
-  #       value: {{ requiredEnv "SECRET_IDR_PASSWORD" }}
+  #       value: {{ requiredEnv "SECRET_HUB_PASSWORD" }}
