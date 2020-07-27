@@ -6,9 +6,9 @@ jupyterhub_training_overrides: []
 
 jupyterhub_itr_overrides: []
 
-jupyterhub_public_overrides: []
+jupyterhub_sandbox_overrides: []
 
-jupyterhub_vae_overrides: []
+jupyterhub_github_overrides: []
 
 jupyterhub_vae_shared_storage_overrides: []
 
