@@ -35,6 +35,7 @@ singleuser:
     GRANT_SUDO: "yes"
     NOTEBOOK_ARGS: "--allow-root"
   uid: 0
+  defaultUrl: "/lab"
   storage:
     capacity: 15G
     extraVolumes:
@@ -112,6 +113,7 @@ ingress:
   hosts:
     - localhost
     - ""
+    # - http://45.86.170.228/
   # annotations:
   #   kubernetes.io/ingress.class: nginx
   #   nginx.ingress.kubernetes.io/proxy-body-size: 16m
