@@ -41,7 +41,6 @@ Ensure you `Disable shared Runners`.
 **WARNING**: GitLab allows you to share runners across multiple projects.
 Ensure it is disabled since this runner has administrative permissions to manage the deployments so only fully trusted scripts should be run.
 
-![GitLab protect runner](gitlab-protect-runner.png)
 
 
 ## Additional notes
