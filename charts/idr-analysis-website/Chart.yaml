@@ -1,4 +1,0 @@
-apiVersion: v1
-description: Static web content for idr-analysis.openmicroscopy.org
-name: idr-analysis-website
-version: 0.1.0
