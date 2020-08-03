@@ -30,7 +30,7 @@ singleuser:
   storage:
     type: none
   image:
-    name: bioimagearchive/imageanalysis-notebook
+    name: bioimagearchive/jupyter-hub-docker
     tag: latest
   startTimeout: 1800
   cpu:
