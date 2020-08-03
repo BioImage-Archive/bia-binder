@@ -1,5 +1,8 @@
 hub:
   baseUrl: /github
+  # services:
+  #   dask-gateway:
+  #     apiToken: ""
   # db:
   #   type: sqlite-pvc
   #   pvc:
