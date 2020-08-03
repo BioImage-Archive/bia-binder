@@ -48,25 +48,25 @@ releases:
   #     - name: proxy.secretToken
   #       value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
 
-  - name: jupyterhub-sandbox
-    chart: jupyterhub/jupyterhub
-    # Wed, 23 Jan 2019 15:37:58 +0000
-    # version: 0.8-d470e4f
-    namespace: jupyterhub-sandbox
-    labels:
-      deployment: production
-      application: sandbox
-    values:
-      - values/jupyterhub-config.yaml
-      - values/jupyterhub-sandbox.yaml
-    {{ range .Environment.Values.jupyterhub_sandbox_overrides }}
-      - {{ . }}
-    {{ end }}
-    set:
-      - name: proxy.secretToken
-        value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
-      - name: singleuser.extraEnv.IDR_PASSWORD
-        value: {{ requiredEnv "SECRET_HUB_PASSWORD" }}
+  # - name: jupyterhub-sandbox
+  #   chart: jupyterhub/jupyterhub
+  #   # Wed, 23 Jan 2019 15:37:58 +0000
+  #   # version: 0.8-d470e4f
+  #   namespace: jupyterhub-sandbox
+  #   labels:
+  #     deployment: production
+  #     application: sandbox
+  #   values:
+  #     - values/jupyterhub-config.yaml
+  #     - values/jupyterhub-sandbox.yaml
+  #   {{ range .Environment.Values.jupyterhub_sandbox_overrides }}
+  #     - {{ . }}
+  #   {{ end }}
+  #   set:
+  #     - name: proxy.secretToken
+  #       value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
+  #     - name: singleuser.extraEnv.IDR_PASSWORD
+  #       value: {{ requiredEnv "SECRET_HUB_PASSWORD" }}
 
 
 # # JupyterHub github login
@@ -94,3 +94,5 @@ releases:
         value: {{ requiredEnv "SECRET_GITHUB_CLIENTID" }}
       - name: auth.github.clientSecret
         value: {{ requiredEnv "SECRET_GITHUB_CLIENTSECRET" }}
+      - name : hub.services.dask-gateway.apiToken
+        value: {{ requiredEnv "SECRET_JUPYTERHUB_PROXY_TOKEN" }}
