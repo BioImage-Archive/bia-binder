@@ -20,9 +20,9 @@ singleuser:
   # Use jupyterlab as default workspace
   defaultUrl: "/lab"
   #
-  image:
-    name: bioimagearchive/imageanalysis-notebook
-    tag: latest
+  # image:
+  #   name: bioimagearchive/imageanalysis-notebook
+  #   tag: latest
   # storage:
   #   capacity: 15G
   #   extraVolumes:
