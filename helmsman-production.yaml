@@ -5,12 +5,6 @@
 #   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
 # context: production
 
-settings:
-  kubeContext: "production" # the name of the context to be created
-  bearerToken: true
-  clusterURI: "https://kubernetes.default"
-  # bearerTokenPath: "/path/to/custom/bearer/token/file"
-
 namespaces:
   jupyterhub-sandbox-staging:
     protected: false 
