@@ -1,21 +1,22 @@
 image: docker
+services:
+  - docker:19.03.0-dind
 
 stages:
+  - setup
   - staging
   - production
 
-# before_script:
-#   - helm version || true
-#   - helm list || true
-
-before_script:
+setup:
+  image: praqma/helmsman:v3.5.1
+  script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - helm list
 
 staging:
-  image: praqma/helmsman:v3.5.1
   stage: staging
   script:
-    - helmsman --apply --debug --group staging -f helmsman.yaml elmsman-stahging.yaml
+    - helmsman --apply --debug --group staging -f helmsman.yaml helmsman-staging.yaml
   # except:
   # - master
 
