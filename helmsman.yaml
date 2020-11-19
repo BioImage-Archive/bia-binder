@@ -41,8 +41,8 @@ appsTemplates:
     timeout: 1200
     enabled: true
     set:
-      registry.username: "$SECRET_DOCKERHUB_USERNAME"
-      registry.password: "$SECRET_DOCKERHUB_PASSWORD"
+      registry.username: "$CI_REGISTRY_USER"
+      registry.password: "$CI_REGISTRY_PASSWORD"
       jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
 
