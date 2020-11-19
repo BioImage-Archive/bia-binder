@@ -1,4 +1,5 @@
-image: praqma/helmsman:v3.5.1
+default:
+  image: praqma/helmsman:v3.5.1
 
 stages:
   - staging
