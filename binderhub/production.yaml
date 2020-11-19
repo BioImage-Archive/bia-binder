@@ -1,0 +1,11 @@
+config:
+  BinderHub:
+    # hub_url: http://10.43.114.27
+    hub_url: http://45.86.170.228/hub/
+jupyterhub:
+  hub:
+    baseUrl: /hub
+# ingress:
+#   enabled: true
+#   hosts:
+#     - ""

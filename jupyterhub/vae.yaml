@@ -1,0 +1,83 @@
+hub:
+  baseUrl: /vae/
+  db:
+    type: sqlite-pvc
+    pvc:
+      storageClassName: gluster
+  extraConfig:
+    config: |
+      c.JupyterHub.cleanup_servers = False
+
+auth:
+  type: github
+  github:
+    clientId: # GitLab secret
+    clientSecret: # GitLab secret
+    callbackUrl: https://idr-analysis.openmicroscopy.org/vae/hub/oauth_callback
+    orgWhitelist:
+    - idr-contrib
+  scopes:
+  - read:org
+  admin:
+    users:
+    - jburel
+    - joshmoore
+    - manics
+    - sbesson
+
+cull:
+  timeout: 3600
+  every: 600
+
+singleuser:
+  storage:
+    type: dynamic
+    dynamic:
+      storageClass: gluster
+    # For gluster dynamic volumes the minimum is 1Gi
+    capacity: 100Mi
+    homeMountPath: /home/jovyan/scratch
+    extraVolumes:
+      - name: jupyterhub-sharedscratch-rw
+        persistentVolumeClaim:
+          claimName: jupyterhub-sharedscratch-rw
+    extraVolumeMounts:
+      - name: jupyterhub-sharedscratch-rw
+        mountPath: /home/jovyan/shared
+  # Official VAE users get extra resources
+  cpu:
+    limit: 2
+    guarantee: 0.1
+  memory:
+    limit: 2G
+    guarantee: 512M
+  networkPolicy:
+    # Allow
+    # - internal DNS
+    # - all EMBL-EBI and University of Dundee
+    # - all HTTP and HTTPS
+    egress:
+      - to:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+        ports:
+        - port: 53
+          protocol: UDP
+      - to:
+        - ipBlock:
+            cidr: 193.60.0.0/14
+        - ipBlock:
+            cidr: 134.36.0.0/16
+      - to:
+        ports:
+        - port: 80
+          protocol: TCP
+        - port: 443
+          protocol: TCP
+
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 16m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: 3600
+    nginx.ingress.kubernetes.io/proxy-send-timeout: 3600

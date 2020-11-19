@@ -1,0 +1,5 @@
+config:
+  BinderHub:
+    image_prefix: "dockerhub.ebi.ac.uk/bioimagearchive/k8s-jupyterhub/binder-"
+  DockerRegistry:
+    url: "http://dockerhub.ebi.ac.uk"
