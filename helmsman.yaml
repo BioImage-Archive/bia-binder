@@ -1,0 +1,169 @@
+# context: minikube
+# settings:
+#   kubeContext: minikube
+#   # username = "admin"
+#   # password = "$K8S_PASSWORD"
+#   # clusterURI = "https://192.168.99.100:8443"
+
+metadata: 
+  organization: EBI
+  maintainer: Craig Russell (ctr26@ebi.ac.uk)
+  description: EBI hub deployment
+
+namespaces:
+  jupyterhub-sandbox-staging:
+    protected: false 
+  jupyterhub-sandbox-production:
+    protected: true
+  binderhub-staging:
+    protected: false 
+  binderhub-production:
+    protected: true
+  daskgateway-staging:
+    protected: false 
+  daskgateway-production:
+    protected: true
+    
+helmRepos:
+  jupyterhub: "https://jupyterhub.github.io/helm-chart/"
+  daskgateway: "https://dask.org/dask-gateway-helm-repo/"
+
+appsTemplates:
+  binderhub: &binderhub
+    name: "binderhub"
+    chart: "jupyterhub/binderhub"
+    version: "0.2.0-n217.h35366ea"
+    # helmFlags:
+    #   - "--debug"
+    # # test: true
+    # # protected: true
+    wait: true
+    timeout: 1200
+    enabled: true
+    set:
+      registry.username: "$SECRET_DOCKERHUB_USERNAME"
+      registry.password: "$SECRET_DOCKERHUB_PASSWORD"
+      jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+
+  jupyterhub: &jupyterhub
+    name: "jupyterhub"
+    chart: "jupyterhub/jupyterhub"
+    version: "0.10.2-n047.hb387f987"
+    helmFlags:
+      - "--debug"
+    # test: true
+    # protected: true
+    wait: true
+    timeout: 1200
+    enabled: true
+    set:
+      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+
+  dask: &dask
+    name: "daskgateway"
+    chart: "daskgateway/dask-gateway"
+    version: "0.9.0"
+    enabled: true
+    priority: 0
+    timeout: 1200
+
+apps:
+  daskgateway-staging:
+    <<: *dask
+    name: "daskgateway-staging"
+    group: "staging"
+    namespace: "daskgateway-staging"
+    # valuesFiles:
+    # - "daskgateway/staging.yaml"
+
+  daskgateway-production:
+    <<: *dask
+    name: "daskgateway-production"
+    group: "production"
+    namespace: "daskgateway-production"
+    # valuesFiles:
+    # - "daskgateway/production.yaml"
+
+  binderhub-staging:
+    <<: *binderhub
+    name: "binderhub-staging"
+    namespace: "binderhub-staging"
+    group: "staging"
+    # protected: false
+    valuesFiles:
+      # - "binderhub/secret.yaml"
+      - "binderhub/config.yaml"
+      # - "binderhub/staging.yaml"
+      # - "binderhub/ebi_dockerhub.yaml"
+    # set:
+    #   registry.username: "$SECRET_DOCKERHUB_USERNAME"
+    #   registry.password: "$SECRET_DOCKERHUB_PASSWORD"
+
+  binderhub-production:
+    <<: *binderhub
+    name: "binderhub-production"
+    namespace: "binderhub-production"
+    group: "production"
+    valuesFiles:
+      - "binderhub/config.yaml"
+      # - "binderhub/secret.yaml"
+      # - "binderhub/staging.yaml"
+      # - "binderhub/ebi_dockerhub.yaml"
+      # - "binderhub/production.yaml"
+  jupyterhub-sandbox-staging:
+    <<: *jupyterhub
+    name: "jupyterhub-sandbox-staging"
+    group: "staging"
+    namespace: "jupyterhub-sandbox-staging"
+    valuesFiles:
+      - "jupyterhub/config.yaml"
+      - "jupyterhub/sandbox.yaml"
+      - "jupyterhub/staging/sandbox.yaml"
+    
+  jupyterhub-sandbox-production:
+    <<: *jupyterhub
+    name: "jupyterhub-sandbox-production"
+    group: "production"
+    namespace: "jupyterhub-sandbox-production"
+    valuesFiles:
+      - "jupyterhub/config.yaml"
+      - "jupyterhub/sandbox.yaml"
+      - "jupyterhub/production/sandbox.yaml"
+
+    
+    
+
+
+# -------------------- JUNK ---------------------------------- 
+  # jupyterhub-test:
+  #   valuesFiles:
+  #     - "values/jupyterhub-config.yaml"
+  #     # - "values/staging/jupyterhub-config.yaml"
+  #     - "values/jupyterhub-sandbox.yaml"
+  #     # - "values/staging/jupyterhub-sandbox.yaml"
+  #   name: "jupyterhub-staging"
+  #   namespace: "staging"
+  #   chart: "jupyterhub/jupyterhub"
+  #   # version: "0.9.0"
+  #   version: "0.10.2-n047.hb387f987"
+  #   enabled: true
+  #   priority: 0
+  #   timeout: 1200
+  #   # wait: true
+  #   set:
+  #     proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+
+  # binderhub:
+  #   valuesFiles:
+  #     - "binderhub/secret.yaml"
+  #     - "binderhub/config.yaml"
+  #     - "binderhub/production.yaml"
+  #   name: "binderhub"
+  #   namespace: "staging"
+  #   protected: true
+  #   chart: "jupyterhub/binderhub"
+  #   version: "0.2.0-n361.h6f57706"
+  #   enabled: true
+  #   priority: 0  
+  #   # set:
