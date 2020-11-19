@@ -1,0 +1,81 @@
+# Configuration for JupyterHub staging deployment
+# Overridden in production deployments
+
+hub:
+  baseUrl: /staging/
+  db:
+    type: sqlite-memory
+  networkPolicy:
+    enabled: true
+  # Storing the db in memory means it's lost on restart
+  # This may help to avoid dangling servers
+  extraConfig: |
+    c.JupyterHub.cleanup_servers = True
+
+auth:
+  type: tmp
+
+proxy:
+  service:
+    type: ClusterIP
+  chp:
+    networkPolicy:
+      enabled: true
+
+cull:
+  timeout: 600
+  every: 300
+
+singleuser:
+  storage:
+    type: none
+  image:
+    name: bioimagearchive/jupyter-hub-docker
+    tag: latest
+  startTimeout: 1800
+  cpu:
+    limit: 1
+    guarantee: 0.1
+  memory:
+    limit: 1G
+    guarantee: 256M
+#   networkPolicy:
+#     enabled: true
+#     # Block all except:
+#     # - internal DNS
+#     # - EMBL-EBI and University of Dundee
+#     egress:
+#       - to:
+#           - ipBlock:
+#               cidr: 10.0.0.0/8
+#         ports:
+#           - port: 53
+#             protocol: UDP
+#       - to:
+#           - ipBlock:
+#               cidr: 193.60.0.0/14
+#           - ipBlock:
+#               cidr: 134.36.0.0/16
+  extraEnv:
+    IDR_HOST: idr.openmicroscopy.org
+    IDR_USER: public
+    JUPYTER_ENABLE_LAB: "true"
+  cmd: "/usr/local/bin/start-singleuser.sh"
+
+prePuller:
+  hook:
+    # The pre-puller has been improved but if it still causes problems
+    # set enabled: false
+    enabled: true
+
+ingress:
+  enabled: true
+  hosts:
+    - ""
+    - localhost
+  # annotations:
+  #   kubernetes.io/ingress.class: nginx
+  #   nginx.ingress.kubernetes.io/proxy-body-size: 2m
+  # tls:
+  #   - hosts:
+  #       - ""

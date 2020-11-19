@@ -1,0 +1,23 @@
+# namespaces:
+#   binderhub-staging:
+
+# helmRepos:
+#   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
+# context: production
+
+settings:
+  kubeContext: bia
+
+namespaces:
+  jupyterhub-sandbox-staging:
+    protected: false 
+  jupyterhub-sandbox-production:
+    protected: false
+  binderhub-staging:
+    protected: false 
+  binderhub-production:
+    protected: false
+  daskgateway-staging:
+    protected: false 
+  daskgateway-production:
+    protected: false

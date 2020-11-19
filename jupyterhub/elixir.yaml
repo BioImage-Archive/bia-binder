@@ -1,0 +1,49 @@
+hub:
+  baseUrl: /elixir/
+  extraEnv:
+    OAUTH2_AUTHORIZE_URL: https://login.elixir-czech.org/oidc/authorize
+    OAUTH2_TOKEN_URL: https://login.elixir-czech.org/oidc/token
+    OAUTH2_USERDATA_URL: https://login.elixir-czech.org/oidc/userinfo
+    OAUTH_CALLBACK_URL: https://idr-analysis.openmicroscopy.org/elixir/hub/oauth_callback
+    OAUTH_CLIENT_ID: # GitLab secret
+    OAUTH_CLIENT_SECRET: # GitLab secret
+
+auth:
+  type: custom
+  custom:
+    className: oauthenticator.generic.GenericOAuthenticator
+    config:
+      username_key: sub
+      login_service: Elixir AAI
+
+# singleuser:
+#   networkPolicy:
+#     # Allow
+#     # - internal DNS
+#     # - all EMBL-EBI and University of Dundee
+#     # - all HTTP and HTTPS
+#     egress:
+#       - to:
+#           - ipBlock:
+#               cidr: 10.0.0.0/8
+#         ports:
+#           - port: 53
+#             protocol: UDP
+#       - to:
+#           - ipBlock:
+#               cidr: 193.60.0.0/14
+#           - ipBlock:
+#               cidr: 134.36.0.0/16
+#       - to:
+#         ports:
+#           - port: 80
+#             protocol: TCP
+#           - port: 443
+#             protocol: TCP
+
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 16m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: 3600
+    nginx.ingress.kubernetes.io/proxy-send-timeout: 3600
