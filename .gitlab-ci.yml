@@ -9,7 +9,7 @@ stages:
 
 setup:
   stage: setup
-  image: praqma/helmsman:v3.5.1
+  image: docker
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - helm list
