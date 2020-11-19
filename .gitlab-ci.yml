@@ -15,8 +15,8 @@ staging:
   stage: staging
   script:
     - helmsman --apply --debug --group staging -f helmsman.yaml helmsman-staging.yaml
-  except:
-  - master
+  # except:
+  # - master
 
 # production:
 #   stage: production
