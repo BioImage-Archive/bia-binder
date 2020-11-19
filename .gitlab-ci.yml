@@ -15,9 +15,9 @@ staging:
   only:
   - staging
 
-# production:
-#   stage: production
-#   script:
-#     - helmsman --apply --debug --group production -f helmsman.yaml helmsman-production.yaml
-#   only:
-#   - production
+production:
+  stage: production
+  script:
+    - helmsman --apply --debug --group production -f helmsman.yaml helmsman-production.yaml
+  only:
+  - production
