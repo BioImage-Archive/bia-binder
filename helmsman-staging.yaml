@@ -1,3 +1,9 @@
 # context: staging
 # settings:
 #   kubeContext: bia
+
+settings:
+  kubeContext: "test" # the name of the context to be created
+  bearerToken: true
+  clusterURI: "https://kubernetes.default"
+  # bearerTokenPath: "/path/to/custom/bearer/token/file"
