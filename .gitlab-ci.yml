@@ -4,20 +4,20 @@ stages:
   - staging
   - production
 
-before_script:
-  - helm version || true
-  - helm list || true
+# before_script:
+#   - helm version || true
+#   - helm list || true
 
 staging:
   stage: staging
   script:
     - helmsman --apply --debug --group staging -f helmsman.yaml helmsman-staging.yaml
-  only:
-  - staging
+  except:
+  - master
 
-production:
-  stage: production
-  script:
-    - helmsman --apply --debug --group production -f helmsman.yaml helmsman-production.yaml
-  only:
-  - production
+# production:
+#   stage: production
+#   script:
+#     - helmsman --apply --debug --group production -f helmsman.yaml helmsman-production.yaml
+#   only:
+#   - production
