@@ -1,151 +1,23 @@
-######################################################################
-# Common settings
-
-image: imagedata/kube-helm-docker:0.2.0
+image: praqma/helmsman:v3.5.1
 
 stages:
-  - setup
   - staging
-  - approval
   - production
 
-variables:
-  # Don't use default since we need extra permissions for deployment
-  KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab-runner
-
 before_script:
-  # Helm may not be installed so don't fail
   - helm version || true
   - helm list || true
 
-
-######################################################################
-# Jobs
-# Deployment logs are public so ensure all you never echo any secret
-# variables
-
-
-# Install or upgrade helm
-# This is always run
-setup:
-  stage: setup
-  script:
-    - sh gitlab-ci/install-helm.sh
-  only:
-  - master
-
-# Staging is run automatically when master is updated
-# Deletes an existing deployment before installing
 staging:
   stage: staging
-  before_script:
-    - helm list
-    # Disable delete for now to see if it fixes an redeployment problem
-    #- helmfile --hide-args --selector application=staging delete || true
   script:
-    - sh gitlab-ci/deploy.sh
-    # TODO: Check we can run singleuser servers
-  environment:
-    name: staging-staging
-    url: https://idr-analysis.openmicroscopy.org/staging
+    - helmsman --apply --debug --group staging -f helmsman.yaml helmsman-staging.yaml
   only:
-  - master
+  - staging
 
-# Production requires a manual trigger
-approval:
-  stage: approval
-  script:
-    - echo Manual approval required
-  allow_failure: false
-  only:
-  - master
-  when: manual
-
-# Training (no login) production
-# Upgrades if already installed
-deploy_training:
-  stage: production
-  script:
-    - sh gitlab-ci/deploy.sh
-    # TODO: Check we can run singleuser servers
-  environment:
-    name: production-training
-    url: https://idr-analysis.openmicroscopy.org/training
-  only:
-  - master
-
-# ITR Public (no login) production
-# Upgrades if already installed
-deploy_itr_public:
-  stage: production
-  script:
-    - sh gitlab-ci/deploy.sh
-    # TODO: Check we can run singleuser servers
-  environment:
-    name: production-itr-public
-    url: https://idr-analysis.openmicroscopy.org/itr-public
-  only:
-  - master
-
-# Public (no login) production
-# Upgrades if already installed
-deploy_public:
-  stage: production
-  script:
-    - sh gitlab-ci/deploy.sh
-    # TODO: Check we can run singleuser servers
-  environment:
-    name: production-public
-    url: https://idr-analysis.openmicroscopy.org/public
-  only:
-  - master
-
-# VAE production
-# Upgrades if already installed
-deploy_vae:
-  stage: production
-  script:
-    - sh gitlab-ci/deploy.sh
-    # TODO: Check we can run singleuser servers
-  environment:
-    name: production-vae
-    url: https://idr-analysis.openmicroscopy.org/vae
-  only:
-  - master
-
-# VAE AAI production
-# Upgrades if already installed
-deploy_vaeaai:
-  stage: production
-  script:
-    - sh gitlab-ci/deploy.sh
-    # TODO: Check we can run singleuser servers
-  environment:
-    name: production-vae-aai
-    url: https://idr-analysis.openmicroscopy.org/vae-aai
-  only:
-  - master
-
-# Website
-# Upgrades if already installed
-deploy_website:
-  stage: production
-  script:
-    - helmfile --selector application=website sync
-  environment:
-    name: production-website
-    url: https://idr-analysis.openmicroscopy.org/
-  only:
-  - master
-
-# Monitoring
-# Upgrades if already installed
-deploy_monitoring:
-  stage: production
-  script:
-    - helmfile --selector application=monitoring sync
-  environment:
-    name: production-monitoring
-    url: https://idr-analysis.openmicroscopy.org/grafana
-  only:
-  - master
+# production:
+#   stage: production
+#   script:
+#     - helmsman --apply --debug --group production -f helmsman.yaml helmsman-production.yaml
+#   only:
+#   - production
