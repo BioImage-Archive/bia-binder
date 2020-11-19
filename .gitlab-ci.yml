@@ -1,6 +1,6 @@
 image: docker
-services:
-  - docker:19.03.0-dind
+# services:
+#   - docker:19.03.0-dind
 
 stages:
   - setup
