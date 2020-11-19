@@ -3,15 +3,21 @@ image: docker
 #   - docker:19.03.0-dind
 
 stages:
-  - setup
+  - debug
+  # - setup
   - staging
   - production
 
-setup:
-  stage: setup
-  image: docker
+debug:
+  stage: debug
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - export
+
+# setup:
+#   stage: setup
+#   image: docker
+#   script:
+#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
 staging:
   stage: staging
