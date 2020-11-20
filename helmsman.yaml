@@ -4,7 +4,16 @@
 #   # username = "admin"
 #   # password = "$K8S_PASSWORD"
 #   # clusterURI = "https://192.168.99.100:8443"
-
+settings:
+  # kubeContext: "config" # the name of the context to be created
+  # bearerToken: true
+  # clusterURI: "https://kubernetes.default"
+  # # bearerTokenPath: "/path/to/custom/bearer/token/file"
+  kubeContext: "internal" 
+  clusterURI: "https://kubernetes.default" 
+  bearerToken: true
+  bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
+  
 metadata: 
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
