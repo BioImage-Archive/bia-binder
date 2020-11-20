@@ -1,0 +1,7 @@
+settings:
+  kubeContext: "test" # the name of the context to be created
+  bearerToken: true
+  clusterURI: "https://kubernetes.default"
+  bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+certificates:
+  caCrt: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
