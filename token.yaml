@@ -1,9 +1,0 @@
-settings:
-  # kubeContext: "config" # the name of the context to be created
-  # bearerToken: true
-  # clusterURI: "https://kubernetes.default"
-  # # bearerTokenPath: "/path/to/custom/bearer/token/file"
-  kubeContext: "internal" 
-  clusterURI: "https://kubernetes.default" 
-  bearerToken: true
-  bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
