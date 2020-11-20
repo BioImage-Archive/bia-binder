@@ -1,10 +1,11 @@
-image: docker
-# services:
-#   - docker:19.03.0-dind
+variables:
+  SSL_CERT_DIR: ''
+  # DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ''
 
 stages:
   - debug
-  # - setup
+  - setup
   - staging
   - production
 
@@ -12,12 +13,15 @@ debug:
   stage: debug
   script:
     - export
+    
+setup:
+  stage: setup
+  image: docker
+  services:
+  - name: docker:19.03.0-dind
+  script:
+    - docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" 
 
-# setup:
-#   stage: setup
-#   image: docker
-#   script:
-#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
 staging:
   stage: staging
