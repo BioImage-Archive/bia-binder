@@ -14,13 +14,13 @@
 #   bearerToken: true
 #   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
 
-settings:
-  kubeContext: "test" # the name of the context to be created
-  bearerToken: true
-  clusterURI: "https://kubernetes.default"
-  bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token"
-certificates:
-  caCrt: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+# settings:
+#   kubeContext: "test" # the name of the context to be created
+#   bearerToken: true
+#   clusterURI: "https://kubernetes.default"
+#   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+# certificates:
+#   caCrt: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
 metadata: 
   organization: EBI
@@ -54,14 +54,21 @@ appsTemplates:
     #   - "--debug"
     # # test: true
     # # protected: true
-    wait: true
+    # wait: true # Lethal for binderhub
     timeout: 1200
     enabled: true
     set:
       registry.username: "$CI_REGISTRY_USER"
       registry.password: "$CI_REGISTRY_PASSWORD"
+      registry.url: "https://dockerhub.ebi.ac.uk"
       jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
+      config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE/binderhub-"
+      # config.DockerRegistry.url: "https://dockerhub.ebi.ac.uk"
+      config.DockerRegistry.token_url: ""
+
+
 
   jupyterhub: &jupyterhub
     name: "jupyterhub"
@@ -71,8 +78,8 @@ appsTemplates:
       - "--debug"
     # test: true
     # protected: true
-    wait: true
-    timeout: 1200
+    # wait: true
+    timeout: 120
     enabled: true
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
@@ -83,7 +90,7 @@ appsTemplates:
     version: "0.9.0"
     enabled: true
     priority: 0
-    timeout: 1200
+    timeout: 120
 
 apps:
   daskgateway-staging:
