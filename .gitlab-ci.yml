@@ -27,7 +27,7 @@ staging:
   stage: staging
   image: praqma/helmsman:v3.5.1
   script:
-    - helmsman --apply --debug --group staging -f helmsman.yaml helmsman-staging.yaml
+    - helmsman --apply --debug --group staging -f helmsman_k8s_settings.yaml helmsman.yaml helmsman-staging.yaml
   # except:
   # - master
 
