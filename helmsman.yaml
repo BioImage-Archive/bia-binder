@@ -54,7 +54,7 @@ appsTemplates:
     #   - "--debug"
     # # test: true
     # # protected: true
-    # wait: true # Lethal for binderhub
+    wait: false # Lethal for binderhub
     timeout: 1200
     enabled: true
     set:
