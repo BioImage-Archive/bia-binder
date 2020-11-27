@@ -1,3 +1,17 @@
 # context: staging
 # settings:
 #   kubeContext: bia
+
+namespaces:
+  jupyterhub-sandbox-staging:
+    protected: false 
+  jupyterhub-sandbox-production:
+    protected: true
+  binderhub-staging:
+    protected: false 
+  binderhub-production:
+    protected: true
+  daskgateway-staging:
+    protected: false 
+  daskgateway-production:
+    protected: true
