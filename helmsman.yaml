@@ -14,32 +14,11 @@
 #   bearerToken: true
 #   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
 
-settings:
-  kubeContext: "default" # the name of the context to be created
-  bearerToken: true
-  clusterURI: "https://kubernetes.default"
-  bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token"
-certificates:
-  caCrt: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-
 metadata: 
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
   description: EBI hub deployment
 
-namespaces:
-  jupyterhub-sandbox-staging:
-    protected: false 
-  jupyterhub-sandbox-production:
-    protected: true
-  binderhub-staging:
-    protected: false 
-  binderhub-production:
-    protected: true
-  daskgateway-staging:
-    protected: false 
-  daskgateway-production:
-    protected: true
     
 helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
