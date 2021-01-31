@@ -22,25 +22,25 @@
 # certificates:
 #   caCrt: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
-metadata: 
+metadata:
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
   description: EBI hub deployment
 
 namespaces:
   jupyterhub-sandbox-staging:
-    protected: false 
+    protected: false
   jupyterhub-sandbox-production:
     protected: true
   binderhub-staging:
-    protected: false 
+    protected: false
   binderhub-production:
     protected: true
   daskgateway-staging:
-    protected: false 
+    protected: false
   daskgateway-production:
     protected: true
-    
+
 helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
   daskgateway: "https://dask.org/dask-gateway-helm-repo/"
@@ -49,7 +49,7 @@ appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
     chart: "jupyterhub/binderhub"
-    version: "0.2.0-n217.h35366ea"
+    version: "0.2.0-n499.h81660eb"
     # helmFlags:
     #   - "--debug"
     # # test: true
@@ -144,7 +144,6 @@ apps:
       - "jupyterhub/config.yaml"
       - "jupyterhub/sandbox.yaml"
       - "jupyterhub/staging/sandbox.yaml"
-    
   jupyterhub-sandbox-production:
     <<: *jupyterhub
     name: "jupyterhub-sandbox-production"
