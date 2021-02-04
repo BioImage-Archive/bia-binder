@@ -30,13 +30,12 @@ singleuser:
   storage:
     type: none
     extraVolumes:
-      - name: nfs-bs-ftp-pv
+      - name: nfs-bs-ftp
         persistentVolumeClaim:
           claimName: nfs-bs-ftp-pvc
     extraVolumeMounts:
-      - name: nfs-bs-ftp-pv
+      - name: nfs-bs-ftp
         mountPath: /home/jovyan/biostudies
-        # mountPath: /home/{user}/biostudies
     # #     readOnly: true
   image:
     name: bioimagearchive/jupyter-hub-docker
