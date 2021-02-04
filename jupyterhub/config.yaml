@@ -29,6 +29,14 @@ cull:
 singleuser:
   storage:
     type: none
+    extraVolumes:
+      - name: nfs-bs-ftp
+        persistentVolumeClaim:
+          claimName: nfs-bs-ftp-pvc
+    extraVolumeMounts:
+      - name: nfs-bs-ftp
+        mountPath: /home/jovyan/biostudies
+    # #     readOnly: true
   image:
     name: bioimagearchive/jupyter-hub-docker
     tag: latest
@@ -39,23 +47,23 @@ singleuser:
   memory:
     limit: 1G
     guarantee: 256M
-#   networkPolicy:
-#     enabled: true
-#     # Block all except:
-#     # - internal DNS
-#     # - EMBL-EBI and University of Dundee
-#     egress:
-#       - to:
-#           - ipBlock:
-#               cidr: 10.0.0.0/8
-#         ports:
-#           - port: 53
-#             protocol: UDP
-#       - to:
-#           - ipBlock:
-#               cidr: 193.60.0.0/14
-#           - ipBlock:
-#               cidr: 134.36.0.0/16
+  #   networkPolicy:
+  #     enabled: true
+  #     # Block all except:
+  #     # - internal DNS
+  #     # - EMBL-EBI and University of Dundee
+  #     egress:
+  #       - to:
+  #           - ipBlock:
+  #               cidr: 10.0.0.0/8
+  #         ports:
+  #           - port: 53
+  #             protocol: UDP
+  #       - to:
+  #           - ipBlock:
+  #               cidr: 193.60.0.0/14
+  #           - ipBlock:
+  #               cidr: 134.36.0.0/16
   extraEnv:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public
