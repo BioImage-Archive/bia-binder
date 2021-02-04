@@ -7,3 +7,8 @@ ingress:
     - hosts:
         - minikube.local
         - localhost
+singleuser:
+  storage:
+    extraVolumes:
+      - persistentVolumeClaim:
+          claimName: nfs-bs-ftp-pv-jupyerhub-staging
