@@ -1,9 +1,9 @@
 ingress:
   hosts:
-  - minikube.local
+  - localhost
   tls:
   - hosts:
-    - minikube.local
+    - localhost
 
 persistence:
   enabled: true
@@ -13,4 +13,4 @@ persistence:
 env:
   GF_AUTH_ANONYMOUS_ENABLED: "true"
   GF_AUTH_GITHUB_ENABLED: "false"
-  GF_SERVER_DOMAIN: minikube.local
+  GF_SERVER_DOMAIN: localhost

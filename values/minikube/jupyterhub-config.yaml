@@ -6,3 +6,4 @@ ingress:
   tls:
     - hosts:
         - minikube.local
+        - localhost

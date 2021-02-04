@@ -5,11 +5,11 @@ hub:
 
 auth:
   github:
-    callbackUrl: https://minikube.local/vae/hub/oauth_callback
+    callbackUrl: https://localhost/vae/hub/oauth_callback
 
 hub:
   extraEnv:
-    OAUTH_CALLBACK_URL: https://minikube.local/elixir/hub/oauth_callback
+    OAUTH_CALLBACK_URL: https://localhost/elixir/hub/oauth_callback
     OAUTH_CLIENT_ID: # GitLab secret
     OAUTH_CLIENT_SECRET: # GitLab secret
 
