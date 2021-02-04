@@ -1,15 +1,15 @@
 server:
-  baseURL: https://minikube.local/prometheus
+  baseURL: https://localhost/prometheus
   ingress:
     annotations:
       nginx.ingress.kubernetes.io/auth-type: null
       nginx.ingress.kubernetes.io/auth-secret: null
       nginx.ingress.kubernetes.io/auth-realm: null
     hosts:
-    - minikube.local/prometheus
+    - localhost/prometheus
     tls:
     - hosts:
-      - minikube.local
+      - localhost
   persistentVolume:
     size: 100M
     storageClass:
