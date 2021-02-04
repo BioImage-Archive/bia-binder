@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-bs-ftp-pv-jupyterhub-production
+  name: "nfs-bs-ftp-pvc-jupyterhub-production"
 spec:
   storageClassName: nfs
   accessModes:

@@ -124,6 +124,7 @@ apps:
       preInstall: "jupyterhub/staging/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
+      - "jupyterhub/staging/config.yaml"
       - "jupyterhub/sandbox.yaml"
       - "jupyterhub/staging/sandbox.yaml"
 
@@ -136,6 +137,7 @@ apps:
       preInstall: "jupyterhub/production/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
+      - "jupyterhub/production/config.yaml"
       - "jupyterhub/sandbox.yaml"
       - "jupyterhub/production/sandbox.yaml"
 # -------------------- JUNK ----------------------------------
