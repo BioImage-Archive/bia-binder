@@ -9,17 +9,16 @@
 #   # bearerToken: true
 #   # clusterURI: "https://kubernetes.default"
 #   # # bearerTokenPath: "/path/to/custom/bearer/token/file"
-#   kubeContext: "internal" 
-#   clusterURI: "https://kubernetes.default" 
+#   kubeContext: "internal"
+#   clusterURI: "https://kubernetes.default"
 #   bearerToken: true
 #   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
 
-metadata: 
+metadata:
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
   description: EBI hub deployment
 
-    
 helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
   daskgateway: "https://dask.org/dask-gateway-helm-repo/"
@@ -39,15 +38,12 @@ appsTemplates:
     set:
       registry.username: "$CI_REGISTRY_USER"
       registry.password: "$CI_REGISTRY_PASSWORD"
-      registry.url: "https://dockerhub.ebi.ac.uk"
+      registry.url: "$CI_REGISTRY"
       jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-      # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
       config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE/binderhub-"
-      # config.DockerRegistry.url: "https://dockerhub.ebi.ac.uk"
       config.DockerRegistry.token_url: ""
-
-
+      config.DockerRegistry.url: "$CI_REGISTRY"
 
   jupyterhub: &jupyterhub
     name: "jupyterhub"
@@ -57,11 +53,13 @@ appsTemplates:
       - "--debug"
     # test: true
     # protected: true
-    # wait: true
-    timeout: 120
+    wait: false
+    timeout: 1200
     enabled: true
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
+      auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
 
   dask: &dask
     name: "daskgateway"
@@ -102,6 +100,9 @@ apps:
     # set:
     #   registry.username: "$SECRET_DOCKERHUB_USERNAME"
     #   registry.password: "$SECRET_DOCKERHUB_PASSWORD"
+    # set:
+    #   jupyterhub.hub.baseUrl: "/binderhub/staging/"
+    #   config.BinderHub.hub_url: "$HOST_NAME"
 
   binderhub-production:
     <<: *binderhub
@@ -114,6 +115,7 @@ apps:
       # - "binderhub/staging.yaml"
       # - "binderhub/ebi_dockerhub.yaml"
       # - "binderhub/production.yaml"
+
   jupyterhub-sandbox-staging:
     <<: *jupyterhub
     name: "jupyterhub-sandbox-staging"
@@ -123,7 +125,7 @@ apps:
       - "jupyterhub/config.yaml"
       - "jupyterhub/sandbox.yaml"
       - "jupyterhub/staging/sandbox.yaml"
-    
+
   jupyterhub-sandbox-production:
     <<: *jupyterhub
     name: "jupyterhub-sandbox-production"
@@ -134,39 +136,58 @@ apps:
       - "jupyterhub/sandbox.yaml"
       - "jupyterhub/production/sandbox.yaml"
 
-    
-    
+  jupyterhub-github-staging:
+    <<: *jupyterhub
+    name: "jupyterhub-github-staging"
+    group: "staging"
+    namespace: "jupyterhub-github-staging"
+    set:
+      auth.github.callbackUrl: "$HOST_NAME/staging/github/hub/oauth_callback"
+    valuesFiles:
+      - "jupyterhub/config.yaml"
+      - "jupyterhub/github.yaml"
+      - "jupyterhub/staging/github.yaml"
 
+  jupyterhub-github-production:
+    <<: *jupyterhub
+    name: "jupyterhub-github-production"
+    group: "production"
+    namespace: "jupyterhub-github-production"
+    set:
+      auth.github.callbackUrl: "$HOST_NAME/github/hub/oauth_callback"
+    valuesFiles:
+      - "jupyterhub/config.yaml"
+      - "jupyterhub/github.yaml"
+      - "jupyterhub/production/github.yaml"
+# -------------------- JUNK ----------------------------------
+# jupyterhub-test:
+#   valuesFiles:
+#     - "values/jupyterhub-config.yaml"
+#     # - "values/staging/jupyterhub-config.yaml"
+#     - "values/jupyterhub-sandbox.yaml"
+#     # - "values/staging/jupyterhub-sandbox.yaml"
+#   name: "jupyterhub-staging"
+#   namespace: "staging"
+#   chart: "jupyterhub/jupyterhub"
+#   # version: "0.9.0"
+#   version: "0.10.2-n047.hb387f987"
+#   enabled: true
+#   priority: 0
+#   timeout: 1200
+#   # wait: true
+#   set:
+#     proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
 
-# -------------------- JUNK ---------------------------------- 
-  # jupyterhub-test:
-  #   valuesFiles:
-  #     - "values/jupyterhub-config.yaml"
-  #     # - "values/staging/jupyterhub-config.yaml"
-  #     - "values/jupyterhub-sandbox.yaml"
-  #     # - "values/staging/jupyterhub-sandbox.yaml"
-  #   name: "jupyterhub-staging"
-  #   namespace: "staging"
-  #   chart: "jupyterhub/jupyterhub"
-  #   # version: "0.9.0"
-  #   version: "0.10.2-n047.hb387f987"
-  #   enabled: true
-  #   priority: 0
-  #   timeout: 1200
-  #   # wait: true
-  #   set:
-  #     proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-
-  # binderhub:
-  #   valuesFiles:
-  #     - "binderhub/secret.yaml"
-  #     - "binderhub/config.yaml"
-  #     - "binderhub/production.yaml"
-  #   name: "binderhub"
-  #   namespace: "staging"
-  #   protected: true
-  #   chart: "jupyterhub/binderhub"
-  #   version: "0.2.0-n361.h6f57706"
-  #   enabled: true
-  #   priority: 0  
-  #   # set:
+# binderhub:
+#   valuesFiles:
+#     - "binderhub/secret.yaml"
+#     - "binderhub/config.yaml"
+#     - "binderhub/production.yaml"
+#   name: "binderhub"
+#   namespace: "staging"
+#   protected: true
+#   chart: "jupyterhub/binderhub"
+#   version: "0.2.0-n361.h6f57706"
+#   enabled: true
+#   priority: 0
+#   # set:
