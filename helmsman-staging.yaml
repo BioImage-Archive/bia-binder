@@ -4,14 +4,18 @@
 
 namespaces:
   jupyterhub-sandbox-staging:
-    protected: false 
+    protected: false
   jupyterhub-sandbox-production:
     protected: true
+  jupyterhub-github-staging:
+    protected: false
+  jupyterhub-github-production:
+    protected: true
   binderhub-staging:
-    protected: false 
+    protected: false
   binderhub-production:
     protected: true
   daskgateway-staging:
-    protected: false 
+    protected: false
   daskgateway-production:
     protected: true

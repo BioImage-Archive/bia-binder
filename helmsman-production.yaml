@@ -1,13 +1,17 @@
 namespaces:
   jupyterhub-sandbox-staging:
-    protected: false 
+    protected: false
   jupyterhub-sandbox-production:
     protected: false
+  jupyterhub-github-staging:
+    protected: false
+  jupyterhub-github-production:
+    protected: false
   binderhub-staging:
-    protected: false 
+    protected: false
   binderhub-production:
     protected: false
   daskgateway-staging:
-    protected: false 
+    protected: false
   daskgateway-production:
     protected: false
