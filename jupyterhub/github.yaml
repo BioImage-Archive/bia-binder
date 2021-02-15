@@ -19,9 +19,6 @@ auth:
 
   type: github
   github:
-    clientId: ""
-    clientSecret: ""
-    callbackUrl: "http://45.86.170.228/github/hub/oauth_callback"
     org_whitelist:
       - "bioimagearchive"
     orgWhitelist:
@@ -49,11 +46,11 @@ singleuser:
       - name: shm-volume
         mountPath: /dev/shm
   memory:
-    limit: 1G
-    guarantee: 1G
+    limit: 8G
+    guarantee: 4G
   cpu:
-    limit: .5
-    guarantee: .5
+    limit: 4
+    guarantee: 2
   lifecycleHooks:
   postStart:
     exec:
@@ -62,54 +59,34 @@ singleuser:
     - display_name: "Minimal"
       description: "Spawns a notebook server with 1G ram and 1 CPU core"
       kubespawner_override:
-        cpu:
-          limit: .5
-          guarantee: .5
-        memory:
-          limit: 1G
-          guarantee: 1G
+        cpu_limit: 4
+        cpu_guarantee: 1
+        memory_limit: 1G
+        memory_guarantee: 1G
     - display_name: "8GB - 2 core"
-      description: "Spawns a notebook server with 8Gb ram and 2 CPU cores"
+      description: "Spawns a notebook server with 8G ram and 2 CPU cores"
       kubespawner_override:
-        cpu:
-          limit: 4
-          guarantee: 2
-        memory:
-          limit: 8G
-          guarantee: 8G
+        cpu_limit: 4
+        cpu_guarantee: 2
+        memory_limit: 8G
+        memory_guarantee: 8G
     - display_name: "16GB - 4 core"
-      description: "Spawns a notebook server with 16Gb ram and 4 CPU cores"
+      description: "Spawns a notebook server with 16G ram and 4 CPU cores"
       kubespawner_override:
-        cpu:
-          limit: 4
-          guarantee: 4
-        memory:
-          limit: 16G
-          guarantee: 16G
-
-  # networkPolicy:
-  #   # Allow
-  #   # - internal DNS
-  #   # - all EMBL-EBI and University of Dundee
-  #   # - all HTTP and HTTPS
-  #   egress:
-  #     - to:
-  #         - ipBlock:
-  #             cidr: 10.0.0.0/8
-  #       ports:
-  #         - port: 53
-  #           protocol: UDP
-  #     - to:
-  #         - ipBlock:
-  #             cidr: 193.60.0.0/14
-  #         - ipBlock:
-  #             cidr: 134.36.0.0/16
-  #     - to:
-  #       ports:
-  #         - port: 80
-  #           protocol: TCP
-  #         - port: 443
-  #           protocol: TCP
+        cpu_limit: 4
+        cpu_guarantee: 2
+        memory_limit: 12G
+        memory_guarantee: 8G
+    - display_name: "16GB - 4 core - GPU"
+      description: "Spawns a notebook server with 16G ram and 4 CPU cores + GPU"
+      kubespawner_override:
+        image: cschranz/gpu-jupyter
+        cpu_limit: 4
+        cpu_guarantee: 2
+        memory_limit: 12G
+        memory_guarantee: 8G
+        extra_resource_limits:
+          nvidia.com/gpu: "1"
 
 ingress:
   enabled: true
