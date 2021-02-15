@@ -32,6 +32,8 @@ singleuser:
   #   extraVolumeMounts:
   #     - name: shm-volume
   #       mountPath: /dev/shm
+  storage:
+    storage: none
   memory:
     limit: 3G
     guarantee: 1G
