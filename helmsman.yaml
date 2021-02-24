@@ -31,7 +31,9 @@ appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
     chart: "jupyterhub/binderhub"
+    # version: "0.2.0-n519.hf5c1a19"
     version: "0.2.0-n217.h35366ea"
+    # version: "0.2.0-n217.h35366ea"
     # helmFlags:
     #   - "--debug"
     # # test: true
@@ -42,13 +44,16 @@ appsTemplates:
     set:
       registry.username: "$CI_REGISTRY_USER"
       registry.password: "$CI_REGISTRY_PASSWORD"
-      registry.url: "https://dockerhub.ebi.ac.uk"
       jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-      jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
+      config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
+      config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
       # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
-      config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE/binderhub-"
-      # config.DockerRegistry.url: "https://dockerhub.ebi.ac.uk"
-      config.DockerRegistry.token_url: ""
+      config.BinderHub.hub_url: "$HOST_NAME/binderhub/"
+    # hub_url: http://10.43.114.27
+    # config.DockerRegistry.url: "https://dockerhub.ebi.ac.uk"
+    # config.DockerRegistry.token_url: ""
+    # registry.url: "https://dockerhub.ebi.ac.uk"
 
   jupyterhub: &jupyterhub
     name: "jupyterhub"
@@ -73,13 +78,13 @@ appsTemplates:
     timeout: 120
 
 apps:
-  daskgateway-staging:
-    <<: *dask
-    name: "daskgateway-staging"
-    group: "staging"
-    namespace: "daskgateway-staging"
-    # valuesFiles:
-    # - "daskgateway/staging.yaml"
+  # daskgateway-staging:
+  #   <<: *dask
+  #   name: "daskgateway-staging"
+  #   group: "staging"
+  #   namespace: "daskgateway-staging"
+  #   # valuesFiles:
+  #   # - "daskgateway/staging.yaml"
 
   daskgateway-production:
     <<: *dask
@@ -98,11 +103,12 @@ apps:
     valuesFiles:
       # - "binderhub/secret.yaml"
       - "binderhub/config.yaml"
+      # - "binderhub/secret.yaml"
       # - "binderhub/staging.yaml"
       # - "binderhub/ebi_dockerhub.yaml"
     # set:
-    #   registry.username: "$SECRET_DOCKERHUB_USERNAME"
-    #   registry.password: "$SECRET_DOCKERHUB_PASSWORD"
+    #   config.BinderHub.base_url: "staging"
+    #   ingress.pathSuffix: "/staging"
 
   binderhub-production:
     <<: *binderhub
@@ -115,6 +121,19 @@ apps:
       # - "binderhub/staging.yaml"
       # - "binderhub/ebi_dockerhub.yaml"
       # - "binderhub/production.yaml"
+
+  # binderhub-production:
+  #   <<: *binderhub
+  #   name: "binderhub-production"
+  #   namespace: "binderhub-production"
+  #   group: "production"
+  #   valuesFiles:
+  #     - "binderhub/config.yaml"
+  #     # - "binderhub/secret.yaml"
+  #     # - "binderhub/staging.yaml"
+  #     # - "binderhub/ebi_dockerhub.yaml"
+  #     # - "binderhub/production.yaml"
+
   jupyterhub-sandbox-staging:
     <<: *jupyterhub
     name: "jupyterhub-sandbox-staging"
