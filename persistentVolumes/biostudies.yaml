@@ -14,5 +14,20 @@ spec:
     server: 10.35.105.251 # Change this!
     path: "/fg_biostudies/.adm/databases/prod/submission/ftp/"
     readOnly: true
+  # claimRef:
+  #   name: nfs-bs-ftp-pvc
 # persistentVolumeReclaimPolicy:
 #   Recycle
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "nfs-bs-ftp-pvc"
+spec:
+  storageClassName: nfs
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: "nfs-bs-ftp-pv"

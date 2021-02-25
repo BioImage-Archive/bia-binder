@@ -70,6 +70,8 @@ appsTemplates:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
       auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
+    hooks:
+      preUpgrade: "persistentVolumes/biostudies.yaml"
 
   dask: &dask
     name: "daskgateway"
@@ -146,8 +148,8 @@ apps:
     name: "jupyterhub-sandbox-staging"
     group: "staging"
     namespace: "jupyterhub-sandbox-staging"
-    hooks:
-      preInstall: "jupyterhub/staging/volumes/biostudies.yaml"
+    # hooks:
+    #   preInstall: "jupyterhub/staging/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
       - "jupyterhub/staging/config.yaml"
@@ -159,8 +161,8 @@ apps:
     name: "jupyterhub-sandbox-production"
     group: "production"
     namespace: "jupyterhub-sandbox-production"
-    hooks:
-      preInstall: "jupyterhub/production/volumes/biostudies.yaml"
+    # hooks:
+    #   preInstall: "jupyterhub/production/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
       - "jupyterhub/production/config.yaml"
