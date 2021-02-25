@@ -14,9 +14,9 @@
 #   bearerToken: true
 #   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
 
-settings:
-  globalHooks:
-    preInstall: "persistentVolumes/biostudies.yaml"
+# settings:
+#   globalHooks:
+#     preUpgrade: "persistentVolumes/biostudies.yaml"
 
 metadata:
   organization: EBI
@@ -63,6 +63,8 @@ appsTemplates:
     enabled: true
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+    hooks:
+      preUpgrade: "persistentVolumes/biostudies.yaml"
 
   dask: &dask
     name: "daskgateway"
@@ -120,8 +122,8 @@ apps:
     name: "jupyterhub-sandbox-staging"
     group: "staging"
     namespace: "jupyterhub-sandbox-staging"
-    hooks:
-      preInstall: "jupyterhub/staging/volumes/biostudies.yaml"
+    # hooks:
+    #   preInstall: "jupyterhub/staging/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
       - "jupyterhub/staging/config.yaml"
@@ -133,8 +135,8 @@ apps:
     name: "jupyterhub-sandbox-production"
     group: "production"
     namespace: "jupyterhub-sandbox-production"
-    hooks:
-      preInstall: "jupyterhub/production/volumes/biostudies.yaml"
+    # hooks:
+    #   preInstall: "jupyterhub/production/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
       - "jupyterhub/production/config.yaml"
