@@ -38,7 +38,7 @@ singleuser:
         mountPath: /home/jovyan/biostudies
     # #     readOnly: true
   image:
-    name: bioimagearchive/jupyter-hub-docker
+    name: bioimagearchive/jupyter-hub-docker:20210202
     tag: latest
   startTimeout: 1800
   cpu:
