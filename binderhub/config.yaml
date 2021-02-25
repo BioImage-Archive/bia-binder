@@ -3,11 +3,13 @@ config:
     # hub_url: http://10.43.114.27
     hub_url: http://45.86.170.228/binderhub/
     use_registry: true
-    image_prefix: ctr26/binder-
-    # base_url: /binder
+    image_prefix: bioimagearchive/binder-
+    # build_image: "aicrowd/repo2docker"
+    # build_image: "aicrowd/repo2docker:latest"
+    # base_url: "/staging" #Doesn't work
     # networkPolicy:
     #   enabled: true
-#     # Good until this:  
+#     # Good until this:
 jupyterhub:
   hub:
     baseUrl: /binderhub
@@ -33,9 +35,10 @@ jupyterhub:
 #     - localhost
 
 ingress:
+  # pathSuffix: ""
   enabled: true
   hosts:
-     - ""
-     - "localhost"
+    - ""
+    - "localhost"
   annotations:
     kubernetes.io/ingress.class: nginx
