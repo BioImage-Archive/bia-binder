@@ -7,7 +7,7 @@ config:
     # base_url: /binder
     # networkPolicy:
     #   enabled: true
-#     # Good until this:  
+#     # Good until this:
 jupyterhub:
   hub:
     baseUrl: /binderhub
@@ -19,14 +19,14 @@ jupyterhub:
       - ""
       - localhost
   singleuser:
-    profileList:
-      - display_name: "GPU Server"
-        description: "Spawns a notebook server with access to a GPU"
-        kubespawner_override:
-          extra_resource_limits:
-            nvidia.com/gpu: "1"
-      - display_name: "No GPU"
-        description: "Spawns a notebook server with access to a GPU"
+    # profileList:
+    #   - display_name: "GPU Server"
+    #     description: "Spawns a notebook server with access to a GPU"
+    #     kubespawner_override:
+    #       extra_resource_limits:
+    #         nvidia.com/gpu: "1"
+    #   - display_name: "No GPU"
+    #     description: "Spawns a notebook server with access to a GPU"
 # proxy:
 #   # secretToken: "6dfbc8ae1ed815de3d81bb80637cdc6d3a6ea07a5e8b0d8eb396d800c0dcc419"
 #   service:
@@ -43,7 +43,7 @@ jupyterhub:
 ingress:
   enabled: true
   hosts:
-     - ""
-     - "localhost"
+    - ""
+    - "localhost"
   annotations:
     kubernetes.io/ingress.class: nginx
