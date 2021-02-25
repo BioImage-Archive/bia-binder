@@ -1,7 +1,7 @@
 config:
   BinderHub:
     # hub_url: http://10.43.114.27
-    hub_url: http://45.86.170.228/binderhub/
+    # hub_url: http://45.86.170.228/binderhub/
     use_registry: true
     image_prefix: bioimagearchive/binder-
     # build_image: "aicrowd/repo2docker"
@@ -20,15 +20,15 @@ jupyterhub:
     hosts:
       - ""
       - localhost
-  singleuser:
-    # profileList:
-    #   - display_name: "GPU Server"
-    #     description: "Spawns a notebook server with access to a GPU"
-    #     kubespawner_override:
-    #       extra_resource_limits:
-    #         nvidia.com/gpu: "1"
-    #   - display_name: "No GPU"
-    #     description: "Spawns a notebook server with access to a GPU"
+  # singleuser:
+  # profileList:
+  #   - display_name: "GPU Server"
+  #     description: "Spawns a notebook server with access to a GPU"
+  #     kubespawner_override:
+  #       extra_resource_limits:
+  #         nvidia.com/gpu: "1"
+  #   - display_name: "No GPU"
+  #     description: "Spawns a notebook server with access to a GPU"
 # proxy:
 #   # secretToken: "6dfbc8ae1ed815de3d81bb80637cdc6d3a6ea07a5e8b0d8eb396d800c0dcc419"
 #   service:
