@@ -20,7 +20,17 @@ jupyterhub:
     hosts:
       - ""
       - localhost
-  # singleuser:
+  singleuser:
+    storage:
+      type: none
+      extraVolumes:
+        - name: nfs-bs-ftp
+          persistentVolumeClaim:
+            claimName: nfs-bs-ftp-pvc
+      extraVolumeMounts:
+        - name: nfs-bs-ftp
+          mountPath: /home/jovyan/biostudies
+      # #     readOnly: true
   # profileList:
   #   - display_name: "GPU Server"
   #     description: "Spawns a notebook server with access to a GPU"
