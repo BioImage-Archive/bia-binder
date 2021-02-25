@@ -1,7 +1,0 @@
-singleuser:
-  storage:
-    type: none
-    extraVolumes:
-      - name: nfs-bs-ftp
-        persistentVolumeClaim:
-          claimName: "nfs-bs-ftp-pvc-jupyterhub-production"
