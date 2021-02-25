@@ -14,9 +14,9 @@
 #   bearerToken: true
 #   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
 
-settings:
-  globalHooks:
-    preInstall: "persistentVolumes/biostudies.yaml"
+# settings:
+#   globalHooks:
+#     preInstall: "persistentVolumes/biostudies.yaml"
 
 metadata:
   organization: EBI
@@ -63,11 +63,13 @@ appsTemplates:
       - "--debug"
     # test: true
     # protected: true
-    # wait: true
-    timeout: 120
+    wait: false
+    timeout: 1200
     enabled: true
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
+      auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
 
   dask: &dask
     name: "daskgateway"
@@ -109,6 +111,11 @@ apps:
     # set:
     #   config.BinderHub.base_url: "staging"
     #   ingress.pathSuffix: "/staging"
+    #   registry.username: "$SECRET_DOCKERHUB_USERNAME"
+    #   registry.password: "$SECRET_DOCKERHUB_PASSWORD"
+    # set:
+    #   jupyterhub.hub.baseUrl: "/binderhub/staging/"
+    #   config.BinderHub.hub_url: "$HOST_NAME"
 
   binderhub-production:
     <<: *binderhub
@@ -159,6 +166,48 @@ apps:
       - "jupyterhub/production/config.yaml"
       - "jupyterhub/sandbox.yaml"
       - "jupyterhub/production/sandbox.yaml"
+  # -------------------- JUNK ----------------------------------
+  # jupyterhub-test:
+  #   valuesFiles:
+  #     - "values/jupyterhub-config.yaml"
+  #     # - "values/staging/jupyterhub-config.yaml"
+  #     - "values/jupyterhub-sandbox.yaml"
+  #     # - "values/staging/jupyterhub-sandbox.yaml"
+  #   name: "jupyterhub-staging"
+  #   namespace: "staging"
+  #   chart: "jupyterhub/jupyterhub"
+  #   # version: "0.9.0"
+  #   version: "0.10.2-n047.hb387f987"
+  #   enabled: true
+  #   priority: 0
+  #   timeout: 1200
+  #   # wait: true
+  #   set:
+  #     proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+
+  jupyterhub-github-staging:
+    <<: *jupyterhub
+    name: "jupyterhub-github-staging"
+    group: "staging"
+    namespace: "jupyterhub-github-staging"
+    set:
+      auth.github.callbackUrl: "$HOST_NAME/staging/github/hub/oauth_callback"
+    valuesFiles:
+      - "jupyterhub/config.yaml"
+      - "jupyterhub/github.yaml"
+      - "jupyterhub/staging/github.yaml"
+
+  jupyterhub-github-production:
+    <<: *jupyterhub
+    name: "jupyterhub-github-production"
+    group: "production"
+    namespace: "jupyterhub-github-production"
+    set:
+      auth.github.callbackUrl: "$HOST_NAME/github/hub/oauth_callback"
+    valuesFiles:
+      - "jupyterhub/config.yaml"
+      - "jupyterhub/github.yaml"
+      - "jupyterhub/production/github.yaml"
 # -------------------- JUNK ----------------------------------
 # jupyterhub-test:
 #   valuesFiles:
