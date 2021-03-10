@@ -49,7 +49,9 @@ appsTemplates:
       config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
       config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
       # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
-      config.BinderHub.hub_url: "$HOST_NAME/binderhub/"
+      # config.BinderHub.hub_url: "$HOST_NAME/binderhub/"
+    # hooks:
+      # preUpgrade: "binderhub/persistentVolumes/biostudies.yaml"
     # hub_url: http://10.43.114.27
     # config.DockerRegistry.url: "https://dockerhub.ebi.ac.uk"
     # config.DockerRegistry.token_url: ""
@@ -108,7 +110,7 @@ apps:
       # - "binderhub/secret.yaml"
       - "binderhub/config.yaml"
       # - "binderhub/secret.yaml"
-      # - "binderhub/staging.yaml"
+      - "binderhub/staging/config.yaml"
       # - "binderhub/ebi_dockerhub.yaml"
     # set:
     #   config.BinderHub.base_url: "staging"
@@ -126,6 +128,7 @@ apps:
     group: "production"
     valuesFiles:
       - "binderhub/config.yaml"
+      - "binderhub/production/config.yaml"
       # - "binderhub/secret.yaml"
       # - "binderhub/staging.yaml"
       # - "binderhub/ebi_dockerhub.yaml"
