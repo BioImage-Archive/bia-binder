@@ -122,6 +122,7 @@ apps:
     #   jupyterhub.hub.baseUrl: "/binderhub/staging/"
     #   config.BinderHub.hub_url: "$HOST_NAME"
 
+
   binderhub-production:
     <<: *binderhub
     name: "binderhub-production"
@@ -130,10 +131,18 @@ apps:
     valuesFiles:
       - "binderhub/config.yaml"
       - "binderhub/production/config.yaml"
-      # - "binderhub/secret.yaml"
-      # - "binderhub/staging.yaml"
-      # - "binderhub/ebi_dockerhub.yaml"
-      # - "binderhub/production.yaml"
+
+  binderhub-production-gpu:
+    <<: *binderhub
+    name: "binderhub-production"
+    namespace: "binderhub-production"
+    group: "production-gpu"
+    valuesFiles:
+      - "binderhub/config.yaml"
+      - "binderhub/production/config.yaml"
+      - "binderhub/gpu_support.yaml"
+      - "binderhub/persistentVolumes.yaml"
+
 
   # binderhub-production:
   #   <<: *binderhub
