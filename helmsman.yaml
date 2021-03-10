@@ -32,7 +32,8 @@ appsTemplates:
     name: "binderhub"
     chart: "jupyterhub/binderhub"
     # version: "0.2.0-n519.hf5c1a19"
-    version: "0.2.0-n217.h35366ea"
+    # version: "0.2.0-n217.h35366ea"
+    version: "0.2.0-n523.h854be18"
     # version: "0.2.0-n217.h35366ea"
     # helmFlags:
     #   - "--debug"

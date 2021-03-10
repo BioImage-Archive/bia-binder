@@ -1,9 +1,25 @@
+replicas: 2
+pdb:
+  minAvailable: 1
+
+resources:
+  requests:
+    cpu: "1"
+    memory: 2Gi
+  limits:
+    cpu: "2"
+    memory: 3Gi
+
+
 config:
   BinderHub:
+    build_memory_limit: "8G"
+    build_memory_request: "4G"
     # hub_url: http://10.43.114.27
-    # hub_url: http://45.86.170.228/binderhub/
+    # hub_url: http://binder.bioimagearchive.org/binderhub/
     use_registry: true
     image_prefix: bioimagearchive/binder-
+    build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
     # build_image: "aicrowd/repo2docker"
     # build_image: "aicrowd/repo2docker:latest"
     # base_url: "/staging" #Doesn't work
@@ -20,16 +36,25 @@ jupyterhub:
     hosts:
       - ""
       - localhost
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-body-size: 2m
   singleuser:
-    storage:
-      type: none
-      extraVolumes:
-        - name: nfs-bs-ftp
-          persistentVolumeClaim:
-            claimName: nfs-bs-ftp-pvc
-      extraVolumeMounts:
-        - name: nfs-bs-ftp
-          mountPath: /home/jovyan/biostudies
+    cpu:
+      limit: 2
+      guarantee: 1
+    memory:
+      limit: 4G
+      guarantee: 1G
+  #   storage:
+  #     type: none
+  #     extraVolumes:
+  #       - name: nfs-bs-ftp
+  #         persistentVolumeClaim:
+  #           claimName: nfs-bs-ftp-pvc
+  #     extraVolumeMounts:
+  #       - name: nfs-bs-ftp
+  #         mountPath: /home/jovyan/biostudies
       # #     readOnly: true
   # profileList:
   #   - display_name: "GPU Server"
@@ -51,6 +76,15 @@ jupyterhub:
 #   hosts:
 #     - ""
 #     - localhost
+dind:
+  enabled: true
+  resources:
+    requests:
+      cpu: "1"
+      memory: 2Gi
+    limits:
+      cpu: "2"
+      memory: 4Gi
 
 ingress:
   # pathSuffix: ""
@@ -60,3 +94,4 @@ ingress:
     - "localhost"
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 2m
