@@ -134,16 +134,17 @@ apps:
 
   binderhub-production-gpu:
     <<: *binderhub
-    name: "binderhub-production"
+    name: "binderhub-production-gpu"
     namespace: "binderhub-production"
     group: "production-gpu"
     valuesFiles:
       - "binderhub/config.yaml"
       - "binderhub/production/config.yaml"
       - "binderhub/gpu_support.yaml"
+
   binderhub-production-nfs:
     <<: *binderhub
-    name: "binderhub-production"
+    name: "binderhub-production-nfs"
     namespace: "binderhub-production"
     group: "production-nfs"
     valuesFiles:
