@@ -1,0 +1,16 @@
+config:
+  BinderHub:
+    hub_url: http://staging.binder.bioimagearchive.org/binderhub/
+
+jupyterhub:
+  hub:
+    baseUrl: /binderhub
+  ingress:
+    enabled: true
+    hosts:
+      - staging.binder.bioimagearchive.org
+
+ingress:
+  enabled: true
+  hosts:
+    - "staging.binder.bioimagearchive.org"
