@@ -1,0 +1,20 @@
+config:
+  BinderHub:
+    hub_url: http://beta.binder.bioimagearchive.org/binderhub/
+    banner_message: |
+      <div style="text-align: center;">Beta service with more RAM and CPU</div>
+jupyterhub:
+  hub:
+    baseUrl: /binderhub
+  ingress:
+    enabled: true
+    hosts:
+      - beta.binder.bioimagearchive.org
+
+ingress:
+  enabled: true
+  hosts:
+    - "beta.binder.bioimagearchive.org"
+
+dind:
+  enabled: false
