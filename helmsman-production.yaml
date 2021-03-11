@@ -15,3 +15,7 @@ namespaces:
     protected: false
   daskgateway-production:
     protected: false
+  # binderhub-staging-gpu:
+  #   protected: false
+  # binderhub-production-gpu:
+  #   protected: false
