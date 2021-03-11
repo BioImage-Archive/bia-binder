@@ -1,6 +1,9 @@
 # context: minikube
-# settings:
-#   kubeContext: minikube
+settings:
+  kubeContext: cpu
+  # globalHooks:
+    # preUpgrade: "ingress/gpu_redirect.yaml"
+
 #   # username = "admin"
 #   # password = "$K8S_PASSWORD"
 #   # clusterURI = "https://192.168.99.100:8443"
@@ -15,8 +18,10 @@
 #   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
 
 # settings:
-#   globalHooks:
-#     preInstall: "persistentVolumes/biostudies.yaml"
+  # globalHooks:
+  #   preInstall: 
+  #     # - "persistentVolumes/biostudies.yaml"
+  #     - "ingress/gpu_redirect.yaml"
 
 metadata:
   organization: EBI
@@ -131,38 +136,33 @@ apps:
     valuesFiles:
       - "binderhub/config.yaml"
       - "binderhub/production/config.yaml"
+      # - "binderhub/persistentVolumes.yaml"
 
   binderhub-production-gpu:
     <<: *binderhub
     name: "binderhub-production-gpu"
-    namespace: "binderhub-production"
-    group: "production-gpu"
-    valuesFiles:
-      - "binderhub/config.yaml"
-      - "binderhub/production/config.yaml"
-      - "binderhub/gpu_support.yaml"
+    namespace: "binderhub-production-gpu"
+    group: "production"
+    # valuesFiles:
 
-  binderhub-production-nfs:
+  binderhub-staging-gpu:
     <<: *binderhub
-    name: "binderhub-production-nfs"
-    namespace: "binderhub-production"
-    group: "production-nfs"
-    valuesFiles:
-      - "binderhub/config.yaml"
-      - "binderhub/production/config.yaml"
-      - "binderhub/persistentVolumes.yaml"
-
-  # binderhub-production:
+    name: "binderhub-staging-gpu"
+    namespace: "binderhub-staging-gpu"
+    group: "staging"
+    # valuesFiles:
+    #   - "binderhub/config.yaml"
+    #   - "binderhub/production/config.yaml"
+      # - "binderhub/persistentVolumes.yaml"
+  # binderhub-production-gpu:
   #   <<: *binderhub
-  #   name: "binderhub-production"
+  #   name: "binderhub-production-gpu"
   #   namespace: "binderhub-production"
-  #   group: "production"
+  #   group: "production-gpu"
   #   valuesFiles:
   #     - "binderhub/config.yaml"
-  #     # - "binderhub/secret.yaml"
-  #     # - "binderhub/staging.yaml"
-  #     # - "binderhub/ebi_dockerhub.yaml"
-  #     # - "binderhub/production.yaml"
+  #     - "binderhub/production/config.yaml"
+  #     - "binderhub/gpu_support.yaml"
 
   jupyterhub-sandbox-staging:
     <<: *jupyterhub

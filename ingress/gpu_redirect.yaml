@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: external-ip
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: ""
+spec:
+  rules:
+  - host: "beta.binder.bioimagearchive.org"
+    http:
+      paths:
+      - backend:
+          serviceName: external-ip
+          servicePort: 80
+        path: /
+  - host: "gpu.beta.binder.bioimagearchive.org"
+    http:
+      paths:
+      - backend:
+          serviceName: external-ip
+          servicePort: 80
+        path: /
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-ip
+spec:
+  ports:
+  - name: http
+    port: 80
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-ip
+subsets:
+- addresses:
+  - ip: 45.88.80.74
+  ports:
+  - name: http
+    port: 80
