@@ -1,0 +1,31 @@
+jupyterhub:
+  hub:
+    baseUrl: /binderhub
+  ingress:
+    enabled: true
+    hosts:
+      - gpu.beta.binder.bioimagearchive.org
+
+  profileList:
+    - display_name: "GPU Server"
+      description: "Spawns a notebook server with access to a GPU"
+      kubespawner_override:
+        extra_resource_limits:
+          nvidia.com/gpu: "1"
+    - display_name: "No GPU"
+      description: "Spawns a notebook server with access to a GPU"
+
+config:
+  BinderHub:
+    hub_url: http://gpu.beta.binder.bioimagearchive.org/binderhub/
+    banner_message: |
+      <div style="text-align: center;">Beta service with more RAM and CPU and GPU Support (no DIND atm) </div>
+
+
+ingress:
+  enabled: true
+  hosts:
+    - "gpu.beta.binder.bioimagearchive.org"
+
+dind:
+  enabled: true
