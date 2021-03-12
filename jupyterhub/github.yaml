@@ -88,11 +88,6 @@ singleuser:
         extra_resource_limits:
           nvidia.com/gpu: "1"
 
-ingress:
-  enabled: true
-  hosts:
-    - localhost
-    - ""
     # - http://45.86.170.228/
   # annotations:
   #   kubernetes.io/ingress.class: nginx

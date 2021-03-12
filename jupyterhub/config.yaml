@@ -2,7 +2,7 @@
 # Overridden in production deployments
 
 hub:
-  baseUrl: /staging/
+  # baseUrl: /staging/
   db:
     type: sqlite-memory
   networkPolicy:
@@ -29,24 +29,16 @@ cull:
 singleuser:
   storage:
     type: none
-    extraVolumes:
-      - name: nfs-bs-ftp
-        persistentVolumeClaim:
-          claimName: nfs-bs-ftp-pvc
-    extraVolumeMounts:
-      - name: nfs-bs-ftp
-        mountPath: /home/jovyan/biostudies
-    # #     readOnly: true
   image:
-    name: bioimagearchive/jupyter-hub-docker:20210202
-    tag: latest
+    name: bioimagearchive/jupyter-hub-docker
+    tag: "20210202"
   startTimeout: 1800
   cpu:
-    limit: 1
-    guarantee: 0.1
+    limit: 4
+    guarantee: 2
   memory:
-    limit: 1G
-    guarantee: 256M
+    limit: 4G
+    guarantee: 1G
   #   networkPolicy:
   #     enabled: true
   #     # Block all except:
@@ -81,9 +73,9 @@ ingress:
   hosts:
     - ""
     - localhost
-  # annotations:
-  #   kubernetes.io/ingress.class: nginx
-  #   nginx.ingress.kubernetes.io/proxy-body-size: 2m
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 2m
   # tls:
   #   - hosts:
   #       - ""
