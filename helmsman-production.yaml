@@ -15,7 +15,9 @@ namespaces:
     protected: false
   daskgateway-production:
     protected: false
-  # binderhub-staging-gpu:
-  #   protected: false
-  # binderhub-production-gpu:
-  #   protected: false
+  binderhub-production-gpu:
+    protected: false
+  binderhub-staging-gpu:
+    protected: false
+  cert-manager:
+    protected: false
