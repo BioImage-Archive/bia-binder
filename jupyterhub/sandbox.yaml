@@ -50,11 +50,12 @@ singleuser:
 # prePuller:
 #   enabled: false
 
-ingress:
-  enabled: true
-  hosts:
-    - ""
-    - localhost
+# ingress:
+#   enabled: true
+  # hosts:
+    # - ""
+    # - localhost
+    # - "binder.bioimagearchive.org"
   # annotations:
   #   nginx.ingress.kubernetes.io/rewrite-target: /$2
   #   nginx.ingress.kubernetes.io/ssl-redirect: "false"
