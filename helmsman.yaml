@@ -31,6 +31,7 @@ metadata:
 helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
   daskgateway: "https://dask.org/dask-gateway-helm-repo/"
+  jetstack: "https://charts.jetstack.io"
 
 appsTemplates:
   binderhub: &binderhub
@@ -239,6 +240,23 @@ apps:
       # - "jupyterhub/persistentVolumes.yaml"
       - "jupyterhub/github.yaml"
       # - "jupyterhub/production/github.yaml"
+
+  cert-manager-production:
+    name: "cert-manager"
+    chart: "jetstack/cert-manager"
+    enabled: true
+    priority: 0
+    # timeout: 120
+    version: "v1.1.0"
+    group: "production"
+    namespace: "cert-manager"
+    set:
+      installCRDs: "true"
+      ingressShim.defaultIssuerKind: "ClusterIssuer"
+      ingressShim.defaultIssuerName: "letsencrypt-production"
+    hooks:
+      postUpgrade: "cert-managment/cluster_issuer.yaml"
+
 # -------------------- JUNK ----------------------------------
 # jupyterhub-test:
 #   valuesFiles:
