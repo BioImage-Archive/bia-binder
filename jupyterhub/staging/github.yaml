@@ -25,4 +25,5 @@
 #     enabled: true
 
 hub:
-  baseUrl: /github-staging
+  baseUrl: /github
+

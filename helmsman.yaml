@@ -78,8 +78,10 @@ appsTemplates:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
       auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
-    hooks:
-      preUpgrade: "persistentVolumes/biostudies.yaml"
+      # ingress.hosts: "binder.bioimagearchive.org"
+    # hooks:
+      # preUpgrade: "persistentVolumes/biostudies.yaml"
+
 
   dask: &dask
     name: "daskgateway"
@@ -173,9 +175,10 @@ apps:
     #   preInstall: "jupyterhub/staging/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
+      # - "jupyterhub/persistentVolumes.yaml"
       - "jupyterhub/staging/config.yaml"
       - "jupyterhub/sandbox.yaml"
-      - "jupyterhub/staging/sandbox.yaml"
+      # - "jupyterhub/staging/sandbox.yaml"
 
   jupyterhub-sandbox-production:
     <<: *jupyterhub
@@ -186,9 +189,10 @@ apps:
     #   preInstall: "jupyterhub/production/volumes/biostudies.yaml"
     valuesFiles:
       - "jupyterhub/config.yaml"
+      # - "jupyterhub/persistentVolumes.yaml"
       - "jupyterhub/production/config.yaml"
       - "jupyterhub/sandbox.yaml"
-      - "jupyterhub/production/sandbox.yaml"
+      # - "jupyterhub/production/sandbox.yaml"
   # -------------------- JUNK ----------------------------------
   # jupyterhub-test:
   #   valuesFiles:
@@ -214,9 +218,11 @@ apps:
     group: "staging"
     namespace: "jupyterhub-github-staging"
     set:
-      auth.github.callbackUrl: "$HOST_NAME/staging/github/hub/oauth_callback"
+      auth.github.callbackUrl: "staging.$HOST_NAME/github/hub/oauth_callback"
     valuesFiles:
       - "jupyterhub/config.yaml"
+      - "jupyterhub/staging/config.yaml"
+      # - "jupyterhub/persistentVolumes.yaml"
       - "jupyterhub/github.yaml"
       - "jupyterhub/staging/github.yaml"
 
@@ -229,8 +235,10 @@ apps:
       auth.github.callbackUrl: "$HOST_NAME/github/hub/oauth_callback"
     valuesFiles:
       - "jupyterhub/config.yaml"
+      - "jupyterhub/production/config.yaml"
+      # - "jupyterhub/persistentVolumes.yaml"
       - "jupyterhub/github.yaml"
-      - "jupyterhub/production/github.yaml"
+      # - "jupyterhub/production/github.yaml"
 # -------------------- JUNK ----------------------------------
 # jupyterhub-test:
 #   valuesFiles:

@@ -24,5 +24,4 @@
 #   hook:
 #     enabled: true
 
-hub:
-  baseUrl: /github
+
