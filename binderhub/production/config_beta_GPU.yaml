@@ -19,7 +19,7 @@ config:
   BinderHub:
     hub_url: http://gpu.beta.binder.bioimagearchive.org/binderhub/
     banner_message: |
-      <div style="text-align: center;">Beta service with more RAM and CPU and GPU Support (no DIND atm) </div>
+      <div style="text-align: center;">Beta service with more RAM and CPU and GPU Support </div>
 
 
 ingress:
