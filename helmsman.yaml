@@ -143,6 +143,7 @@ apps:
 
   binderhub-production-gpu:
     <<: *binderhub
+    enabled: false
     name: "binderhub-production-gpu"
     namespace: "binderhub-production-gpu"
     group: "production"
@@ -150,6 +151,7 @@ apps:
 
   binderhub-staging-gpu:
     <<: *binderhub
+    enabled: false
     name: "binderhub-staging-gpu"
     namespace: "binderhub-staging-gpu"
     group: "staging"
