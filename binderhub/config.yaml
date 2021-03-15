@@ -20,6 +20,8 @@ config:
     use_registry: true
     image_prefix: bioimagearchive/binder-
     build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
+    banner_message: |
+      <div style="text-align: center;">This is a public Beta and liable to downtime</div>
     # build_image: "aicrowd/repo2docker"
     # build_image: "aicrowd/repo2docker:latest"
     # base_url: "/staging" #Doesn't work
