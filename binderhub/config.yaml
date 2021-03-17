@@ -44,7 +44,7 @@ jupyterhub:
       limit: 2
       guarantee: 1
     memory:
-      limit: 4G
+      limit: 6G
       guarantee: 1G
   #   storage:
   #     type: none
