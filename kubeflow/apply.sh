@@ -1,0 +1,1 @@
+kfctl apply -V -f "kubeflow/kfctl_istio_dex.yaml"
