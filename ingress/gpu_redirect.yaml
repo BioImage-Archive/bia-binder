@@ -4,8 +4,19 @@ metadata:
   name: external-ip
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/permanent-redirect: ""
+    # nginx.ingress.kubernetes.io/permanent-redirect: ""
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-productio
+    cert-manager.k8s.io/acme-challenge-type: http01
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
+  tls:
+  - hosts:
+    - beta.binder.bioimagearchive.org
+    secretName: beta-binder-bioimagearchive-org-tls
+  - hosts:
+    - gpu.beta.binder.bioimagearchive.org
+    secretName: gpu-beta-binder-bioimagearchive-org-tls
   rules:
   - host: "beta.binder.bioimagearchive.org"
     http:

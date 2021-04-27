@@ -28,7 +28,12 @@ config:
     # networkPolicy:
     #   enabled: true
 #     # Good until this:
+cors: &cors
+  allowOrigin: '*'
+
 jupyterhub:
+  custom:
+    cors: *cors
   hub:
     baseUrl: /binderhub
     networkPolicy:
@@ -46,7 +51,7 @@ jupyterhub:
       limit: 2
       guarantee: 1
     memory:
-      limit: 4G
+      limit: 6G
       guarantee: 1G
   #   storage:
   #     type: none
@@ -89,11 +94,42 @@ dind:
       memory: 4Gi
 
 ingress:
-  # pathSuffix: ""
   enabled: true
   hosts:
     - ""
     - "localhost"
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/proxy-body-size: 2m
+    kubernetes.io/tls-acme: "true"
+    cert-manager.k8s.io/acme-challenge-type: http01
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    https:
+      enabled: true
+      type: nginx
+  tls:
+    - secretName: binder-bioimagearchive-org-cert
+      hosts:
+        - binder.bioimagearchive.org
+
+initContainers:
+  - name: git-clone-templates
+    image: alpine/git
+    args:
+      - clone
+      - --single-branch
+      - --branch=master
+      - --depth=1
+      - --
+      - https://github.com/bioimagearchive/k8s-jupyterhub
+      - /etc/binderhub/custom
+    securityContext:
+      runAsUser: 0
+    volumeMounts:
+      - name: custom-templates
+        mountPath: /etc/binderhub/custom
+extraVolumes:
+  - name: custom-templates
+    emptyDir: {}
+extraVolumeMounts:
+  - name: custom-templates
+    mountPath: /etc/binderhub/custom

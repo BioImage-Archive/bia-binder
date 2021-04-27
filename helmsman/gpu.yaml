@@ -1,11 +1,11 @@
 settings:
   kubeContext: gpu
 
-namespaces:
-  binderhub-staging-gpu:
-    protected: false
-  binderhub-production-gpu:
-    protected: false
+# namespaces:
+#   binderhub-staging-gpu:
+#     protected: false
+#   binderhub-production-gpu:
+#     protected: false
 
 apps:
   binderhub-production:
@@ -15,6 +15,7 @@ apps:
     - "binderhub/production/config_beta.yaml"
 
   binderhub-production-gpu:
+    enabled: true
     valuesFiles:
     - "binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
