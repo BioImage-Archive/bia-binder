@@ -1,6 +1,6 @@
 config:
   BinderHub:
-    hub_url: beta.binder.bioimagearchive.org/binderhub/
+    hub_url: https://beta.binder.bioimagearchive.org/binderhub/
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU  (no DIND atm)</div>
 jupyterhub:
