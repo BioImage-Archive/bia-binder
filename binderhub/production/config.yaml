@@ -1,14 +1,20 @@
 config:
   BinderHub:
-    hub_url: binder.bioimagearchive.org/binderhub/
+    auth_enabled: false
+    hub_url: https://binder.bioimagearchive.org/binderhub/
 
 jupyterhub:
   hub:
     baseUrl: /binderhub
+    config:
+      GitHubOAuthenticator:
+        oauth_callback_url: https://binder.bioimagearchive.org/binderhub/hub/oauth_callback
   ingress:
     enabled: true
     hosts:
       - binder.bioimagearchive.org
+  custom:
+    binderauth_enabled: false
 
 ingress:
   enabled: true
