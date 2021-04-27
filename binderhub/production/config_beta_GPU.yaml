@@ -1,11 +1,25 @@
 jupyterhub:
+  singleuser:
+    cmd: jupyterhub-singleuser
   hub:
+    redirectToServer: false 
+    services:
+      binder:
+        oauth_no_confirm: true
+        oauth_redirect_uri: "gpu.beta.binder.bioimagearchive.org/oauth_callback"
+        oauth_client_id: "gpu-beta-binder-oauth-client-test"
     baseUrl: /binderhub
+    config:
+      GitHubOAuthenticator:
+        oauth_callback_url: https://gpu.beta.binder.bioimagearchive.org/binderhub/hub/oauth_callback
+      JupyterHub:
+        authenticator_class: github
+  custom:
+    binderauth_enabled: true
   ingress:
     enabled: true
     hosts:
       - gpu.beta.binder.bioimagearchive.org
-
   profileList:
     - display_name: "GPU Server"
       description: "Spawns a notebook server with access to a GPU"
@@ -17,6 +31,7 @@ jupyterhub:
 
 config:
   BinderHub:
+    auth_enabled: true
     hub_url: gpu.beta.binder.bioimagearchive.org/binderhub/
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU and GPU Support </div>
