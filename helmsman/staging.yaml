@@ -19,3 +19,5 @@ namespaces:
     protected: false
   daskgateway-production:
     protected: true
+  cert-manager:
+    protected: true
