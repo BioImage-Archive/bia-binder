@@ -1,6 +1,6 @@
 config:
   BinderHub:
-    hub_url: http://binder.bioimagearchive.org/binderhub/
+    hub_url: binder.bioimagearchive.org/binderhub/
 
 jupyterhub:
   hub:
