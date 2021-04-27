@@ -31,6 +31,7 @@ metadata:
 helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
   daskgateway: "https://dask.org/dask-gateway-helm-repo/"
+  jetstack: "https://charts.jetstack.io"
 
 appsTemplates:
   binderhub: &binderhub
@@ -142,6 +143,7 @@ apps:
 
   binderhub-production-gpu:
     <<: *binderhub
+    enabled: false
     name: "binderhub-production-gpu"
     namespace: "binderhub-production-gpu"
     group: "production"
@@ -149,6 +151,7 @@ apps:
 
   binderhub-staging-gpu:
     <<: *binderhub
+    enabled: false
     name: "binderhub-staging-gpu"
     namespace: "binderhub-staging-gpu"
     group: "staging"
@@ -239,6 +242,23 @@ apps:
       # - "jupyterhub/persistentVolumes.yaml"
       - "jupyterhub/github.yaml"
       # - "jupyterhub/production/github.yaml"
+
+  cert-manager-production:
+    name: "cert-manager"
+    chart: "jetstack/cert-manager"
+    enabled: true
+    priority: 0
+    # timeout: 120
+    version: "v1.2.0"
+    group: "production"
+    namespace: "cert-manager"
+    set:
+      installCRDs: "true"
+      ingressShim.defaultIssuerKind: "ClusterIssuer"
+      ingressShim.defaultIssuerName: "letsencrypt-production"
+    hooks:
+      postUpgrade: "cert-managment/cluster_issuer.yaml"
+
 # -------------------- JUNK ----------------------------------
 # jupyterhub-test:
 #   valuesFiles:

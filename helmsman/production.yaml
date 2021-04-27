@@ -2,20 +2,22 @@ namespaces:
   jupyterhub-sandbox-staging:
     protected: false
   jupyterhub-sandbox-production:
-    protected: true
+    protected: false
   jupyterhub-github-staging:
     protected: false
   jupyterhub-github-production:
-    protected: true
+    protected: false
   binderhub-staging:
     protected: false
   binderhub-production:
-    protected: true
-  binderhub-staging-gpu:
-    protected: true
-  binderhub-production-gpu:
-    protected: true
+    protected: false
   daskgateway-staging:
     protected: false
   daskgateway-production:
-    protected: true
+    protected: false
+  binderhub-production-gpu:
+    protected: false
+  binderhub-staging-gpu:
+    protected: false
+  cert-manager:
+    protected: false
