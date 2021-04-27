@@ -11,6 +11,7 @@ stages:
 
 debug:
   stage: debug
+  image: alpine
   script:
     - export
 
@@ -22,21 +23,49 @@ setup:
   script:
     - docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
 
+dry.run.local:
+  stage: dry.run.local
+  image: praqma/helmsman:v3.5.1
+  script:
+    - helmsman --debug --group staging -f helmsman.yaml -f helmsman/staging.yaml --dry-run
+  only:
+    - staging
+
+
+dryrun:
+  stage: dryrun
+  image: praqma/helmsman:v3.5.1
+  script:
+    - helmsman --debug --group staging -f helmsman/token.yaml -f helmsman.yaml -f helmsman/staging.yaml --dry-run
+  only:
+    - staging
+
 staging:
   stage: staging
   image: praqma/helmsman:v3.5.1
   script:
-    - helmsman --apply --debug --group staging -f helmsman-token.yaml -f helmsman.yaml -f helmsman-staging.yaml
+    - helmsman --apply --debug --group staging -f helmsman/token.yaml -f helmsman.yaml -f helmsman/staging.yaml
   only:
     - staging
+
+staging.local:
+  stage: staging
+  image: praqma/helmsman:v3.5.1
+  script:
+    - helmsman --apply --debug --group staging -f helmsman.yaml -f helmsman/staging.yaml
+  only:
+    - staging
+
 
 production:
   stage: production
   image: praqma/helmsman:v3.5.1
   script:
-    - helmsman --apply --debug --group production -f helmsman-token.yaml -f helmsman.yaml helmsman-production.yaml
+    - helmsman --apply --debug --group production -f helmsman/token.yaml -f helmsman.yaml helmsman/production.yaml
   only:
     - master
+
+
 # testing:
 #   stage: testing
 #   image: python
