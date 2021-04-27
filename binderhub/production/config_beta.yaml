@@ -1,15 +1,31 @@
 config:
   BinderHub:
+    auth_enabled: true
     hub_url: https://beta.binder.bioimagearchive.org/binderhub/
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU  (no DIND atm)</div>
 jupyterhub:
+  singleuser:
+    cmd: jupyterhub-singleuser
   hub:
+    redirectToServer: false
     baseUrl: /binderhub
+    config:
+      GitHubOAuthenticator:
+        oauth_callback_url: https://beta.binder.bioimagearchive.org/binderhub/hub/oauth_callback
+      JupyterHub:
+        authenticator_class: github
+    services:
+      binder:
+        oauth_no_confirm: true
+        oauth_redirect_uri: "beta.binder.bioimagearchive.org/oauth_callback"
+        oauth_client_id: "beta-binder-oauth-client-test"
   ingress:
     enabled: true
     hosts:
       - beta.binder.bioimagearchive.org
+  custom:
+    binderauth_enabled: true
 
 ingress:
   enabled: true
