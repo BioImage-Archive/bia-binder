@@ -12,6 +12,11 @@ resources:
  
 config:
   BinderHub:
+    template_path: /etc/binderhub/custom/binderhub/frontend-custom/template
+    extra_static_path: /etc/binderhub/custom/binderhub/frontend-custom/static
+    extra_static_url_prefix: /extra_static/
+    template_variables:
+        EXTRA_STATIC_URL_PREFIX: "/extra_static/"
     auth_enabled: false
     build_memory_limit: "8G"
     build_memory_request: "4G"
@@ -95,6 +100,7 @@ jupyterhub:
 #   hosts:
 #     - ""
 #     - localhost
+
 dind:
   enabled: true
   resources:
