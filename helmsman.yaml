@@ -55,6 +55,10 @@ appsTemplates:
       jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
       config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
       config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
+      # jupyterhub.auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
+      # jupyterhub.auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
+      jupyterhub.hub.config.GitHubOAuthenticator.client_id: "$SECRET_GITHUB_CLIENTID"
+      jupyterhub.hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTSECRET"
       # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
       # config.BinderHub.hub_url: "$HOST_NAME/binderhub/"
     # hooks:
