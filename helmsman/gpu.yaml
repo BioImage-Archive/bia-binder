@@ -10,14 +10,14 @@ settings:
 apps:
   binderhub-production:
     valuesFiles:
-    - "binderhub/config.yaml"
+    - "../binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
-    - "binderhub/production/config_beta.yaml"
+    - "../binderhub/production/config_beta.yaml"
 
   binderhub-production-gpu:
     enabled: true
     valuesFiles:
-    - "binderhub/config.yaml"
+    - "../binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
-    - "binderhub/production/config_beta.yaml"
-    - "binderhub/production/config_beta_GPU.yaml"
+    - "../binderhub/production/config_beta.yaml"
+    - "../binderhub/production/config_beta_GPU.yaml"
