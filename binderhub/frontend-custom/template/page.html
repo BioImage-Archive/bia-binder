@@ -1,7 +1,7 @@
 {% extends "templates/page.html" %}
 {% block title %}Binder for Biobb{% endblock %}
  {% block head %}
-  <link rel="icon" href="{{ EXTRA_STATIC_URL_PREFIX }}biobbfav.png" type="image/x-icon">
+  <!-- <link rel="icon" href="{{ EXTRA_STATIC_URL_PREFIX }}biobbfav.png" type="image/x-icon"> -->
   <link href="{{static_url("dist/styles.css")}}" rel="stylesheet"></link>
   <style>
     @media screen and (min-width: 768px){
@@ -20,25 +20,27 @@
   </style>
   {% endblock head %}
 {% block logo %}
-<div id="banner-container" style="padding: 20px; height: 75px;">
-      <div style="float: left">
-          <img style="width:100px;" src="{{ EXTRA_STATIC_URL_PREFIX }}bioexcel.png">
-      </div>
+
+
+<div style="padding: 10px; height: 0px;position: absolute; top: 0;right: 0;
+">
      <div style="float: right">
-         <img style="width:100px;" src="{{ EXTRA_STATIC_URL_PREFIX }}emblebi.png">
+         <img style="width:100px;" src="{{ EXTRA_STATIC_URL_PREFIX }}emblebi.svg">
      </div>
-     </div>
+</div>
  </div>
      <div id="logo-container" class="logocontainer">
-        <img id="logo" style="padding-top: 25px;padding-left: 0px;padding-right: 0px " src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyMTIuMTE4cHgiDQoJIGhlaWdodD0iNjUuODgzcHgiIHZpZXdCb3g9IjAgMCAyMTIuMTE4IDY1Ljg4MyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjEyLjExOCA2NS44ODMiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN3aXRjaD4NCgk8Zz4KCQk8Zz4NCgkJCTxwYXRoIGZpbGw9IiM1NDU0NTQiIGQ9Ik01MC43NTEsNDguNzI3VjEyLjQ3Mmg3LjI1MXYxNy41NDdjMS44ODUtMi4zMiw0LjU0NC0zLjA5NCw3LjI5OS0zLjA5NA0KCQkJCWM2LjA0MiwwLDEwLjU4Niw1LjI2OSwxMC41ODYsMTEuMTY3UzcxLjM0NCw0OS4yMSw2NS4zMDIsNDkuMjFjLTIuNzU1LDAtNS44NDktMC44Ny03LjI5OS0zLjA0NnYyLjU2Mkg1MC43NTF6IE02My4wNzgsNDMuNDA5DQoJCQkJYzIuOSwwLDUuMDc2LTIuNTE0LDUuMDc2LTUuMzE3cy0yLjE3NS01LjMxNy01LjA3Ni01LjMxN3MtNS4wNzYsMi41MTQtNS4wNzYsNS4zMTdTNjAuMTc4LDQzLjQwOSw2My4wNzgsNDMuNDA5eiIvPg0KCQkJPHBhdGggZmlsbD0iIzU0NTQ1NCIgZD0iTTg0LjM1LDE1Ljg1NWMyLjMyLDAsNC4yNTQsMS44ODUsNC4yNTQsNC4yNTRjMCwyLjMyLTEuOTM0LDQuMjU0LTQuMjU0LDQuMjU0DQoJCQkJYy0yLjM2OSwwLTQuMjU0LTEuOTM0LTQuMjU0LTQuMjU0QzgwLjA5NiwxNy43NDEsODEuOTgxLDE1Ljg1NSw4NC4zNSwxNS44NTV6IE04MC43MjQsNDguNzI3VjI3LjQwOWg3LjI1MXYyMS4zMThIODAuNzI0eiIvPg0KCQkJPHBhdGggZmlsbD0iIzU0NTQ1NCIgZD0iTTExNS44MTksNDguNzI3aC03LjI1VjM2LjY0MmMwLTIuNTE0LTAuOTY3LTMuODY3LTMuMjM5LTMuODY3cy00LjA2MSwyLjQxNy00LjA2MSw1LjMxN3YxMC42MzVoLTcuMjUxDQoJCQkJVjI3LjQwOWg3LjI1MXYyLjYxYzEuNDUtMS44MzcsMy43MjItMy4wOTQsNi41MjYtMy4wOTRjNS43MDQsMCw4LjAyNCwzLjkxNiw4LjAyNCw5LjcxNlY0OC43Mjd6Ii8+DQoJCQk8cGF0aCBmaWxsPSIjNTQ1NDU0IiBkPSJNMTQ0LjgyNiw0OC43MjdoLTcuMjUxdi0yLjU2MmMtMS40NSwyLjE3Ni00LjU5MiwzLjA0Ni03LjI5OSwzLjA0NmMtNi4wNDMsMC0xMC41ODctNS4yMjEtMTAuNTg3LTExLjExOA0KCQkJCXM0LjU0NC0xMS4xNjcsMTAuNTg3LTExLjE2N2MyLjcwNywwLDUuNDE0LDAuNzczLDcuMjk5LDMuMDk0VjEyLjQ3Mmg3LjI1MVY0OC43Mjd6IE0xMzIuNDk5LDMyLjc3NA0KCQkJCWMtMi45LDAtNS4wNzUsMi41MTQtNS4wNzUsNS4zMTdzMi4xNzUsNS4zMTcsNS4wNzUsNS4zMTdzNS4wNzYtMi41MTQsNS4wNzYtNS4zMTdTMTM1LjM5OSwzMi43NzQsMTMyLjQ5OSwzMi43NzR6Ii8+DQoJCQk8cGF0aCBmaWxsPSIjNTQ1NDU0IiBkPSJNMTczLjYzOSwzOC45NjJoLTE2LjUzMmMwLDIuNDY2LDEuNzQsNS4wNzUsNC41OTIsNS4wNzVjMi41NjIsMCw0LjE1OC0xLjY5MSw0LjIwNi0zLjIzOGg3LjM5Ng0KCQkJCWMtMS4yNTYsNS42MDctNS44MDEsOC40MTEtMTEuNDU2LDguNDExYy03LjM0OCwwLTEyLjQyMy00LjM1MS0xMi40MjMtMTEuMTE4YzAtNi42NzEsNS4yNjktMTEuMTY3LDEyLjQyMy0xMS4xNjcNCgkJCQljNi40NzgsMCwxMS44NDMsMy44NjcsMTEuODQzLDEwLjY4M0MxNzMuNjg3LDM4LjA0MywxNzMuNjM5LDM4LjUyNywxNzMuNjM5LDM4Ljk2MnogTTE2Ni43MjYsMzUuNTNjMCwwLTAuMzM4LTMuOTY0LTQuNzM2LTMuOTY0DQoJCQkJYy00LjU0NSwwLTQuNzg2LDMuOTY0LTQuNzg2LDMuOTY0SDE2Ni43MjZ6Ii8+DQoJCQk8cGF0aCBmaWxsPSIjNTQ1NDU0IiBkPSJNMTg1LjUzMiwzOC4wOTJ2MTAuNjM1aC03LjI1MVYyNy40MDloNy4yNTF2Mi42MWMxLjExMS0xLjU5NSwyLjk0OS0zLjA5NCw1LjYwNy0zLjA5NA0KCQkJCWMwLjYyOSwwLDEuNTk2LDAuMTkzLDIuMTc2LDAuNDgzdjYuNTc0aC0wLjA5OGMtMC43MjUtMC44Ny0xLjc4OC0xLjIwOC0yLjktMS4yMDhDMTg3LjYxLDMyLjc3NCwxODUuNTMyLDM1LjUzLDE4NS41MzIsMzguMDkyeiINCgkJCQkvPg0KCQk8L2c+DQoJCTxjaXJjbGUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjVBMjUyIiBzdHJva2Utd2lkdGg9IjQuODM0MiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBjeD0iMjcuODc5IiBjeT0iMjMuOTM5IiByPSI5LjU0MiIvPg0KCQk8Y2lyY2xlIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzU3OUFDQSIgc3Ryb2tlLXdpZHRoPSI0LjgzNDIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgY3g9IjI3Ljg3OSIgY3k9IjQyLjQ5OSIgcj0iOS41NDMiLz4NCgkJPGNpcmNsZSBmaWxsPSJub25lIiBzdHJva2U9IiNFNjY1ODEiIHN0cm9rZS13aWR0aD0iNC44MzQyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGN4PSIxOC41NTEiIGN5PSIzMy4yODkiIHI9IjkuNTQzIi8+DQoJCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzU3OUFDQSIgc3Ryb2tlLXdpZHRoPSI0LjgzNDIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZD0iTTIwLjE5NiwzNi44MzYNCgkJCWMwLjc1OS0xLjAzMSwxLjc0LTEuOTI3LDIuOTIxLTIuNjA3YzQuNTY2LTIuNjMsMTAuNDAxLTEuMDYsMTMuMDMxLDMuNTA3Ii8+DQoJCTxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1QTI1MiIgc3Ryb2tlLXdpZHRoPSI0LjgzNDIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZD0iTTE5LjYxLDI4LjcwMQ0KCQkJYy0yLjYzLTQuNTY2LTEuMDYxLTEwLjQwMSwzLjUwNy0xMy4wMzJjNC41NjctMi42MywxMC40MDEtMS4wNTksMTMuMDMxLDMuNTA4Ii8+DQoJPC9nPg0KPC9zd2l0Y2g+DQo8L3N2Zz4NCg==" width="360px">
-         <img style="padding-top: 3px" src="{{ EXTRA_STATIC_URL_PREFIX }}for.png" width="100px">
-         <img style="padding-top: 3px" src="{{ EXTRA_STATIC_URL_PREFIX }}biobb.png" width="250px">
+        <img id="logo" style="padding-top: 25px;padding-left: 25px;padding-right: 0px " src="{{ EXTRA_STATIC_URL_PREFIX }}biabinderlogo.png" width="360px">
+         <!-- <img style="padding-top: 3px" src="{{ EXTRA_STATIC_URL_PREFIX }}for.png" width="100px">
+         <img style="padding-top: 3px" src="{{ EXTRA_STATIC_URL_PREFIX }}biobb.png" width="250px"> -->
       </div>
  {% endblock logo %}
 {% block footer %}
 <div class="container">
     <div class="row text-center">
-      <h3>questions?<br/>read about <a href="https://mmb.irbbarcelona.org/biobb/workflows">the workflows</a>, see the <a href="https://github.com/jupyterhub/binderhub">BinderHub code</a>, ask for help with <a href="mailto:ecp@ebi.ac.uk">Binder for biobb</a></h3>
+      <h3>questions?<br/>read about <a href="https://mmb.irbbarcelona.org/biobb/workflows">the workflows</a>, see the <a href="https://github.com/jupyterhub/binderhub">BinderHub code</a>, ask for help with <a href="mailto:bioimagearchive@ebi.ac.uk">Binder for the BioImageArchive</a> or even 
+    <a href="https://github.com/bioimagearchive/k8s-jupyterhub"> deploy your own</a>
+    </h3>
     </div>
   </div>
 {% endblock footer %}
