@@ -10,37 +10,37 @@
 {% endblock header %}
 
 {% block how_it_works %}
-  <div id="how-it-works">
-    <h3 class="text-center">How it works</h3>
+<div id="how-it-works">
+  <h3 class="text-center">How it works</h3>
 
-    <div class="row">
-      <div class="col-md-1 col-md-offset-2 point-container">
-        <span class="point point-orange">1</span>
-      </div>
-      <div class="col-md-7 front">
-        <span class="front-em">Have you come here from <a target="_blank" href="https://mmb.irbbarcelona.org/biobb/workflows">the biobb worklows page</a>?</span><br />If not, better start there and launch your notebook, by clicking “Execute in Binder for biobb”. If this is, what you have just done, keep on reading.
-
-      </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-2 point-container">
+      <span class="point point-orange">1</span>
     </div>
-
-    <div class="row">
-      <div class="col-md-1 col-md-offset-2 point-container">
-        <span class="point point-red">2</span>
-      </div>
-      <div class="col-md-7 front">
-        <span class="front-em">We ask you to log in with your Github account.</span><br />We will use your username information exclusively to distinguish unique users from one another.
-Binder for biobb is a small installation and to promote fair use of our resources, one user is allowed to run only one notebook server at a time. Launching a new notebook server should stop the previous one.
-Users cannot see the notebooks run by other users, but please avoid entering secret data to the notebooks.
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-1 col-md-offset-2 point-container">
-        <span class="point point-blue">3</span>
-      </div>
-      <div class="col-md-7 front">
-        <span class="front-em">Interact with biobb notebooks in a live environment!</span><br />Remember that a notebook session is short-lived and the results are not permanent. Experiment freely, but expect that your session might be ended after some time and results lost.
-      </div>
+    <div class="col-md-7 front">
+      <span class="front-em">Enter your repository information</span><br />Provide in the above form a URL or a GitHub repository that contains Jupyter notebooks, as well as a branch, tag, or commit hash. Launch will build your Binder repository. If you specify a path to a notebook file, the notebook will be opened in your browser after building.
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-1 col-md-offset-2 point-container">
+      <span class="point point-red">2</span>
+    </div>
+    <div class="col-md-7 front">
+      <span class="front-em">We build a Docker image of your repository</span><br />Binder will search for a dependency file, such as requirements.txt or environment.yml, in the repository's root directory (<a href="http://mybinder.readthedocs.io/en/latest/using.html#preparing-a-repository-for-binder">more details on more complex dependencies in documentation</a>). The dependency files will be used to build a Docker image. If an image has already been built for the given repository, it will not be rebuilt. If a new commit has been made, the image will automatically be rebuilt.
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1 col-md-offset-2 point-container">
+      <span class="point point-blue">3</span>
+    </div>
+    <div class="col-md-7 front">
+      <span class="front-em">Interact with your notebooks in a live environment!</span><br />A <a href="https://jupyterhub.readthedocs.io/en/latest/">JupyterHub</a> server will host your repository's contents. We offer you a reusable link and badge to your live repository that you can easily share with others.
+    </div>
+  </div>
+</div>
+
+</div>
+
   {% endblock how_it_works %}
