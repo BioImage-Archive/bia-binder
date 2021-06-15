@@ -1,4 +1,5 @@
-replicas: 2
+# binderhub:
+replicas: 1
 pdb:
   minAvailable: 1
 
@@ -9,7 +10,6 @@ resources:
   limits:
     cpu: "2"
     memory: 3Gi
- 
 config:
   BinderHub:
     template_path: /etc/binderhub/custom/binderhub/frontend-custom/template
@@ -101,6 +101,29 @@ jupyterhub:
 #     - ""
 #     - localhost
 
+initContainers:
+  - name: git-clone-templates
+    image: alpine/git
+    args:
+      - clone
+      - --single-branch
+      - --branch=master
+      - --depth=1
+      - --
+      - https://github.com/bioimagearchive/k8s-jupyterhub
+      - /etc/binderhub/custom
+    securityContext:
+      runAsUser: 0
+    volumeMounts:
+      - name: custom-templates
+        mountPath: /etc/binderhub/custom
+extraVolumes:
+  - name: custom-templates
+    emptyDir: {}
+extraVolumeMounts:
+  - name: custom-templates
+    mountPath: /etc/binderhub/custom
+
 dind:
   enabled: true
   resources:
@@ -128,26 +151,3 @@ ingress:
     - secretName: binder-bioimagearchive-org-cert
       hosts:
         - binder.bioimagearchive.org
-
-initContainers:
-  - name: git-clone-templates
-    image: alpine/git
-    args:
-      - clone
-      - --single-branch
-      - --branch=master
-      - --depth=1
-      - --
-      - https://github.com/bioimagearchive/k8s-jupyterhub
-      - /etc/binderhub/custom
-    securityContext:
-      runAsUser: 0
-    volumeMounts:
-      - name: custom-templates
-        mountPath: /etc/binderhub/custom
-extraVolumes:
-  - name: custom-templates
-    emptyDir: {}
-extraVolumeMounts:
-  - name: custom-templates
-    mountPath: /etc/binderhub/custom
