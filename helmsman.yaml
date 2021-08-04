@@ -32,6 +32,8 @@ helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
   daskgateway: "https://dask.org/dask-gateway-helm-repo/"
   jetstack: "https://charts.jetstack.io"
+  persistent_binderhub: "https://gesiscss.github.io/persistent_binderhub"
+  nginx-stable: "https://helm.nginx.com/stable"
 
 appsTemplates:
   binderhub: &binderhub
@@ -42,14 +44,13 @@ appsTemplates:
     # version: "0.2.0-n467.hbc700d4"
     # version: "0.2.0-n519.hf5c1a19"
     # version: "0.2.0-n217.h35366ea"
-    version: "0.2.0-n523.h854be18"
     # version: "0.2.0-n217.h35366ea"
     # helmFlags:
     #   - "--debug"
     # # test: true
     # # protected: true
     wait: false # Lethal for binderhub
-    timeout: 1200
+    timeout: 180
     enabled: true
     set:
       registry.username: "$CI_REGISTRY_USER"
@@ -89,6 +90,24 @@ appsTemplates:
       # ingress.hosts: "binder.bioimagearchive.org"
     # hooks:
       # preUpgrade: "persistentVolumes/biostudies.yaml"
+
+  persistent-binderhub: &persistent-binderhub
+    name: "persistent-binderhub"
+
+    chart: "persistent_binderhub/persistent_binderhub"
+    version: "0.2.0-n563"
+    wait: false # Lethal for binderhub
+    timeout: 1200
+    enabled: true
+    set:
+      binderhub.registry.username: "$CI_REGISTRY_USER"
+      binderhub.registry.password: "$CI_REGISTRY_PASSWORD"
+      binderhub.jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      binderhub.jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
+      binderhub.config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
+      # binderhub.config.BinderHub.image_prefix: "registry.alpha.binder.bioimagearchive.org/binder-"
+      
+      binderhub.config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
 
 
   dask: &dask
@@ -147,6 +166,17 @@ apps:
       - "binderhub/config.yaml"
       - "binderhub/production/config.yaml"
       # - "binderhub/persistentVolumes.yaml"
+
+  persistent-binderhub-production:
+    <<: *persistent-binderhub
+    name: "persistent-binderhub-production"
+    namespace: "persistent-binderhub-production"
+    group: "production"
+    valuesFiles:
+      - "persistent-binderhub/config.yaml"
+      - "persistent-binderhub/production/config.yaml"
+      # - "binderhub/persistentVolumes.yaml"
+
 
   binderhub-production-gpu:
     <<: *binderhub
