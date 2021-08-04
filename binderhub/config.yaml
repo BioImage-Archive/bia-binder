@@ -24,7 +24,9 @@ config:
     # hub_url: http://binder.bioimagearchive.org/binderhub/
     use_registry: true
     image_prefix: bioimagearchive/binder-
-    build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
+    build_image: jupyter/repo2docker:2021.03.0-70.g43891a6
+    # build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
+
     banner_message: |
       <div style="text-align: center;">This is a public Beta and liable to downtime</div>
     # build_image: "aicrowd/repo2docker"
@@ -103,7 +105,7 @@ jupyterhub:
 
 initContainers:
   - name: git-clone-templates
-    image: alpine/git
+    image: alpine/git:latest
     args:
       - clone
       - --single-branch
@@ -151,3 +153,6 @@ ingress:
     - secretName: binder-bioimagearchive-org-cert
       hosts:
         - binder.bioimagearchive.org
+
+service:
+  type: ClusterIP
