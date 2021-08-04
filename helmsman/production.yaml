@@ -11,6 +11,10 @@ namespaces:
     protected: false
   binderhub-production:
     protected: false
+  persistent-binderhub-staging:
+    protected: false
+  persistent-binderhub-production:
+    protected: false
   daskgateway-staging:
     protected: false
   daskgateway-production:
@@ -20,4 +24,6 @@ namespaces:
   binderhub-staging-gpu:
     protected: false
   cert-manager:
+    protected: false
+  ingress-nginx:
     protected: false
