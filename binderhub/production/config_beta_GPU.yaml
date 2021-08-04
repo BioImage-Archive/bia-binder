@@ -1,11 +1,13 @@
 jupyterhub:
+  custom:
+    binderauth_enabled: false
   hub:
-    baseUrl: /binderhub
+    baseUrl: /jhub
   ingress:
     enabled: true
     hosts:
-      - gpu.beta.binder.bioimagearchive.org
-
+      - gpu.binder.bioimagearchive.org
+  singleuser:
   profileList:
     - display_name: "GPU Server"
       description: "Spawns a notebook server with access to a GPU"
@@ -17,7 +19,8 @@ jupyterhub:
 
 config:
   BinderHub:
-    hub_url: gpu.beta.binder.bioimagearchive.org/binderhub/
+    auth_enabled: false
+    hub_url: https://gpu.binder.bioimagearchive.org/jhub
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU and GPU Support </div>
 
@@ -25,10 +28,13 @@ config:
 ingress:
   enabled: true
   hosts:
-    - "gpu.beta.binder.bioimagearchive.org"
+    - "gpu.binder.bioimagearchive.org"
   tls:
   annotations:
     kubernetes.io/ingress.class: nginx
     
 dind:
   enabled: true
+
+service:
+  type: ClusterIP

@@ -5,14 +5,14 @@ config:
     hub_url: https://beta.binder.bioimagearchive.org/binderhub
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU  (no DIND atm)</div>
-    auth_enabled: true
+    auth_enabled: false
 jupyterhub:
   # proxy:
   #   secretToken: "f61d5cb5bf61e6ca39894bfeb7c85bd75a79e3f8fbcf7a3054bd735a73c76737"
   #   https:
   #     enabled: true
   custom:
-    binderauth_enabled: true
+    binderauth_enabled: false
   cull:
     # don't cull authenticated users
     users: False
