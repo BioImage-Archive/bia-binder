@@ -25,9 +25,9 @@ ingress:
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
     cert-manager.io/cluster-issuer: letsencrypt-production
-    https:
-      enabled: true
-      type: nginx
+    # https:
+    #   enabled: true
+    #   type: nginx
   tls:
     - secretName: binder-bioimagearchive-org-cert
       hosts:
