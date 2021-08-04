@@ -295,7 +295,8 @@ apps:
     enabled: true
     priority: 0
     # timeout: 120
-    version: "v1.2.0"
+    version: "v1.4.0"
+    wait: false
     group: "production"
     namespace: "cert-manager"
     set:
