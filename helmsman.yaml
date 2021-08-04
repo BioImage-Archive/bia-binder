@@ -119,6 +119,15 @@ appsTemplates:
     timeout: 120
 
 apps:
+  nginx-ingress:
+    name: "ingress-nginx"
+    namespace: "ingress-nginx"
+    chart: "nginx-stable/nginx-ingress"
+    enabled: false
+    version: "3.34.0"
+    valuesFiles:
+      - ingress/nginx-ingress.yaml 
+
   # daskgateway-staging:
   #   <<: *dask
   #   name: "daskgateway-staging"
