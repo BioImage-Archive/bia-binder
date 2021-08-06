@@ -42,3 +42,20 @@ beta.binder.deploy.prod.dry:
 
 gpu.beta.binder.deploy.prod.dry:
 	helmsman --debug --target binderhub-production-gpu -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gpu.yaml --always-upgrade --dry-run
+
+
+
+gke.binder.deploy.prod:
+	helmsman --apply --debug --target binderhub-production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gke.yaml --always-upgrade
+gke.binder.deploy.staging:
+	helmsman --apply --debug --target binderhub-staging -f helmsman.yaml -f helmsman/staging.yaml -f helmsman/gke.yaml --always-upgrade
+
+gke.deploy.prod:
+	helmsman --apply --debug --group production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gke.yaml --always-upgrade
+
+
+gke.persistent.alpha.binder.deploy.prod:
+	helmsman --apply --debug --target persistent-binderhub-production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gke.yaml --always-upgrade
+gke.persistent.alpha.binder.deploy.staging:
+	helmsman --apply --debug --target persistent-binderhub-production -f helmsman.yaml -f helmsman/gke.yaml --always-upgrade
+# 
