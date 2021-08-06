@@ -31,7 +31,7 @@ jupyterhub:
         scope:
           - read:user
       JupyterHub:
-        authenticator_class: github
+        authenticator_class: dummy
       # DummyAuthenticator:
       #   password: test
       #   oauth_callback_url: "https://beta.binder.bioimagearchive.org/jupyter/hub/oauth_callback"
