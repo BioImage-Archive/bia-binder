@@ -39,6 +39,9 @@ cors: &cors
   allowOrigin: '*'
 
 jupyterhub:
+  proxy:
+    service:
+      type: ClusterIP
   cull:
     users: True
   custom:
@@ -130,10 +133,10 @@ dind:
   enabled: true
   resources:
     requests:
-      cpu: "1"
+      cpu: "2"
       memory: 4Gi
     limits:
-      cpu: "2"
+      cpu: "4"
       memory: 6Gi
 
 ingress:
@@ -146,9 +149,10 @@ ingress:
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
     cert-manager.io/cluster-issuer: letsencrypt-production
-    https:
-      enabled: true
-      type: nginx
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+    # https:
+    #   enabled: true
+    #   type: nginx
   tls:
     - secretName: binder-bioimagearchive-org-cert
       hosts:

@@ -9,6 +9,7 @@
 
 
 jupyterhub:
+  custom:
   hub:
     baseUrl: /jhub
   proxy:
@@ -46,7 +47,7 @@ jupyterhub:
     #     - binder.bioimagearchive.org
 config:
   BinderHub:
-    hub_url: "https://binder.bioimagearchive.org/jhub"
+    auth_enabled: false
     banner_message: |
       <div style="text-align: center;">Alpha service with more RAM and CPU and GPU Support </div>
     # image_prefix: docker-registry.docker-registry:5000/binder-
@@ -57,7 +58,7 @@ ingress:
   hosts:
     - "binder.bioimagearchive.org"
   tls:
-    - secretName: binder-bioimagearchive-org-cert-new
+    - secretName: binder-bioimagearchive-org
       hosts:
         - binder.bioimagearchive.org
   annotations:
@@ -70,7 +71,7 @@ ingress:
   # #   hosts:
   # #   - binder.bioimagearchive.org 
   # annotations:
-    # acme.cert-manager.io/http01-edit-in-place: "true"
+    acme.cert-manager.io/http01-edit-in-place: "true"
 dind:
   enabled: true
 
