@@ -18,6 +18,12 @@ beta.binder.deploy.prod:
 beta.binder.deploy.staging:
 	helmsman --apply --debug --target binderhub-production -f helmsman.yaml -f helmsman/gpu.yaml --always-upgrade
 
+
+alpha.trow.deploy.prod:
+	helmsman --apply --debug --target trow -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
+alpha.registry.deploy.prod:
+	helmsman --apply --debug --target docker-registry -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
+
 # Beta gpu enabled service
 
 
