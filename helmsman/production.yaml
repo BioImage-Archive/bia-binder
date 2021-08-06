@@ -27,3 +27,7 @@ namespaces:
     protected: false
   ingress-nginx:
     protected: false
+  trow:
+    protected: false
+  docker-registry:
+    protected: false
