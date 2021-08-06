@@ -338,16 +338,17 @@ apps:
     enabled: true
     priority: 0
     # timeout: 120
-    version: "v1.4.0"
-    wait: false
+    version: "v1.4.2"
+    wait: true
     group: "production"
     namespace: "cert-manager"
     set:
-      installCRDs: "true"
+      installCRDs: true
       ingressShim.defaultIssuerKind: "ClusterIssuer"
       ingressShim.defaultIssuerName: "letsencrypt-production"
     hooks:
       postUpgrade: "cert-managment/cluster_issuer.yaml"
+      postInstall: "cert-managment/cluster_issuer.yaml"
 
 # -------------------- JUNK ----------------------------------
 # jupyterhub-test:
