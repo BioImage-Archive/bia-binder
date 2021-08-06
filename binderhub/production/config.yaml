@@ -31,4 +31,8 @@ ingress:
   tls:
     - secretName: binder-bioimagearchive-org-cert
       hosts:
-        - binder.bioimagearchive.org
+        - "binder.bioimagearchive.org"
+dind:
+  # enabled: true
+  hostLibDir: /var/lib/dind/production
+  hostSocketDir: /var/run/dind/production
