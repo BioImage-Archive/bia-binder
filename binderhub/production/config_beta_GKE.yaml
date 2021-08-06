@@ -1,0 +1,58 @@
+# # binderhub:
+# jupyterhub:
+#   hub:
+#     baseUrl: /
+#   ingress:
+#     enabled: true
+#     hosts:
+#       - alpha.hub.binder.bioimagearchive.org
+
+
+jupyterhub:
+  hub:
+    baseUrl: /jhub
+  proxy:
+    service:
+      type: ClusterIP
+  # proxy:
+  #   https:
+  #     enabled: true
+  #     hosts:
+  #       - hub.alpha.binder.bioimagearchive.org
+  #     # letsencrypt:
+  #     #   contactEmail: "ctr26@ebi.ac.uk"
+  ingress:
+    enabled: true
+    hosts:
+      - gke.binder.bioimagearchive.org
+config:
+  BinderHub:
+    hub_url: "https://gke.binder.bioimagearchive.org/jhub"
+    banner_message: |
+      <div style="text-align: center;">Alpha service with more RAM and CPU and GPU Support </div>
+    # image_prefix: docker-registry.docker-registry:5000/binder-
+
+
+ingress:
+  enabled: true
+  hosts:
+    - "localhost"
+    - ""
+    - "gke.binder.bioimagearchive.org"
+    # - "staging.binder.bioimagearchive.org"
+  tls:
+    - secretName: binder-bioimagearchive-org-cert
+      hosts:
+        - "gke.binder.bioimagearchive.org"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    cert-manager.k8s.io/acme-challenge-type: http01
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    acme.cert-manager.io/http01-edit-in-place: "true"
+dind:
+  enabled: true
+
+service:
+  type: ClusterIP
+
