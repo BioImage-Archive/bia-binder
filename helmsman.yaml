@@ -34,6 +34,7 @@ helmRepos:
   jetstack: "https://charts.jetstack.io"
   persistent_binderhub: "https://gesiscss.github.io/persistent_binderhub"
   nginx-stable: "https://helm.nginx.com/stable"
+  ingress-nginx: "https://kubernetes.github.io/ingress-nginx"
   trow: "https://trow.io"
   twuni: "https://helm.twun.io"
 appsTemplates:
@@ -147,10 +148,12 @@ apps:
     version: "0.3.3"
     valuesFiles:
       - trow/values.yaml 
+
   docker-registry:
     name: "docker-registry"
     namespace: "docker-registry"
     chart: "twuni/docker-registry"
+    group: "production"
     enabled: true
     version: "1.11.0"
     set:
@@ -162,12 +165,23 @@ apps:
     valuesFiles:
       - docker-registry/values.yaml 
 
+
   nginx-ingress:
-    name: "ingress-nginx"
-    namespace: "ingress-nginx"
+    name: "nginx-ingress"
+    namespace: "nginx-ingress"
     chart: "nginx-stable/nginx-ingress"
     enabled: false
-    version: "3.34.0"
+    version: "3.35.0"
+    valuesFiles:
+      - ingress/nginx-ingress.yaml 
+
+  ingress-nginx:
+    name: "ingress-nginx"
+    namespace: "ingress-nginx"
+    chart: "ingress-nginx/ingress-nginx"
+    group: "production"
+    enabled: true
+    version: "3.35.0"
     valuesFiles:
       - ingress/nginx-ingress.yaml 
 
