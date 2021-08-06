@@ -1,10 +1,10 @@
 config:
   BinderHub:
-    hub_url: http://staging.binder.bioimagearchive.org/binderhub/
+    hub_url: https://staging.ctr26.duckdns.org/jhub/
 
 jupyterhub:
   hub:
-    baseUrl: /binderhub
+    baseUrl: /jhub
   ingress:
     enabled: true
     hosts:
@@ -13,18 +13,17 @@ jupyterhub:
 ingress:
   enabled: true
   hosts:
-    - "staging.binder.bioimagearchive.org"
+    - "staging.ctr26.duckdns.org"
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
     cert-manager.io/cluster-issuer: letsencrypt-production
-    https:
-      enabled: true
-      type: nginx
   tls:
     - secretName: binder-bioimagearchive-org-cert
       hosts:
+        - "staging.ctr26.duckdns.org"
+
 service:
   type: ClusterIP
 
