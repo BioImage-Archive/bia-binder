@@ -48,52 +48,105 @@
 
 
 binderhub:
+  # service:
+  #   type: ClusterIP
   config:
     BinderHub:
       debug: true
-      base_url: /
-      hub_url: "https://persist.binder.bioimagearchive.org/"
+      # base_url: /
+      hub_url: "http://34.142.37.119"
       # use only local docker images
       image_prefix: ""
       use_registry: true
       # build_image: jupyter/repo2docker:0.10.0
   jupyterhub:
+    # service:
+    #   type: ClusterIP
     hub:
-      baseUrl: /jupyter
+      # baseUrl: /jhub
       config:
         GitHubOAuthenticator:
           client_id:
           client_secret:
-          oauth_callback_url: https://persist.binder.bioimagearchive.org/jupyter/hub/oauth_callback
+          # oauth_callback_url: https://login.binder.bioimagearchive.org/jupyter/hub/oauth_callback
         JupyterHub:
           authenticator_class: dummy
       services:
         binder:
           # this is the default value
           oauth_client_id: "binder-oauth-client-dev"
-          url: "http://binder"
+          # url: "http://binder"
+          url: "http://34.142.65.193"
           apiToken: "b32f6db83b52afec0099e1154fdc852d053b36f724e03d657f38baf46334a662"
-          oauth_redirect_uri: "http://persist.binder.bioimagearchive.org/services/binder/oauth_callback"
-    ingress:
-      enabled: true
-      hosts:
-        - "persist.binder.bioimagearchive.org"
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        kubernetes.io/tls-acme: "true"
-        # cert-manager.k8s.io/acme-challenge-type: http01
-        # cert-manager.io/cluster-issuer: letsencrypt-production
-        https:
-          enabled: true
-          type: nginx
+          oauth_redirect_uri: "http://34.142.37.119/services/binder/oauth_callback"
+    # ingress:
+    #   # service:
+    #   #   type: ClusterIP
+    #   enabled: true
+    #   # hosts:
+    #   #   - "login.binder.bioimagearchive.org"
+    #   annotations:
+    #     kubernetes.io/ingress.class: nginx
+    #     # kubernetes.io/tls-acme: "true"
+    #   #   cert-manager.k8s.io/acme-challenge-type: http01
+    #   #   cert-manager.io/cluster-issuer: letsencrypt-production
+    #   # tls:
+    #   # - secretName: login-bioimagearchive-org-cert-new
+    #   #   hosts:
+    #   #     - "login.binder.bioimagearchive.org"
+    #     # https:
+    #     #   enabled: true
+    #     #   type: nginx
     proxy:
       secretToken: "790fd9f44ea71a380294cb1d3b483cef1b3d4cb0fe9335132c56661e85b6ab69"
-  registry:
-    username:
-    password:
+  # service:
+  #   type: ClusterIP
+  # registry:
+  #   username:
+  #   password:
 
-
+  # ingress:
+  #   # service:
+  #   #   type: ClusterIP
+  #   enabled: true
+  #   # hosts:
+    #   - ""
+    #   - localhost
+    #   - "login.binder.bioimagearchive.org"
     # tls:
-    #   - secretName: persist-binder-bioimagearchive-org-cert
+    #   # - secretName: login-bioimagearchive-org-cert-new
     #     hosts:
-    #       - persist.binder.bioimagearchive.org
+    #       - "login.binder.bioimagearchive.org"
+    # annotations:
+    #   kubernetes.io/ingress.class: nginx
+    #   kubernetes.io/tls-acme: "true"
+      # cert-manager.k8s.io/acme-challenge-type: http01
+      # cert-manager.io/cluster-issuer: letsencrypt-production
+      # certmanager.k8s.io/acme-http01-edit-in-place: "true"
+      # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      # kubernetes.io/do-loadbalancer-hostname: "login.binder.bioimagearchive.org"
+      # service.beta.kubernetes.io/do-loadbalancer-hostname: "login.binder.bioimagearchive.org"
+  #   https:
+  #     enabled: true
+  #     type: nginx
+  #   service:
+  #     type: ClusterIP
+# ingress:
+#   enabled: true
+#   hosts:
+#     # - ""
+#     # - "localhost"
+#     - "login.binder.bioimagearchive.org"
+#   tls:
+#     - secretName: binder-bioimagearchive-org-cert-new
+#       hosts:
+#         - "login.binder.bioimagearchive.org"
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     kubernetes.io/tls-acme: "true"
+#     cert-manager.k8s.io/acme-challenge-type: http01
+#     cert-manager.io/cluster-issuer: letsencrypt-production
+#     certmanager.k8s.io/acme-http01-edit-in-place: "true"
+#   https:
+#     enabled: true
+#     type: nginx
