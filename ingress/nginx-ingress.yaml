@@ -1,0 +1,10 @@
+# controller:
+#   # service:
+#   #   loadBalancerIP: 45.88.80.49
+#   # admissionWebhooks:
+#   #   enabled: false
+rbac:
+  create: true
+# Crucial for cert-manager to work for some reason: 
+defaultBackend:
+  enabled: true
