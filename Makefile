@@ -1,9 +1,10 @@
 BASEDIR = $(shell pwd)
+SOURCE:=$(shell source secrets.env)
+
 
 deploy.prod:
 	helmsman --apply --debug --group production -f helmsman/token.yaml -f helmsman.yaml -f helmsman/production.yaml
-deploy.staging:
-	helmsman --apply --debug --group staging -f helmsman/token.yaml -f helmsman.yaml -f helmsman/staging.yaml
+deploy.staging:	helmsman --apply --debug --group staging -f helmsman/token.yaml -f helmsman.yaml -f helmsman/staging.yaml
 
 binder.deploy.prod:
 	helmsman --apply --debug --target binderhub-production -f helmsman.yaml -f helmsman/production.yaml --always-upgrade
@@ -18,11 +19,32 @@ beta.binder.deploy.prod:
 beta.binder.deploy.staging:
 	helmsman --apply --debug --target binderhub-production -f helmsman.yaml -f helmsman/gpu.yaml --always-upgrade
 
+# Alpha openstack  service
+
+persistent.alpha.binder.deploy.prod:
+	helmsman --apply --debug --target persistent-binderhub-production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
+persistent.alpha.binder.deploy.staging:
+	helmsman --apply --debug --target persistent-binderhub-production -f helmsman.yaml -f helmsman/openstack.yaml --always-upgrade
+# 
+
+alpha.binder.deploy.prod:
+	helmsman --apply --debug --target binderhub-production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
+alpha.binder.deploy.staging:
+	helmsman --apply --debug --target binderhub-staging -f helmsman.yaml -f helmsman/staging.yaml -f helmsman/openstack.yaml --always-upgrade
+
+alpha.deploy.prod:
+	helmsman --apply --debug --group production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
+
+alpha.cert.deploy.prod:
+	helmsman --apply --debug --target cert-manager-production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
 
 alpha.trow.deploy.prod:
 	helmsman --apply --debug --target trow -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
 alpha.registry.deploy.prod:
 	helmsman --apply --debug --target docker-registry -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
+
+alpha.ingress.deploy.prod:
+	helmsman --apply --debug --target ingress-nginx -f helmsman.yaml -f helmsman/production.yaml -f helmsman/openstack.yaml --always-upgrade
 
 # Beta gpu enabled service
 
