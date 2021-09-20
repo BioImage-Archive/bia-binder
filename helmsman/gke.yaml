@@ -1,0 +1,48 @@
+settings:
+  kubeContext: gke_***REMOVED***_europe-west2_binder
+apps:
+  nginx-ingress:
+    enabled: false
+# namespaces:
+#   binderhub-staging-gpu:
+#     protected: false
+#   binderhub-production-gpu:
+#     protected: false
+
+  binderhub-production:
+    set:
+      # registry.username: ""
+      # registry.url: https://eu.gcr.io
+      # # config.DockerRegistry.token_url: ""
+      # config.BinderHub.use_registry: true
+      # config.BinderHub.image_prefix: "eu.gcr.io/***REMOVED***/binder-"
+      # config.BinderHub.image_prefix: "bioimagearchive/binder-"
+      # registry.url: "https://index.docker.io/v1"
+      # config.DockerRegistry.url: "https://registry-1.docker.io" # the recommended registry URL
+      # config.DockerRegistry.auth_config_url: "https://index.docker.io/v1" # must match above!
+      # config.DockerRegistry.token_url: "https://auth.docker.io/token?service=registry.docker.io"
+      # registry.password: |
+      #   {
+      #     "type": "service_account",
+      #     "project_id": "***REMOVED***",
+      #     "private_key_id": "***REMOVED***",
+      #     ***REMOVED***,
+      #     "client_email": "binder-gcr@***REMOVED***.iam.gserviceaccount.com",
+      #     "client_id": "***REMOVED***",
+      #     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      #     "token_uri": "https://oauth2.googleapis.com/token",
+      #     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      #     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/binder-gcr%40***REMOVED***.iam.gserviceaccount.com"
+      #   }
+    valuesFiles:
+    - "../binderhub/config.yaml"
+    # - "binderhub/production/config.yaml"
+    - "../binderhub/production/config_beta_GKE.yaml"
+
+  # binderhub-production-gpu:
+  #   enabled: true
+  #   valuesFiles:
+  #   - "../binderhub/config.yaml"
+  #   # - "binderhub/production/config.yaml"
+  #   - "../binderhub/production/config_beta.yaml"
+  #   - "../binderhub/production/config_beta_GPU.yaml"
