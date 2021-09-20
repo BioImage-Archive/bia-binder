@@ -87,8 +87,8 @@ appsTemplates:
       # config.DockerRegistry.token_url: None
       # config.DockerRegistry.token_url: "https://registry.ctr26.duckdns.org/v2/token?service="
       config.DockerRegistry.token_url: ""
-      config.BinderHub.image_prefix: "registry.ctr26.duckdns.org/"
-      registry.url: https://registry.ctr26.duckdns.org
+      config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
+      registry.url: https://registry.binder.bioimagearchive.org
       # registry.username: "admin"
       # registry.password: "password"
       config.BinderHub.use_registry: true
@@ -122,12 +122,16 @@ appsTemplates:
     set:
       binderhub.registry.username: "$CI_REGISTRY_USER"
       binderhub.registry.password: "$CI_REGISTRY_PASSWORD"
+      # binderhub.registry.url: https://registry.binder.bioimagearchive.org
       binderhub.jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       binderhub.jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
-      binderhub.config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
+      # binderhub.config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
       # binderhub.config.BinderHub.image_prefix: "registry.alpha.binder.bioimagearchive.org/binder-"
-      
+      # binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
       binderhub.config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
+      binderhub.config.DockerRegistry.token_url: ""
+      binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
+      binderhub.registry.url: https://registry.binder.bioimagearchive.org
 
 
   dask: &dask
