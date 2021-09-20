@@ -1,0 +1,44 @@
+persistence:
+  enabled: true
+  size: 350Gi
+ingress:
+  enabled: true
+  hosts:
+    - "registry.binder.bioimagearchive.org"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    cert-manager.k8s.io/acme-challenge-type: http01
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  tls:
+  - secretName: docker-alpha-binder-bioimagearchive-org
+    hosts:
+      - "registry.binder.bioimagearchive.org"
+# secrets:
+#   # htpasswd: ctr26:$apr1$u1qd43lg$4x/B/j2CDT8GIh.QlQ92F0
+#   # htpasswd: ctr26:$apr1$ZBrQYo83$OEvR/.DcSi9lQtlsY0Nkr0
+#   htpasswd: |-
+#     ctr26:$2y$05$jURX/JKMYGHQpj2GjH.pLeGStB7CudVXbSLricrylxn4Vrlnh6ueC
+
+
+
+
+  #  ctr26:$apr1$ZBrQYo83$OEvR/.DcSi9lQtlsY0Nkr0
+
+# ingress:
+#   enabled: true
+#   hosts:
+#     - "binder.bioimagearchive.org"
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     kubernetes.io/tls-acme: "true"
+#     cert-manager.k8s.io/acme-challenge-type: http01
+#     cert-manager.io/cluster-issuer: letsencrypt-production
+#     # https:
+#     #   enabled: true
+#     #   type: nginx
+#   tls:
+#     - secretName: binder-bioimagearchive-org-cert
+#       hosts:
+#         - binder.bioimagearchive.org

@@ -1,34 +1,81 @@
 jupyterhub:
+  cull:
+    # don't cull authenticated users
+    users: false
+  custom:
+    binderauth_enabled: true
   hub:
-    baseUrl: /binderhub
+    baseUrl: /jhub
+    redirectToServer: false
+    services:
+      binder:
+        oauth_no_confirm: true
+        oauth_redirect_uri: "https://gpu.binder.bioimagearchive.org/oauth_callback"
+        oauth_client_id: "binder-oauth-client-test"
+    config:
+      GitHubOAuthenticator:
+        client_id: ***REMOVED***
+        client_secret: ***REMOVED***
+        oauth_callback_url: https://gpu.binder.bioimagearchive.org/jhub/hub/oauth_callback
+      JupyterHub:
+        authenticator_class: github
+    allowNamedServers: true
+    namedServerLimitPerUser: 50
+    extraConfig:
+        fuseConfig: |
+          from kubernetes import client
+          def modify_pod_hook(spawner, pod):
+            pod.spec.containers[0].security_context = client.V1SecurityContext(
+              privileged=True,
+              capabilities=client.V1Capabilities(
+                  add=['SYS_ADMIN']
+              )
+            )
+            return pod
+          c.KubeSpawner.modify_pod_hook = modify_pod_hook
+  # auth: {}
   ingress:
     enabled: true
     hosts:
-      - gpu.beta.binder.bioimagearchive.org
+      - gpu.binder.bioimagearchive.org
+  singleuser:
+    cmd: jupyterhub-singleuser
+    profileList:
+      - display_name: "GPU Server"
+        description: "Spawns a notebook server with access to a GPU"
+        kubespawner_override:
+          extra_resource_limits:
+            nvidia.com/gpu: "1"
+      - display_name: "No GPU"
+        description: "Spawns a notebook server with access to a GPU"
 
-  profileList:
-    - display_name: "GPU Server"
-      description: "Spawns a notebook server with access to a GPU"
-      kubespawner_override:
-        extra_resource_limits:
-          nvidia.com/gpu: "1"
-    - display_name: "No GPU"
-      description: "Spawns a notebook server with access to a GPU"
 
 config:
   BinderHub:
-    hub_url: gpu.beta.binder.bioimagearchive.org/binderhub/
+    auth_enabled: true
+    hub_url: https://gpu.binder.bioimagearchive.org/jhub
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU and GPU Support </div>
+
 
 
 ingress:
   enabled: true
   hosts:
-    - "gpu.beta.binder.bioimagearchive.org"
+    - "gpu.binder.bioimagearchive.org"
   tls:
+  #   - secretName: binder-bioimagearchive-org
+  #     hosts:
+  #       - gpu.ctr26.duckdns.org
   annotations:
     kubernetes.io/ingress.class: nginx
-    
+    kubernetes.io/tls-acme: "false"
+    # cert-manager.k8s.io/acme-challenge-type: http01
+    # cert-manager.io/cluster-issuer: letsencrypt-production
 dind:
   enabled: true
+  hostLibDir: /var/lib/dind/gpu/production
+  hostSocketDir: /var/run/dind/gpu/production
+  
+service:
+  type: ClusterIP
