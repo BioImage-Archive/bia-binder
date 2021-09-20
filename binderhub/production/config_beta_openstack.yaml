@@ -25,6 +25,7 @@ jupyterhub:
   ingress:
     enabled: true
     hosts:
+      - ctr26.duckdns.org
       - binder.bioimagearchive.org
     # annotations:
     #   kubernetes.io/ingress.class: nginx
@@ -48,10 +49,10 @@ jupyterhub:
 config:
   BinderHub:
     auth_enabled: false
-    banner_message: |
-      <div style="text-align: center;">Alpha service with more RAM and CPU and GPU Support </div>
+    hub_url: https://binder.bioimagearchive.org/jhub
+    # banner_message: |
+    #   <div style="text-align: center;">Alpha service with more RAM and CPU and GPU Support </div>
     # image_prefix: docker-registry.docker-registry:5000/binder-
-
 
 ingress:
   enabled: true
