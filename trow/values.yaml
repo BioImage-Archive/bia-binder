@@ -1,0 +1,14 @@
+# values.yaml
+trow:
+  domain: trow.ctr26.duckdns.org
+  user: "bia"
+  password: "ocft71NtyxkbRkZpRzesA1bdjF0mr1Cc3f0Xb0btHN8="
+ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    tls: 
+    - hosts:
+      - trow.ctr26.duckdns.org
+      secretName: trow-ctr26-duckdns-org

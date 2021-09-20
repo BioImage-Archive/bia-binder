@@ -1,12 +1,30 @@
+# # https://gitlab.com/charts/charts.gitlab.io/blob/master/charts/gitlab-runner/values.yaml
+# # helm upgrade --install --namespace gitlab gitlab-runner -f gitlab-runner/helm-config.yaml gitlab/gitlab-runner
+
+# gitlabUrl: https://gitlab.ebi.ac.uk/
+# runnerRegistrationToken: SZLsc2yqVpypsjYmM7Fn
+# rbac:
+#   # Setup our own permissions
+#   create: true
+#   clusterWideAccess: true
+#   serviceAccountName: gitlab-runner
+# envVars:
+#   - name: KUBERNETES_SERVICE_ACCOUNT_OVERWRITE_ALLOWED
+#     value: ".*"
+# # runners:
+# #   # image: ubuntu:16.04
+# #   privileged: true
+# #   namespace: gitlab
+
 # https://gitlab.com/charts/charts.gitlab.io/blob/master/charts/gitlab-runner/values.yaml
 # helm upgrade --install --namespace gitlab gitlab-runner -f gitlab-runner/helm-config.yaml gitlab/gitlab-runner
 
-gitlabUrl: https://gitlab.com/
-runnerRegistrationToken: # Secret
+gitlabUrl: https://gitlab.ebi.ac.uk/
+runnerRegistrationToken: SZLsc2yqVpypsjYmM7Fn
 rbac:
   # Setup our own permissions
-  create: false
-  #clusterWideAccess: true
+  create: true
+  clusterWideAccess: true
   serviceAccountName: gitlab-runner
 
 envVars:

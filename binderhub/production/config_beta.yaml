@@ -1,15 +1,69 @@
+# binderhub:
 config:
   BinderHub:
-    hub_url: https://beta.binder.bioimagearchive.org/binderhub/
+    debug: true
+    hub_url: https://beta.binder.bioimagearchive.org/jhub
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU  (no DIND atm)</div>
+    auth_enabled: false
 jupyterhub:
+  # proxy:
+  #   secretToken: "f61d5cb5bf61e6ca39894bfeb7c85bd75a79e3f8fbcf7a3054bd735a73c76737"
+  #   https:
+  #     enabled: true
+  custom:
+    binderauth_enabled: false
+  cull:
+    # don't cull authenticated users
+    users: False
+  # proxy:
+  #   secretToken: 122d8b052d539dbab65d698ba1acab28b20fa6af83060c1479eceece9e32124b
   hub:
-    baseUrl: /binderhub
+    # cookieSecret: "77a708e6aa1f1fadb67fb9e6479f390911b9e880f178d36a35d9301114f1767e"
+    # cookieSecret: "77a708e6aa1f1fadb67fb9e6479f390911b9e880f178d36a35d9301114f1767e"
+    config:
+      GitHubOAuthenticator:
+        client_id: "9e0e8a4040fdbe254220"
+        client_secret: "8cffd3420ce65761cc52513fcdfcabeda1c121fa"
+        oauth_callback_url: https://beta.binder.bioimagearchive.org/jhub/hub/oauth_callback
+        allowed_organizations:
+          - bioimagearchive
+        scope:
+          - read:user
+      JupyterHub:
+        authenticator_class: dummy
+      # DummyAuthenticator:
+      #   password: test
+      #   oauth_callback_url: "https://beta.binder.bioimagearchive.org/jupyter/hub/oauth_callback"
+      # JupyterHub:
+      #   authenticator_class: dummy
+    redirectToServer: false
+    baseUrl: /jhub
+    services:
+      binder:
+        # url: "http://binder"
+          # oauth_redirect_uri: "http://127.0.0.1:30123/services/binder/oauth_callback"
+          # oauth_client_id: "binder-oauth-client-test"
+        # apiToken: "b9c376305bb9ce2140f7f7953561e5c8687d40aa9e7a9c3580d52e1f91c4a27f"
+        oauth_no_confirm: true
+        # url: "http://binder"
+        # apiToken: "b9c376305bb9ce2140f7f7953561e5c8687d40aa9e7a9c3580d52e1f91c4a27f"
+        oauth_redirect_uri: https://beta.binder.bioimagearchive.org/oauth_callback
+        oauth_client_id: "binder-oauth-client-dev"
   ingress:
     enabled: true
     hosts:
       - beta.binder.bioimagearchive.org
+  singleuser:
+    # to make notebook servers aware of hub
+    cmd: jupyterhub-singleuser
+
+  # auth:
+  #   type: github
+  #   github:
+  #     clientId: "9e0e8a4040fdbe254220"
+  #     clientSecret: "8cffd3420ce65761cc52513fcdfcabeda1c121fa"
+  #     callbackUrl: "https://beta.binder.bioimagearchive.org/binderhub/hub/oauth_callback"
 
 ingress:
   enabled: true
@@ -20,4 +74,103 @@ ingress:
     kubernetes.io/ingress.class: nginx
 
 dind:
-  enabled: true
+  enabled: false
+
+
+  # config:
+  #   BinderHub:
+  #     hub_url: https://beta.binder.bioimagearchive.org/binderhub
+  #     auth_enabled: true
+
+  # jupyterhub:
+  #   cull:
+  #     # don't cull authenticated users
+  #     users: False
+  #   custom:
+  #     binderauth_enabled: true
+  #   hub:
+  #     redirectToServer: false
+  #     services:
+  #       binder:
+  #         oauth_no_confirm: true
+  #         oauth_redirect_uri: "https://beta.binder.bioimagearchive.org/oauth_callback"
+  #         oauth_client_id: "binder-oauth-client-test"
+  #     ingress:
+  #       enabled: true
+  #       hosts:
+  #         - beta.binder.bioimagearchive.org
+  #   singleuser:
+  #     # to make notebook servers aware of hub
+  #     cmd: jupyterhub-singleuser
+
+
+
+
+  # binderhub:
+
+  #   config:
+  #     BinderHub:
+  #       debug: true
+  #       hub_url: http://<NodeIP>:30123
+  #       # use only local docker images
+  #       use_registry: false
+
+  #   service:
+  #     type: NodePort
+  #     nodePort: 30124
+
+  #   imageCleaner:
+  #     enabled: false
+
+  #   jupyterhub:
+  #     debug:
+  #       enabled: true
+  #     hub:
+  #       cookieSecret: "77a708e6aa1f1fadb67fb9e6479f390911b9e880f178d36a35d9301114f1767e"
+  #       services:
+  #         binder:
+  #           url: http://<NodeIP>:30124
+  #           oauth_redirect_uri: "http://<NodeIP>:30123/services/binder/oauth_callback"
+  #           oauth_client_id: "binder-oauth-client-test"
+  #           apiToken: "b9c376305bb9ce2140f7f7953561e5c8687d40aa9e7a9c3580d52e1f91c4a27f"
+
+  #     proxy:
+  #       secretToken: "f61d5cb5bf61e6ca39894bfeb7c85bd75a79e3f8fbcf7a3054bd735a73c76737"
+  #       https:
+  #         enabled: false
+  #       service:
+  #         type: NodePort
+  #         nodePorts:
+  #           http: 30123
+
+  #     auth:
+  #       admin:
+  #         users:
+  #           - admin
+
+  #     scheduling:
+  #       userScheduler:
+  #         enabled: false
+  #       podPriority:
+  #         enabled: false
+  #       userPlaceholder:
+  #         enabled: false
+
+
+  # binderhub:
+  #   jupyterhub:
+  #     debug:
+  #       enabled: true
+  #     hub:
+  #       cookieSecret: "77a708e6aa1f1fadb67fb9e6479f390911b9e880f178d36a35d9301114f1767e"
+  #     proxy:
+  #       secretToken: "f61d5cb5bf61e6ca39894bfeb7c85bd75a79e3f8fbcf7a3054bd735a73c76737"
+  #       https:
+  #         enabled: false
+  #     scheduling:
+  #       userScheduler:
+  #         enabled: false
+  #       podPriority:
+  #         enabled: false
+  #       userPlaceholder:
+  #         enabled: false
