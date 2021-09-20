@@ -10,30 +10,6 @@ apps:
 #     protected: false
 
   binderhub-production:
-    set:
-      # registry.username: ""
-      # registry.url: https://eu.gcr.io
-      # # config.DockerRegistry.token_url: ""
-      # config.BinderHub.use_registry: true
-      # config.BinderHub.image_prefix: "eu.gcr.io/prj-ext-dev-bia-binder-113155/binder-"
-      # config.BinderHub.image_prefix: "bioimagearchive/binder-"
-      # registry.url: "https://index.docker.io/v1"
-      # config.DockerRegistry.url: "https://registry-1.docker.io" # the recommended registry URL
-      # config.DockerRegistry.auth_config_url: "https://index.docker.io/v1" # must match above!
-      # config.DockerRegistry.token_url: "https://auth.docker.io/token?service=registry.docker.io"
-      # registry.password: |
-      #   {
-      #     "type": "service_account",
-      #     "project_id": "prj-ext-dev-bia-binder-113155",
-      #     "private_key_id": "863ca27a9cddbe0cb782b3e870e6174b734e9364",
-      #     "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCEjiRtRk/ntaoB\nVjKSiKi7hlr135SMHxuWZL/NBzR4QAlFEPg08kS79+tS+SHqePbTGBA14LIIJ0QM\nO5wYaAXX5Qnnx453dY1NFs2zGlrrkWZCPKxYzUl7N5+A+xOwgGT/kWT03/dEQMqT\nD+fZHZ3p1ouQ5ueLwr6Lp3TbaDasshZR9QQT9U9F3hwm4b+aEANN5cVcWZiR4vxM\nF09yB5Tuudl6OkXghmcBOxhJf2tOPGLbFxNKbrkHFCWxCuyGpTBRlXoOYztnf6G5\nvK85A1t0LWDSVMRHq6KL9AXEaBsqiMHOTnvV0aICN1IjC5QfILw2g2HfaUaGq8c0\nZmqt3JifAgMBAAECggEAPt6aCVgVcv03Jk4nS1fUy6h0QPSrpG/mqkSbsddOfBBH\nNUJQrvAPSKXUL7To8KgxzTo3Cg7J8dMJ09F7/hlsWBMSSSPdfuw6ugrsQhvobp02\nRok3ZyDqzq25kbfEBW1IOezQWNJXGUCvs+OR3+jLqopvBKl3vdJ+hIdGhf/eGrbn\n251Prtzwbh43RjTNg5Tf7FQU3lwoXyLPgdomDCX7LDx9CjuQxlIckJ10ALcpevfe\nQdzOQg07vt+RhH7krZ5Bxl5QrWkv9yiZ58ywFHRdSTynWTgZ38j05QXI1DWyN7Wq\noV4Hw2AZfcUujcsodplztd/tACMInlqj4/rr/FjcvQKBgQC62br3VJL/2vDFEQ8O\ndRIYI+qQFwbKf4YaJerPfvNg2jqqeHOzqi3e5G5i8r01Lps/IHeOoJ8w6HEVAWLN\nIskZSqiQfRu6nzw/aIq/s2USJchxxZx3tltxcQv43fKVE2DNJAQYm95a+C+ztyAS\nTBAWWKMfzqOlIJQj+I+XNUAVBQKBgQC1nHaW3KQXh015cR37ikgh0MyLzCUFEYq3\nAylsreKK5IebTYY5YYoy+OMOMcYorng+EMDheo++DB7ApjtDcD0hTe0dIFmbRjW6\nep3dHROc28BVu0iwlclm48L6UOY+qVPTUV3PlBGFT86MvDbDtZshtxaHiN8W7xkj\nf5SxNSkoUwKBgQCAPnKB0S13qBi62UOBQ77gjL4wmW1SzQYIql+ofNSkdAPx/uxC\nsxn6ssRE66ALgWqSgEEuxnWcht0ecq4SZ76oukJJsWS3yRT73E/m1UUYmJAj7mK/\nE41dph52eDdINF2rTv30uf56Z3+uFJFRnZ0pCTsk2Joe+uZSbgZ33NeX1QKBgB17\nY+kDsoO7TEFtso9WGHWc3sfHAS98dIdXNQ9WfxNLHBSDFkoUYon5y2pPfDq4b/6r\nW5R+//y7HPbrRW2iN9pDOz3iNYm2cRxvsVbm1Hs/VU7Vk2xPNJ3GVa2rGmWLuXbx\nm4gKInoAxaglGcLVpXRos3iXKJghgnQ3ztyho6fPAoGAZNqbgkMTfiM/uvdyUMdF\nwn4cS+5pJ1uNx8verkd88YgGlzF2Jj5dZKw+/aut7mElJU6Ex89sF52fTikiriJo\njtmODepDzMyczkN31K3zpbAeIjxirCfGqb6xa7G2dSuforMWQP8h2xj7OQBSlDXP\ns4EYVEoDV1hCSXEFjtnHUfk=\n-----END PRIVATE KEY-----\n",
-      #     "client_email": "binder-gcr@prj-ext-dev-bia-binder-113155.iam.gserviceaccount.com",
-      #     "client_id": "103307712155155208171",
-      #     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-      #     "token_uri": "https://oauth2.googleapis.com/token",
-      #     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-      #     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/binder-gcr%40prj-ext-dev-bia-binder-113155.iam.gserviceaccount.com"
-      #   }
     valuesFiles:
     - "../binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
