@@ -1,0 +1,10 @@
+replicaCount: 1
+
+image:
+  imageName: nvcr.io/nvidia/tritonserver:21.08-py3
+  pullPolicy: IfNotPresent
+  modelRepositoryPath: s3://https://uk1s3.embassy.ebi.ac.uk:443/model-repository
+  numGpus: 1
+
+service:
+  type: LoadBalancer
