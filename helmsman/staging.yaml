@@ -33,3 +33,5 @@ namespaces:
     protected: true
   docker-registry:
     protected: true
+  tritoninferenceserver:
+    protected: true
