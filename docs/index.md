@@ -67,11 +67,12 @@ BinderHub allows users to share reproducible interactive computing environments 
 |:----:|:----:|:----:|:----:|
 |   1  | [binder.bioimagearchive.org](binder.bioimagearchive.org)| Public Binderhub | 8Gb RAM, 4 vCPUs, Ephemeral|
 |   2  | [login.binder.bioimagearchive.org](login.binder.bioimagearchive.org)| Persistent Binderhub | <16Gb RAM, <8 vCPUs, 15 GB Storage, Dask|
-|   2  | [gpu.beta.binder.bioimagearchive.org](gpu.beta.binder.bioimagearchive.org)| Authenticated Binderhub | <32Gb RAM, <8 vCPUs, (1-2) GPUs, Ephemeral, Dask|
-|   3  | [kubeflow.binder.bioimagearchive.org](kubeflow.binder.bioimagearchive.org)| Authenticated Kubeflow   | n x (<32Gb RAM, <8 vCPUs), 15 GB Storage, (1-2) GPUs, Dask |
+|   2  | [gpu.binder.bioimagearchive.org](gpu.binder.bioimagearchive.org)| Authenticated Binderhub | <32Gb RAM, <8 vCPUs, (1-2) GPUs, Ephemeral, Dask|
+|   3  | [kubeflow.binder.bioimagearchive.org](kubeflow.binder.bioimagearchive.org)* | Authenticated Kubeflow | n x (<32Gb RAM, <8 vCPUs), 15 GB Storage, (1-2) GPUs, Dask |
+
+* Kubeflow is a highly experimental deployment at the moment
 <!-- |   1  | binder.bioimagearchive.org/sandbox     | Public Jupyterhub        | 8Gb RAM, 4 vCPUs                                           | -->
 <!-- |   2  | beta.binder.bioimagearchive.org/github | Authenticated Jupyterhub | <32Gb RAM, <8 vCPUs, 15 GB Storage, (1-2) GPUs, Dask       | -->
-
 ### To request access to Tier 2/3, please contact [bioimagearchive@ebi.ac.uk](mailto:bioimagearchive@ebi.ac.uk)
 
 
