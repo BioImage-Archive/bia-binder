@@ -98,7 +98,7 @@ binderhub:
       allowNamedServers: true
       # change this value as you wish,
       # or remove this line if you don't want to have any limit
-      namedServerLimitPerUser: 5
+      namedServerLimitPerUser: 50
       singleuser:
         # to make notebook servers aware of hub
         cmd: jupyterhub-singleuser
@@ -148,3 +148,20 @@ binderhub:
     #   - secretName: persist-binder-bioimagearchive-org-cert
     #     hosts:
     #       - persist.binder.bioimagearchive.org
+          # git: |
+          #   from z2jh import get_config, get_secret, set_config_if_not_none
+
+          #   # If we want to do some custom logic when we know whom have logged in...
+          #   from oauthenticator.generic import GenericOAuthenticator
+          #   class MyAuthenticator(GenericOAuthenticator):  
+          #       from tornado import gen
+
+          #       @gen.coroutine
+          #       def pre_spawn_start(self, user, spawner):
+          #           auth_state = yield user.get_auth_state()
+          #           if not auth_state:
+          #               return
+          #           # do stuff here... like...
+          #           spawner.environment.update({'CAT_NAME': "missan"})
+
+          # "username=name\npassword=xxx"
