@@ -1,42 +1,75 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: external-ip
+  name: redirect
   namespace: default
   annotations:
-    # nginx.ingress.kubernetes.io/permanent-redirect: ""
-    kubernetes.io/ingress.class: nginx
-    certmanager.k8s.io/cluster-issuer: letsencrypt-productio
+    # nginx.ingress.kubernetes.io/permanent-redirect: "45.88.80.74"
+    # ingress.kubernetes.io/rewrite-target": "/"
+    # kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # certmanager.k8s.io/issuer: "letsencrypt-prod"
+    # certmanager.k8s.io/acme-challenge-type: http01
+    certmanager.k8s.io/cluster-issuer: letsencrypt-production
     cert-manager.k8s.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    # cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
   - hosts:
-    - beta.binder.bioimagearchive.org
+    - gke.binder.bioimagearchive.org
     secretName: beta-binder-bioimagearchive-org-tls
   - hosts:
-    - gpu.beta.binder.bioimagearchive.org
+    - gke.ctr26.duckdns.org
+    secretName: gke-beta-binder-bioimagearchive-org-tls
+  - hosts:
+    - gpu.binder.bioimagearchive.org
     secretName: gpu-beta-binder-bioimagearchive-org-tls
   rules:
-  - host: "beta.binder.bioimagearchive.org"
+  - host: "gke.binder.bioimagearchive.org"
     http:
       paths:
       - backend:
-          serviceName: external-ip
+          serviceName: gke-server
           servicePort: 80
         path: /
-  - host: "gpu.beta.binder.bioimagearchive.org"
+  - host: "gke.ctr26.duckdns.org"
     http:
       paths:
       - backend:
-          serviceName: external-ip
+          serviceName: gke-server
           servicePort: 80
         path: /
+  - host: "gpu.binder.bioimagearchive.org"
+    http:
+      paths:
+      - backend:
+          serviceName: gpu-server
+          servicePort: 80
+        path: /
+      # paths:
+      # - backend:
+      #     serviceName: gpu-server
+      #     servicePort: 443
+      #   path: /
+  # - host: "*.gpu.ctr26.duckdns.org"
+  #   http:
+  #     paths:
+  #     - backend:
+  #         serviceName: gpu-server
+  #         servicePort: 80
+  #       path: /
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: external-ip
+  name: gke-server
+  namespace: default
 spec:
   ports:
   - name: http
@@ -47,7 +80,32 @@ spec:
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: external-ip
+  name: gke-server
+  namespace: default
+subsets:
+- addresses:
+  - ip: 34.89.26.73
+  ports:
+  - name: http
+    port: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gpu-server
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 80
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: gpu-server
+  namespace: default
 subsets:
 - addresses:
   - ip: 45.88.80.74
