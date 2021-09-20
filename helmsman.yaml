@@ -32,28 +32,38 @@ helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
   daskgateway: "https://dask.org/dask-gateway-helm-repo/"
   jetstack: "https://charts.jetstack.io"
+  persistent_binderhub: "https://gesiscss.github.io/persistent_binderhub"
+  nginx-stable: "https://helm.nginx.com/stable"
+  ingress-nginx: "https://kubernetes.github.io/ingress-nginx"
+  trow: "https://trow.io"
+  twuni: "https://helm.twun.io"
+  # triton: "https://helm.ngc.nvidia.com/nvidia"
+  triton: "https://ctr26.github.io/tritoninferenceserver/"
 
 appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
     chart: "jupyterhub/binderhub"
+    version: "0.2.0-n645.h06139f0"
+    # version: "0.2.0-n575.h2dc091f"
+    # version: "0.2.0-n467.hbc700d4"
     # version: "0.2.0-n519.hf5c1a19"
     # version: "0.2.0-n217.h35366ea"
-    version: "0.2.0-n523.h854be18"
     # version: "0.2.0-n217.h35366ea"
     # helmFlags:
     #   - "--debug"
     # # test: true
     # # protected: true
     wait: false # Lethal for binderhub
-    timeout: 1200
+    timeout: 180
     enabled: true
     set:
       registry.username: "$CI_REGISTRY_USER"
       registry.password: "$CI_REGISTRY_PASSWORD"
+      # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
+
       jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
-      config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
       config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
       # jupyterhub.auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
       # jupyterhub.auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
@@ -67,7 +77,24 @@ appsTemplates:
     # config.DockerRegistry.url: "https://dockerhub.ebi.ac.uk"
     # config.DockerRegistry.token_url: ""
     # registry.url: "https://dockerhub.ebi.ac.uk"
-
+      # registry.username: "$CI_REGISTRY_USER"
+      # registry.password: "$CI_REGISTRY_PASSWORD"
+      # config.DockerRegistry.url: https://trow.ctr26.duckdns.org
+      # config.DockerRegistry.token_url: ""
+      # config.DockerRegistry.token_url: "https://trow.ctr26.duckdns.org/v2/token?service="
+      # config.BinderHub.image_prefix: "trow.ctr26.duckdns.org/"
+      # registry.url: https://trow.ctr26.duckdns.org
+      # registry.username: "bia"
+      # registry.password: "ocft71NtyxkbRkZpRzesA1bdjF0mr1Cc3f0Xb0btHN8="
+      # config.BinderHub.use_registry: true
+      # config.DockerRegistry.token_url: None
+      # config.DockerRegistry.token_url: "https://registry.ctr26.duckdns.org/v2/token?service="
+      config.DockerRegistry.token_url: ""
+      config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
+      registry.url: https://registry.binder.bioimagearchive.org
+      # registry.username: "admin"
+      # registry.password: "password"
+      config.BinderHub.use_registry: true
   jupyterhub: &jupyterhub
     name: "jupyterhub"
     chart: "jupyterhub/jupyterhub"
@@ -110,6 +137,7 @@ appsTemplates:
       binderhub.registry.url: https://registry.binder.bioimagearchive.org
       
 
+
   dask: &dask
     name: "daskgateway"
     chart: "daskgateway/dask-gateway"
@@ -128,6 +156,7 @@ apps:
     version: "0.3.3"
     valuesFiles:
       - trow/values.yaml
+      - trow/values.yaml 
 
   tritoninferenceserver:
     name: "tritoninferenceserver"
@@ -219,6 +248,17 @@ apps:
       - "binderhub/config.yaml"
       - "binderhub/production/config.yaml"
       # - "binderhub/persistentVolumes.yaml"
+
+  persistent-binderhub-production:
+    <<: *persistent-binderhub
+    name: "persistent-binderhub-production"
+    namespace: "persistent-binderhub-production"
+    group: "production"
+    valuesFiles:
+      - "binderhub-persistent/config.yaml"
+      - "binderhub-persistent/production/config.yaml"
+      # - "binderhub/persistentVolumes.yaml"
+
 
   binderhub-production-gpu:
     <<: *binderhub
@@ -328,15 +368,17 @@ apps:
     enabled: true
     priority: 0
     # timeout: 120
-    version: "v1.2.0"
+    version: "v1.4.2"
+    wait: true
     group: "production"
     namespace: "cert-manager"
     set:
-      installCRDs: "true"
+      installCRDs: true
       ingressShim.defaultIssuerKind: "ClusterIssuer"
       ingressShim.defaultIssuerName: "letsencrypt-production"
     hooks:
       postUpgrade: "cert-managment/cluster_issuer.yaml"
+      postInstall: "cert-managment/cluster_issuer.yaml"
 
 # -------------------- JUNK ----------------------------------
 # jupyterhub-test:
