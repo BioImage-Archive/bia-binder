@@ -11,6 +11,10 @@ namespaces:
     protected: false
   binderhub-production:
     protected: true
+  persistent-binderhub-staging:
+    protected: false
+  persistent-binderhub-production:
+    protected: true
   binderhub-staging-gpu:
     protected: true
   binderhub-production-gpu:
@@ -20,4 +24,14 @@ namespaces:
   daskgateway-production:
     protected: true
   cert-manager:
+    protected: true
+  ingress-nginx:
+    protected: true
+  nginx-ingress:
+    protected: true
+  trow:
+    protected: true
+  docker-registry:
+    protected: true
+  tritoninferenceserver:
     protected: true
