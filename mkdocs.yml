@@ -1,2 +1,10 @@
-site_name: My Docs
+site_name: "BioImageArchive Binder"
+site_url: "https://binder.bioimagearchive.org/"
+nav:
+  - 'index.md'
+  - 'user_guide.md'
+  # - 'jupyter.md'
+  # - 'kubeflow.md'
+  - 'deployment.md'
+  # - 'setup.md'
 theme: readthedocs

@@ -1,4 +1,5 @@
-replicas: 2
+# binderhub:
+replicas: 1
 pdb:
   minAvailable: 1
 
@@ -9,7 +10,6 @@ resources:
   limits:
     cpu: "2"
     memory: 3Gi
- 
 config:
   BinderHub:
     template_path: /etc/binderhub/custom/binderhub/frontend-custom/template
@@ -24,7 +24,9 @@ config:
     # hub_url: http://binder.bioimagearchive.org/binderhub/
     use_registry: true
     image_prefix: bioimagearchive/binder-
-    build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
+    build_image: jupyter/repo2docker:2021.03.0-70.g43891a6
+    # build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
+
     banner_message: |
       <div style="text-align: center;">This is a public Beta and liable to downtime</div>
     # build_image: "aicrowd/repo2docker"
@@ -37,6 +39,9 @@ cors: &cors
   allowOrigin: '*'
 
 jupyterhub:
+  proxy:
+    service:
+      type: ClusterIP
   cull:
     users: True
   custom:
@@ -51,9 +56,21 @@ jupyterhub:
           - bioimagearchive
         scope:
           - read:user
-    baseUrl: /binderhub
+    baseUrl: /jhub
     networkPolicy:
       enabled: true
+    extraConfig:
+        fuseConfig: |
+          from kubernetes import client
+          def modify_pod_hook(spawner, pod):
+            pod.spec.containers[0].security_context = client.V1SecurityContext(
+              privileged=True,
+              capabilities=client.V1Capabilities(
+                  add=['SYS_ADMIN']
+              )
+            )
+            return pod
+          c.KubeSpawner.modify_pod_hook = modify_pod_hook
   ingress:
     enabled: true
     hosts:
@@ -63,7 +80,15 @@ jupyterhub:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/proxy-body-size: 2m
   singleuser:
+    extraEnv: 
+      GRANT_SUDO: "yes"
+      NOTEBOOK_ARGS: "--allow-root"
+      # JUPYTER_ENABLE_LAB: "true"
+    # uid: 0
+    # cmd: start-singleuser.sh
     # cmd: jupyterhub-singleuser
+    # cmd: start-singleuser.sh
+    # cmd: null
     cpu:
       limit: 2
       guarantee: 1
@@ -80,13 +105,13 @@ jupyterhub:
   #       - name: nfs-bs-ftp
   #         mountPath: /home/jovyan/biostudies
       # #     readOnly: true
-  # profileList:
-  #   - display_name: "GPU Server"
-  #     description: "Spawns a notebook server with access to a GPU"
-  #     kubespawner_override:
-  #       extra_resource_limits:
-  #         nvidia.com/gpu: "1"
-  #   - display_name: "No GPU"
+    profileList:
+      - display_name: "GPU Server"
+        description: "Spawns a notebook server with access to a GPU"
+        kubespawner_override:
+          extra_resource_limits:
+            smarter-devices/fuse: "1"
+      # - display_name: "No GPU"
   #     description: "Spawns a notebook server with access to a GPU"
 # proxy:
 #   # secretToken:
@@ -101,37 +126,9 @@ jupyterhub:
 #     - ""
 #     - localhost
 
-dind:
-  enabled: true
-  resources:
-    requests:
-      cpu: "1"
-      memory: 4Gi
-    limits:
-      cpu: "2"
-      memory: 6Gi
-
-ingress:
-  enabled: true
-  hosts:
-    - ""
-    - "localhost"
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-    cert-manager.k8s.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    https:
-      enabled: true
-      type: nginx
-  tls:
-    - secretName: binder-bioimagearchive-org-cert
-      hosts:
-        - binder.bioimagearchive.org
-
 initContainers:
   - name: git-clone-templates
-    image: alpine/git
+    image: alpine/git:latest
     args:
       - clone
       - --single-branch
@@ -151,3 +148,35 @@ extraVolumes:
 extraVolumeMounts:
   - name: custom-templates
     mountPath: /etc/binderhub/custom
+
+dind:
+  enabled: true
+  resources:
+    requests:
+      cpu: "2"
+      memory: 4Gi
+    limits:
+      cpu: "4"
+      memory: 6Gi
+
+ingress:
+  enabled: true
+  hosts:
+    - ""
+    - "localhost"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    cert-manager.k8s.io/acme-challenge-type: http01
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+    # https:
+    #   enabled: true
+    #   type: nginx
+  tls:
+    - secretName: binder-bioimagearchive-org-cert
+      hosts:
+        - binder.bioimagearchive.org
+
+service:
+  type: ClusterIP
