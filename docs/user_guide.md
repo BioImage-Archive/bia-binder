@@ -1,15 +1,4 @@
 # User Guide
-## Services and capabilities
-
-| Tier |                   URL                  |          Flavour         |                          Resources                         |
-|:----:|:--------------------------------------:|:------------------------:|:----------------------------------------------------------:|
-|   1  | binder.bioimagearchive.org             | Public Binderhub         | 8Gb RAM, 4 vCPUs                                           |
-|   1  | binder.bioimagearchive.org/sandbox     | Public Jupyterhub        | 8Gb RAM, 4 vCPUs                                           |
-|   2  | binder.bioimagearchive.org/github      | Authenticated Jupyterhub | <16Gb RAM, <8 vCPUs, 15 GB Storage, Dask                   |
-|   2  | gpu.beta.binder.bioimagearchive.org    | Authenticated Jupyterhub | <32Gb RAM, <8 vCPUs, (1-2) GPUs, Dask                      |
-|   2  | beta.binder.bioimagearchive.org/github | Authenticated Jupyterhub | <32Gb RAM, <8 vCPUs, 15 GB Storage, (1-2) GPUs, Dask       |
-|   3  | kubeflow.binder.bioimagearchive.org    | Authenticated Kubeflow   | n x (<32Gb RAM, <8 vCPUs), 15 GB Storage, (1-2) GPUs, Dask |
-
 ## Cluster(s) structure
 
 Currently there are two Kubernetes clusters jointly (but not very intelligently) hosting the listed services on Embassy Cloud.
