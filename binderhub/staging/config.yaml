@@ -25,4 +25,10 @@ ingress:
   tls:
     - secretName: binder-bioimagearchive-org-cert
       hosts:
-        - "staging.binder.bioimagearchive.org"
+service:
+  type: ClusterIP
+
+
+dind:
+  hostLibDir: /var/lib/dind/staging
+  hostSocketDir: /var/run/dind/staging
