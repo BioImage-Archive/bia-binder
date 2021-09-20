@@ -37,6 +37,9 @@ helmRepos:
   ingress-nginx: "https://kubernetes.github.io/ingress-nginx"
   trow: "https://trow.io"
   twuni: "https://helm.twun.io"
+  # triton: "https://helm.ngc.nvidia.com/nvidia"
+  triton: "https://ctr26.github.io/tritoninferenceserver/"
+
 appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
@@ -152,6 +155,15 @@ apps:
     version: "0.3.3"
     valuesFiles:
       - trow/values.yaml 
+
+  tritoninferenceserver:
+    name: "tritoninferenceserver"
+    namespace: "tritoninferenceserver"
+    chart: "triton/tritoninferenceserver"
+    enabled: true
+    version: "1.0.0"
+    valuesFiles:
+      - triton/values.yaml
 
   docker-registry:
     name: "docker-registry"
