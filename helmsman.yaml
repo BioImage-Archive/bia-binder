@@ -255,8 +255,8 @@ apps:
     namespace: "persistent-binderhub-production"
     group: "production"
     valuesFiles:
-      - "persistent-binderhub/config.yaml"
-      - "persistent-binderhub/production/config.yaml"
+      - "binderhub-persistent/config.yaml"
+      - "binderhub-persistent/production/config.yaml"
       # - "binderhub/persistentVolumes.yaml"
 
 
