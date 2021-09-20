@@ -4,7 +4,7 @@ persistence:
 ingress:
   enabled: true
   hosts:
-    - "registry.ctr26.duckdns.org"
+    - "registry.binder.bioimagearchive.org"
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
@@ -12,13 +12,19 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-production
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
   tls:
-  - secretName: registry-alpha-binder-bioimagearchive-org
+  - secretName: docker-alpha-binder-bioimagearchive-org
     hosts:
-      - "registry.ctr26.duckdns.org"
-secrets:
-  htpasswd: ctr26:$apr1$u1qd43lg$4x/B/j2CDT8GIh.QlQ92F0
+      - "registry.binder.bioimagearchive.org"
+# secrets:
+#   # htpasswd: ctr26:$apr1$u1qd43lg$4x/B/j2CDT8GIh.QlQ92F0
+#   # htpasswd: ctr26:$apr1$ZBrQYo83$OEvR/.DcSi9lQtlsY0Nkr0
+#   htpasswd: |-
+#     ctr26:$2y$05$jURX/JKMYGHQpj2GjH.pLeGStB7CudVXbSLricrylxn4Vrlnh6ueC
 
 
+
+
+  #  ctr26:$apr1$ZBrQYo83$OEvR/.DcSi9lQtlsY0Nkr0
 
 # ingress:
 #   enabled: true
