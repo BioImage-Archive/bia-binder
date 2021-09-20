@@ -1,16 +1,32 @@
-# # binderhub:
-# jupyterhub:
-#   hub:
-#     baseUrl: /
-#   ingress:
-#     enabled: true
-#     hosts:
-#       - alpha.hub.binder.bioimagearchive.org
 
-
+replicas: 1
+dind:
+  enabled: true
+  hostLibDir: /var/lib/dind/gke/production
+  hostSocketDir: /var/run/dind/gke/production
+  resources:
+    requests:
+      cpu: "0.5"
+      memory: 1Gi
+    limits:
+      cpu: "4"
+      memory: 4Gi
 jupyterhub:
+  custom:
   hub:
     baseUrl: /jhub
+    extraConfig:
+        fuseConfig: |
+          from kubernetes import client
+          def modify_pod_hook(spawner, pod):
+            pod.spec.containers[0].security_context = client.V1SecurityContext(
+              privileged=True,
+              capabilities=client.V1Capabilities(
+                  add=['SYS_ADMIN']
+              )
+            )
+            return pod
+          c.KubeSpawner.modify_pod_hook = modify_pod_hook
   proxy:
     service:
       type: ClusterIP
@@ -24,34 +40,67 @@ jupyterhub:
   ingress:
     enabled: true
     hosts:
-      - gke.binder.bioimagearchive.org
+      - bia-binder.duckdns.org
+    # annotations:
+    #   kubernetes.io/ingress.class: nginx
+    #   kubernetes.io/tls-acme: "true"
+    #   cert-manager.io/cluster-issuer: letsencrypt-production
+    #   # cert-manager.io/issue-temporary-certificate: "true"
+    #   # acme.cert-manager.io/http01-edit-in-place: "true" 
+    #   cert-manager.k8s.io/acme-challenge-type: http01
+
+    # https:
+      # enabled: true
+      # type: nginx
+    # tls:
+    #   - secretName: hub-alpha-binder-bioimagearchive-org
+    #     hosts:
+    #       - hub.alpha.binder.bioimagearchive.org
+    # tls:
+    # - secretName: binder-bioimagearchive-org-cert
+    #   hosts:
+    #     - binder.bioimagearchive.org
+  singleuser:
+    # cmd: jupyterhub-singleuser
+    profileList:
+      - display_name: "GPU Server"
+        description: "Spawns a notebook server with access to a GPU"
+        kubespawner_override:
+          extra_resource_limits:
+            nvidia.com/gpu: "1"
+      - display_name: "No GPU"
+        description: "Spawns a notebook server with access to a GPU"
+
 config:
   BinderHub:
-    hub_url: "https://gke.binder.bioimagearchive.org/jhub"
-    banner_message: |
-      <div style="text-align: center;">Alpha service with more RAM and CPU and GPU Support </div>
+    auth_enabled: false
+    use_registry: true
+    hub_url: https://bia-binder.duckdns.org/jhub
+    # image_prefix: "eu.gcr.io/prj-ext-dev-bia-binder-113155/binder-"
+    # banner_message: |
+    #   <div style="text-align: center;">Alpha service with more RAM and CPU and GPU Support </div>
     # image_prefix: docker-registry.docker-registry:5000/binder-
-
 
 ingress:
   enabled: true
   hosts:
-    - "localhost"
-    - ""
-    - "gke.binder.bioimagearchive.org"
-    # - "staging.binder.bioimagearchive.org"
+    - "bia-binder.duckdns.org"
   tls:
     - secretName: binder-bioimagearchive-org-cert
       hosts:
-        - "gke.binder.bioimagearchive.org"
+        - bia-binder.duckdns.org
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
     cert-manager.io/cluster-issuer: letsencrypt-production
+  #   tls:
+  # # - secretName: binder-bioimagearchive-org-cert
+  # #   hosts:
+  # #   - binder.bioimagearchive.org 
+  # annotations:
     acme.cert-manager.io/http01-edit-in-place: "true"
-dind:
-  enabled: true
+
 
 service:
   type: ClusterIP
