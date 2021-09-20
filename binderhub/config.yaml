@@ -56,9 +56,21 @@ jupyterhub:
           - bioimagearchive
         scope:
           - read:user
-    baseUrl: /binderhub
+    baseUrl: /jhub
     networkPolicy:
       enabled: true
+    extraConfig:
+        fuseConfig: |
+          from kubernetes import client
+          def modify_pod_hook(spawner, pod):
+            pod.spec.containers[0].security_context = client.V1SecurityContext(
+              privileged=True,
+              capabilities=client.V1Capabilities(
+                  add=['SYS_ADMIN']
+              )
+            )
+            return pod
+          c.KubeSpawner.modify_pod_hook = modify_pod_hook
   ingress:
     enabled: true
     hosts:
@@ -68,7 +80,15 @@ jupyterhub:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/proxy-body-size: 2m
   singleuser:
+    extraEnv: 
+      GRANT_SUDO: "yes"
+      NOTEBOOK_ARGS: "--allow-root"
+      # JUPYTER_ENABLE_LAB: "true"
+    # uid: 0
+    # cmd: start-singleuser.sh
     # cmd: jupyterhub-singleuser
+    # cmd: start-singleuser.sh
+    # cmd: null
     cpu:
       limit: 2
       guarantee: 1
@@ -85,13 +105,13 @@ jupyterhub:
   #       - name: nfs-bs-ftp
   #         mountPath: /home/jovyan/biostudies
       # #     readOnly: true
-  # profileList:
-  #   - display_name: "GPU Server"
-  #     description: "Spawns a notebook server with access to a GPU"
-  #     kubespawner_override:
-  #       extra_resource_limits:
-  #         nvidia.com/gpu: "1"
-  #   - display_name: "No GPU"
+    profileList:
+      - display_name: "GPU Server"
+        description: "Spawns a notebook server with access to a GPU"
+        kubespawner_override:
+          extra_resource_limits:
+            smarter-devices/fuse: "1"
+      # - display_name: "No GPU"
   #     description: "Spawns a notebook server with access to a GPU"
 # proxy:
 #   # secretToken:
