@@ -23,8 +23,6 @@ jupyterhub:
     # cookieSecret: "77a708e6aa1f1fadb67fb9e6479f390911b9e880f178d36a35d9301114f1767e"
     config:
       GitHubOAuthenticator:
-        client_id: "***REMOVED***"
-        client_secret: "***REMOVED***"
         oauth_callback_url: https://beta.binder.bioimagearchive.org/jhub/hub/oauth_callback
         allowed_organizations:
           - bioimagearchive

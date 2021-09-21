@@ -106,8 +106,6 @@ binderhub:
       baseUrl: /
       config:
         GitHubOAuthenticator:
-          client_id: ***REMOVED***
-          client_secret: ***REMOVED***
           oauth_callback_url: https://login.binder.bioimagearchive.org/hub/oauth_callback
         JupyterHub:
           authenticator_class: github
