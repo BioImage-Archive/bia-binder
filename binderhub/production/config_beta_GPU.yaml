@@ -14,8 +14,6 @@ jupyterhub:
         oauth_client_id: "binder-oauth-client-test"
     config:
       GitHubOAuthenticator:
-        client_id: ***REMOVED***
-        client_secret: ***REMOVED***
         oauth_callback_url: https://gpu.binder.bioimagearchive.org/jhub/hub/oauth_callback
       JupyterHub:
         authenticator_class: github

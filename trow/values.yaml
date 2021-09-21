@@ -2,7 +2,6 @@
 trow:
   domain: trow.ctr26.duckdns.org
   user: "bia"
-  password: "***REMOVED***="
 ingress:
     enabled: true
     annotations:
