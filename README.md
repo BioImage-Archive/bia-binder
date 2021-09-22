@@ -1,7 +1,7 @@
-# Bio-Image Archive Kubernetes analysis platform
+<!-- # Bio-Image Archive Kubernetes analysis platform -->
 
-- [`setup.md`](docs/setup.md) If you are setting this up from scratch follow these instructions to setup GitLab CI/CD.
-- [`deployment.md`](docs/deployment.md) If you wish to change the deployment read this.
+<!-- - [`setup.md`](docs/setup.md) If you are setting this up from scratch follow these instructions to setup GitLab CI/CD.
+- [`deployment.md`](docs/deployment.md) If you wish to change the deployment read this. -->
 
 
 ## Quick start
@@ -14,7 +14,7 @@ Install minikube and helmfile
 Add the secrets to your local environment
 
     source secrets.env
-
+<!-- 
 Create a namespace, role, account and additional token for the Gitlab runner
 
 https://kubernetes.io/docs/admin/service-accounts-admin/
@@ -28,7 +28,7 @@ This will give the GitLab runner almost full administrative access to the cluste
 
 For production
 
-    helmfile -e default sync
+    helmfile -e default sync -->
 
 ## TODO
 
