@@ -34,3 +34,4 @@ For production
 
 - Continuous integration
 - Elixir login portal
+- Speed up image pull
