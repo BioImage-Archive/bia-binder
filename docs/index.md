@@ -61,6 +61,8 @@ BinderHub allows users to share reproducible interactive computing environments 
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/basic-gpu-binder/HEAD) &emsp; Binder for machine learning using GPUs
 
+> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/betatim/vscode-binder/master?urlpath=vscode) &emsp; Vs Code on Binderhub
+
 ## Services and capabilities
 
 | Tier |URL|Flavour|Resources|
