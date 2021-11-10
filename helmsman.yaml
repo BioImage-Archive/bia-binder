@@ -39,6 +39,8 @@ helmRepos:
   twuni: "https://helm.twun.io"
   # triton: "https://helm.ngc.nvidia.com/nvidia"
   triton: "https://ctr26.github.io/tritoninferenceserver/"
+  # prometheus-community: "https://prometheus-community.github.io/helm-charts"
+  # kube-state-metrics: "https://kubernetes.github.io/kube-state-metrics"
   nvdp: "https://nvidia.github.io/k8s-device-plugin"
 
 appsTemplates:
@@ -159,12 +161,24 @@ apps:
       - trow/values.yaml
       - trow/values.yaml 
 
+  # tritoninferenceserver:
+  #   name: "tritoninferenceserver"
+  #   namespace: "tritoninferenceserver"
+  #   chart: "triton/tritoninferenceserver"
+  #   enabled: true
+  #   version: "1.0.0"
+  #   valuesFiles:
+  #     - triton/values.yaml
+
   nvidia-device-plugin:
     name: "nvidia-device-plugin"
     namespace: "nvidia-device-plugin"
     chart: "nvdp/nvidia-device-plugin"
     enabled: true
     version: "0.9.0"
+    # valuesFiles:
+    #   - triton/values.yaml
+
   # prometheus:
   #   name: "prometheus"
   #   namespace: "tritoninferenceserver"
