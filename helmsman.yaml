@@ -95,6 +95,7 @@ appsTemplates:
       # registry.username: "admin"
       # registry.password: "password"
       config.BinderHub.use_registry: true
+      # config.BinderHub.image_prefix: "gcr.io/prj-ext-dev-bia-binder-113155/binder-"
   jupyterhub: &jupyterhub
     name: "jupyterhub"
     chart: "jupyterhub/jupyterhub"
@@ -132,9 +133,8 @@ appsTemplates:
       # binderhub.config.BinderHub.image_prefix: "registry.alpha.binder.bioimagearchive.org/binder-"
       # binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
       binderhub.config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
-      binderhub.config.DockerRegistry.token_url: ""
-      binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
-      binderhub.registry.url: https://registry.binder.bioimagearchive.org
+      # binderhub.config.DockerRegistry.token_url: ""
+      # binderhub.config.BinderHub.image_prefix: "gcr.io/prj-ext-dev-bia-binder-113155/"
       
 
 

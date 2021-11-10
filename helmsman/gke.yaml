@@ -8,7 +8,6 @@ apps:
 #     protected: false
 #   binderhub-production-gpu:
 #     protected: false
-
   binderhub-production:
     valuesFiles:
     - "../binderhub/config.yaml"
