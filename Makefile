@@ -82,10 +82,15 @@ gke.binder.deploy.nginx:
 gke.binder.deploy.staging:
 	helmsman --apply --debug --target binderhub-staging -f helmsman.yaml -f helmsman/staging.yaml -f helmsman/gke.yaml --always-upgrade
 
+gke.nvdp.production:
+	helmsman --apply --debug --target nvidia-device-plugin -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gke.yaml --always-upgrade
+
 gke.deploy.prod:
 	helmsman --apply --debug --group production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gke.yaml --always-upgrade
 gke.triton.deploy.prod:
 	helmsman --apply --debug --target tritoninferenceserver -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gke.yaml --always-upgrade
+gke.prometheus.deploy.prod:
+	helmsman --apply --debug --target prometheus -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gke.yaml --always-upgrade
 
 
 gke.persistent.alpha.binder.deploy.prod:
