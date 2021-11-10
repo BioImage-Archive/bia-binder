@@ -35,3 +35,7 @@ namespaces:
     protected: false
   tritoninferenceserver:
     protected: false
+  monitoring:
+    protected: false
+  nvidia-device-plugin:
+    protected: false

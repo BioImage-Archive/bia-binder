@@ -39,6 +39,7 @@ helmRepos:
   twuni: "https://helm.twun.io"
   # triton: "https://helm.ngc.nvidia.com/nvidia"
   triton: "https://ctr26.github.io/tritoninferenceserver/"
+  nvdp: "https://nvidia.github.io/k8s-device-plugin"
 
 appsTemplates:
   binderhub: &binderhub
@@ -158,14 +159,26 @@ apps:
       - trow/values.yaml
       - trow/values.yaml 
 
-  tritoninferenceserver:
-    name: "tritoninferenceserver"
-    namespace: "tritoninferenceserver"
-    chart: "triton/tritoninferenceserver"
+  nvidia-device-plugin:
+    name: "nvidia-device-plugin"
+    namespace: "nvidia-device-plugin"
+    chart: "nvdp/nvidia-device-plugin"
     enabled: true
-    version: "1.0.0"
-    valuesFiles:
-      - triton/values.yaml
+    version: "0.9.0"
+  # prometheus:
+  #   name: "prometheus"
+  #   namespace: "tritoninferenceserver"
+  #   chart: "prometheus-community/prometheus"
+  #   # chart: "prometheus/prometheus-adapter"
+  #   enabled: true
+  #   version: "14.7.1"
+  #   # hooks:
+  #   #   postUpgrade: 
+  #   #     - "triton/config_map.yaml"
+  #   #     - "triton/deployment.yaml"
+  #   #   postInstall:
+  #   #     - "triton/config_map.yaml"
+  #   #     - "triton/deployment.yaml"
 
   docker-registry:
     name: "docker-registry"
