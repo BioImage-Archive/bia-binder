@@ -59,7 +59,9 @@ appsTemplates:
     # # protected: true
     wait: false # Lethal for binderhub
     timeout: 180
-    enabled: true
+    hooks:
+      postUpgrade: "fuser/fuser.yml"
+      postInstall: "fuser/fuser.yml"
     set:
       registry.username: "$CI_REGISTRY_USER"
       registry.password: "$CI_REGISTRY_PASSWORD"
