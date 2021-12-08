@@ -1,6 +1,6 @@
 # context: minikube
 settings:
-  kubeContext: cpu
+  kubeContext: binder.bioimagearchive.org
   # globalHooks:
     # preUpgrade: "ingress/gpu_redirect.yaml"
 
@@ -42,12 +42,14 @@ helmRepos:
   # prometheus-community: "https://prometheus-community.github.io/helm-charts"
   # kube-state-metrics: "https://kubernetes.github.io/kube-state-metrics"
   nvdp: "https://nvidia.github.io/k8s-device-plugin"
+  nvidia: "https://nvidia.github.io/gpu-operator"
 
 appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
     chart: "jupyterhub/binderhub"
     version: "0.2.0-n645.h06139f0"
+    priority: -8
     # version: "0.2.0-n575.h2dc091f"
     # version: "0.2.0-n467.hbc700d4"
     # version: "0.2.0-n519.hf5c1a19"
@@ -59,6 +61,7 @@ appsTemplates:
     # # protected: true
     wait: false # Lethal for binderhub
     timeout: 180
+    enabled: false
     hooks:
       postUpgrade: "fuser/fuser.yml"
       postInstall: "fuser/fuser.yml"
@@ -111,7 +114,8 @@ appsTemplates:
     # protected: true
     wait: false
     timeout: 1200
-    enabled: true
+    enabled: false
+    priority: -9
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
@@ -127,7 +131,8 @@ appsTemplates:
     version: "0.2.0-n563"
     wait: false # Lethal for binderhub
     timeout: 1200
-    enabled: true
+    enabled: false
+    priority: -11
     set:
       binderhub.registry.username: "$CI_REGISTRY_USER"
       binderhub.registry.password: "$CI_REGISTRY_PASSWORD"
@@ -147,8 +152,8 @@ appsTemplates:
     name: "daskgateway"
     chart: "daskgateway/dask-gateway"
     version: "0.9.0"
-    enabled: true
-    priority: 0
+    enabled: false
+    priority: -10
     timeout: 120
 
 apps:
@@ -157,7 +162,7 @@ apps:
     name: "trow"
     namespace: "trow"
     chart: "trow/trow"
-    enabled: true
+    enabled: false
     version: "0.3.3"
     valuesFiles:
       - trow/values.yaml
@@ -167,7 +172,7 @@ apps:
   #   name: "tritoninferenceserver"
   #   namespace: "tritoninferenceserver"
   #   chart: "triton/tritoninferenceserver"
-  #   enabled: true
+  #   enabled: false
   #   version: "1.0.0"
   #   valuesFiles:
   #     - triton/values.yaml
@@ -176,8 +181,8 @@ apps:
     name: "nvidia-device-plugin"
     namespace: "nvidia-device-plugin"
     chart: "nvdp/nvidia-device-plugin"
-    enabled: true
-    version: "0.9.0"
+    enabled: false
+    version: "0.10.0"
     # valuesFiles:
     #   - triton/values.yaml
 
@@ -186,7 +191,7 @@ apps:
   #   namespace: "tritoninferenceserver"
   #   chart: "prometheus-community/prometheus"
   #   # chart: "prometheus/prometheus-adapter"
-  #   enabled: true
+  #   enabled: false
   #   version: "14.7.1"
   #   # hooks:
   #   #   postUpgrade: 
@@ -201,7 +206,8 @@ apps:
     namespace: "docker-registry"
     chart: "twuni/docker-registry"
     group: "production"
-    enabled: true
+    enabled: false
+    priority: -3
     version: "1.11.0"
     set:
       proxy:enabled: true
@@ -211,21 +217,22 @@ apps:
       - docker-registry/values.yaml 
 
 
-  nginx-ingress:
-    name: "nginx-ingress"
-    namespace: "nginx-ingress"
-    chart: "nginx-stable/nginx-ingress"
-    enabled: false
-    version: "3.35.0"
-    valuesFiles:
-      - ingress/nginx-ingress.yaml 
+  # nginx-ingress:
+  #   name: "nginx-ingress"
+  #   namespace: "nginx-ingress"
+  #   chart: "nginx-stable/nginx-ingress"
+  #   enabled: false
+  #   version: "3.35.0"
+  #   valuesFiles:
+  #     - ingress/nginx-ingress.yaml 
 
   ingress-nginx:
     name: "ingress-nginx"
     namespace: "ingress-nginx"
     chart: "ingress-nginx/ingress-nginx"
     group: "production"
-    enabled: true
+    enabled: false
+    priority: 0
     version: "3.35.0"
     valuesFiles:
       - ingress/nginx-ingress.yaml 
@@ -356,7 +363,7 @@ apps:
   #   chart: "jupyterhub/jupyterhub"
   #   # version: "0.9.0"
   #   version: "0.10.2-n047.hb387f987"
-  #   enabled: true
+  #   enabled: false
   #   priority: 0
   #   timeout: 1200
   #   # wait: true
@@ -394,7 +401,7 @@ apps:
   cert-manager-production:
     name: "cert-manager"
     chart: "jetstack/cert-manager"
-    enabled: true
+    enabled: false
     priority: 0
     # timeout: 120
     version: "v1.4.2"
@@ -421,7 +428,7 @@ apps:
 #   chart: "jupyterhub/jupyterhub"
 #   # version: "0.9.0"
 #   version: "0.10.2-n047.hb387f987"
-#   enabled: true
+#   enabled: false
 #   priority: 0
 #   timeout: 1200
 #   # wait: true
@@ -438,6 +445,6 @@ apps:
 #   protected: true
 #   chart: "jupyterhub/binderhub"
 #   version: "0.2.0-n361.h6f57706"
-#   enabled: true
+#   enabled: false
 #   priority: 0
 #   # set:
