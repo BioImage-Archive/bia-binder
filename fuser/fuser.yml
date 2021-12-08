@@ -1,9 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smarter-device-manager
+  # namespace: device-manager
+data:
+  conf.yaml: |
+    - devicematch: ^fuse$
+      nummaxdevices: 200
+---
 # https://gitlab.com/arm-research/smarter/smarter-device-manager/-/blob/master/smarter-device-manager-ds.yaml
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: smarter-device-manager
-  namespace: device-manager
+  # namespace: device-manager
   labels:
     name: smarter-device-manager
     role: agent
