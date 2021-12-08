@@ -1,0 +1,23 @@
+settings:
+  kubeContext: gke_prj-ext-dev-bia-binder-113155_europe-west2_binder
+apps:
+  nginx-ingress:
+    enabled: false
+# namespaces:
+#   binderhub-staging-gpu:
+#     protected: false
+#   binderhub-production-gpu:
+#     protected: false
+  binderhub-production:
+    valuesFiles:
+    - "../binderhub/config.yaml"
+    # - "binderhub/production/config.yaml"
+    - "../binderhub/production/config_beta_GKE.yaml"
+
+  # binderhub-production-gpu:
+  #   enabled: true
+  #   valuesFiles:
+  #   - "../binderhub/config.yaml"
+  #   # - "binderhub/production/config.yaml"
+  #   - "../binderhub/production/config_beta.yaml"
+  #   - "../binderhub/production/config_beta_GPU.yaml"
