@@ -2,11 +2,18 @@
 
 BASEDIR = $(shell pwd)
 SOURCE:=$(shell source secrets.env)
-# include .secrets
 
-deploy.prod:
+# include secrets.env
+# export
+
+deploy.production:
+	helmsman --apply --debug --group production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/binder.yaml
+deploy.staging:
+	helmsman --apply --debug --group staging -f helmsman.yaml -f helmsman/staging.yaml -f helmsman/binder.yaml
+
+ci.deploy.prod:
 	helmsman --apply --debug --group production -f helmsman/token.yaml -f helmsman.yaml -f helmsman/production.yaml
-deploy.staging:	helmsman --apply --debug --group staging -f helmsman/token.yaml -f helmsman.yaml -f helmsman/staging.yaml
+ci.deploy.staging:	helmsman --apply --debug --group staging -f helmsman/token.yaml -f helmsman.yaml -f helmsman/staging.yaml
 
 binder.deploy.prod:
 	helmsman --apply --debug --target binderhub-production -f helmsman.yaml -f helmsman/production.yaml --always-upgrade
@@ -72,6 +79,8 @@ gpu.beta.binder.deploy.prod.dry:
 gpu.cert.deploy.prod:
 	helmsman --apply --debug --target cert-manager-production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gpu.yaml --always-upgrade
 
+gpu.nvdp.production:
+	helmsman --apply --debug --target nvidia-gpu-operator -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gpu.yaml --always-upgrade
 
 
 gke.binder.deploy.prod:
