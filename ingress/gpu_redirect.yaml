@@ -108,7 +108,7 @@ metadata:
   namespace: default
 subsets:
 - addresses:
-  - ip: 45.88.80.74
+  - ip: 45.88.81.242
   ports:
   - name: http
     port: 80
