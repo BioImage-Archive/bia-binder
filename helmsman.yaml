@@ -1,6 +1,6 @@
 # context: minikube
 settings:
-  kubeContext: binder.bioimagearchive.org
+  kubeContext: binder
   # globalHooks:
     # preUpgrade: "ingress/gpu_redirect.yaml"
 

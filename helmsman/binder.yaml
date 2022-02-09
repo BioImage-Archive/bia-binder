@@ -1,5 +1,5 @@
 settings:
-  kubeContext: binder.bioimagearchive.org
+  kubeContext: binder
 apps:
   binderhub-production:
     enabled: true
