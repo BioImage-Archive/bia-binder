@@ -37,7 +37,7 @@ singleuser:
   uid: 0
   defaultUrl: "/lab"
   storage:
-    capacity: 15G
+    capacity: 32G
     extraVolumes:
       - name: shm-volume
         emptyDir:
@@ -52,9 +52,9 @@ singleuser:
     limit: 4
     guarantee: 2
   lifecycleHooks:
-  postStart:
-    exec:
-      command: ["cp", "-a", "src", "target"]
+  # postStart:
+    # exec:
+      # command: ["cp", "-a", "src", "target"]
   profileList:
     - display_name: "Minimal"
       description: "Spawns a notebook server with 1G ram and 1 CPU core"
@@ -80,14 +80,33 @@ singleuser:
     - display_name: "16GB - 4 core - GPU"
       description: "Spawns a notebook server with 16G ram and 4 CPU cores + GPU"
       kubespawner_override:
-        image: cschranz/gpu-jupyter
+        # image: cschranz/gpu-jupyter
         cpu_limit: 4
         cpu_guarantee: 2
         memory_limit: 12G
         memory_guarantee: 8G
         extra_resource_limits:
           nvidia.com/gpu: "1"
-
+    - display_name: "32GB - 8 core - 2 GPU"
+      description: "Spawns a notebook server with 32G ram and 4 CPU cores + 2GPU"
+      kubespawner_override:
+        # image: cschranz/gpu-jupyter
+        cpu_limit: 8
+        cpu_guarantee: 4
+        memory_limit: 32G
+        memory_guarantee: 16G
+        extra_resource_limits:
+          nvidia.com/gpu: "2"
+    # - display_name: "32GB - 4 core - GPU"
+    #   description: "Spawns a notebook server with 8G ram and 4 CPU cores + GPU"
+    #   kubespawner_override:
+    #     image: cschranz/gpu-jupyter
+    #     cpu_limit: 8
+    #     cpu_guarantee: 4
+    #     memory_limit: 48G
+    #     memory_guarantee: 32G
+    #     extra_resource_limits:
+    #       nvidia.com/gpu: "1"
     # - http://45.86.170.228/
   # annotations:
   #   kubernetes.io/ingress.class: nginx
