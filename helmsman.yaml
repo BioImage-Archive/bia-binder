@@ -43,7 +43,7 @@ helmRepos:
   # kube-state-metrics: "https://kubernetes.github.io/kube-state-metrics"
   nvdp: "https://nvidia.github.io/k8s-device-plugin"
   nvidia: "https://nvidia.github.io/gpu-operator"
-
+  
 appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
@@ -181,6 +181,7 @@ apps:
     name: "nvidia-device-plugin"
     namespace: "nvidia-device-plugin"
     chart: "nvdp/nvidia-device-plugin"
+    group: "production"
     enabled: false
     version: "0.10.0"
     # valuesFiles:
