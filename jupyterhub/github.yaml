@@ -7,24 +7,24 @@ hub:
   #   type: sqlite-pvc
   #   pvc:
   #     storageClassName: gluster
-  extraConfig:
-    config: |
-      c.JupyterHub.cleanup_servers = False
+  # extraConfig:
+  #   config: |
+  #     c.JupyterHub.cleanup_servers = False
 
-auth:
-  admin:
-    access: true
-    users:
-      - ctr26
+# auth:
+#   admin:
+#     access: true
+#     users:
+#       - ctr26
 
-  type: github
-  github:
-    org_whitelist:
-      - "bioimagearchive"
-    orgWhitelist:
-      - "bioimagearchive"
-  scopes:
-    - "read:org"
+#   type: github
+#   github:
+#     org_whitelist:
+#       - "bioimagearchive"
+#     orgWhitelist:
+#       - "bioimagearchive"
+#   scopes:
+#     - "read:org"
 
 cull:
   timeout: 3600

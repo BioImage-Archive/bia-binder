@@ -1,0 +1,22 @@
+hub:
+  config:
+    GitHubOAuthenticator:
+      # admin_users:
+      #   - ctr26
+      # allowed_organizations:
+      #   - bioimagearchive
+      # scope:
+      #   - read:user
+    JupyterHub:
+      # authenticator_class: oauthenticator.github.GitHubOAuthenticator
+      authenticator_class: github
+  # extraConfig:
+  #   config:
+
+
+ingress:
+  annotations:
+      kubernetes.io/ingress.class: nginx
+  enabled: true
+  hosts:
+    - "gpu.binder.bioimagearchive.org"

@@ -9,11 +9,11 @@ hub:
     enabled: true
   # Storing the db in memory means it's lost on restart
   # This may help to avoid dangling servers
-  extraConfig: |
-    c.JupyterHub.cleanup_servers = True
+  # extraConfig: |
+    # c.JupyterHub.cleanup_servers = True
 
-auth:
-  type: tmp
+# auth:
+#   type: tmp
 
 proxy:
   service:
@@ -27,11 +27,11 @@ cull:
   every: 300
 
 singleuser:
-  storage:
-    type: none
-  image:
-    name: bioimagearchive/jupyter-hub-docker
-    tag: "20210202"
+  # storage:
+    # type: none
+  # image:
+    # name: bioimagearchive/jupyter-hub-docker
+    # tag: "20210202"
   startTimeout: 1800
   cpu:
     limit: 4
