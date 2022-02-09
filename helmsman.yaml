@@ -118,8 +118,8 @@ appsTemplates:
     priority: -9
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-      auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
-      auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
+      # auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
+      # auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
       # ingress.hosts: "binder.bioimagearchive.org"
     # hooks:
       # preUpgrade: "persistentVolumes/biostudies.yaml"
@@ -389,8 +389,8 @@ apps:
     name: "jupyterhub-github-production"
     group: "production"
     namespace: "jupyterhub-github-production"
-    set:
-      auth.github.callbackUrl: "$HOST_NAME/github/hub/oauth_callback"
+    # set:
+      # auth.github.callbackUrl: "$HOST_NAME/github/hub/oauth_callback"
     valuesFiles:
       - "jupyterhub/config.yaml"
       - "jupyterhub/production/config.yaml"
