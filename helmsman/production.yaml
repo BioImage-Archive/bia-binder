@@ -39,3 +39,7 @@ namespaces:
     protected: false
   nvidia-device-plugin:
     protected: false
+  gpu-operator:
+    protected: false
+
+
