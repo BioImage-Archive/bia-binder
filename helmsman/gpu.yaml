@@ -6,9 +6,23 @@ settings:
 #     protected: false
 #   binderhub-production-gpu:
 #     protected: false
-
 apps:
+  jupyterhub-github-production:
+    version: 1.2.0
+    enabled: true
+    set:
+      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      # hub.config.GitHubOAuthenticator.clientId: "$SECRET_GITHUB_CLIENTID"
+      # hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTSECRET"
+    valuesFiles:
+      - "../jupyterhub/config.yaml"
+      - "../jupyterhub/production/config.yaml"
+    #   # - "jupyterhub/persistentVolumes.yaml"
+    #   - "jupyterhub/github.yaml"
+      - "../jupyterhub/production/github_gpu.yaml"
+      # - "jupyterhub/production/github.yaml"
   binderhub-production:
+    enabled: false
     valuesFiles:
     - "../binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
@@ -16,8 +30,40 @@ apps:
 
   binderhub-production-gpu:
     enabled: true
+    version: "0.2.0-n866.h4e75de4"
     valuesFiles:
-    - "../binderhub/config.yaml"
+    # - ""
+    # - "../binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
     # - "../binderhub/production/config_beta.yaml"
     - "../binderhub/production/config_beta_GPU.yaml"
+
+  ingress-nginx:
+    enabled: true
+    version: 4.0.16
+
+  nvidia-gpu-operator:
+    enabled: false
+    set:
+      # driver.repository: "quay.io/compendius"
+      # toolkit.enabled: true
+      # driver.enabled: true
+      operator.defaultRuntime: "containerd"
+      toolkit.env[0].name: CONTAINERD_CONFIG
+      toolkit.env[0].value: /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl
+      toolkit.env[1].name: CONTAINERD_SOCKET
+      toolkit.env[1].value: /run/k3s/containerd/containerd.sock
+      toolkit.env[2].name: CONTAINERD_RUNTIME_CLASS
+      toolkit.env[2].value: nvidia
+      toolkit.env[3].name: CONTAINERD_SET_AS_DEFAULT
+    setString:
+      toolkit.env[3].value: true
+  nvidia-device-plugin:
+    enabled: true
+
+
+
+  # jupyterhub-sandbox-production:
+  #   enabled: false
+  # jupyterhub-sandbox-staging:
+  #   enabled: false
