@@ -6,11 +6,17 @@ settings:
 #     protected: false
 #   binderhub-production-gpu:
 #     protected: false
+
+
+
 apps:
   jupyterhub-github-production:
     version: 1.2.0
     enabled: true
     set:
+      hub.config.GitHubOAuthenticator.client_id: "$SECRET_GITHUB_CLIENTID_GPU"
+      hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTIDSECRET_GPU"
+      hub.config.GitHubOAuthenticator.oauth_callback_url: "$GITHUB_OAUTH_CALLBACK_URL_GPU"
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       # hub.config.GitHubOAuthenticator.clientId: "$SECRET_GITHUB_CLIENTID"
       # hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTSECRET"
