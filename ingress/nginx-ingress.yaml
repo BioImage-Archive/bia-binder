@@ -1,8 +1,11 @@
-# controller:
-#   # service:
-#   #   loadBalancerIP: 45.88.80.49
-#   # admissionWebhooks:
-#   #   enabled: false
+controller:
+  ingressClass: nginx
+  # service:
+    # loadBalancerIP: 45.88.81.23
+  # admissionWebhooks:
+  #   enabled: false
+  extraArgs:
+    ingress-class: nginx
 rbac:
   create: true
 # Crucial for cert-manager to work for some reason: 
