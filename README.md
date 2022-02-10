@@ -1,4 +1,4 @@
-# Bio-Image Archive Kubernetes analysis platform
+<!-- # Bio-Image Archive Kubernetes analysis platform -->
 
 <!-- - [`setup.md`](docs/setup.md) If you are setting this up from scratch follow these instructions to setup GitLab CI/CD.
 - [`deployment.md`](docs/deployment.md) If you wish to change the deployment read this.
@@ -35,3 +35,4 @@ For production
 
 - Continuous integration
 - Elixir login portal
+- Speed up image pull

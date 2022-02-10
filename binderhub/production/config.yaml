@@ -3,6 +3,8 @@ config:
     auth_enabled: false
     hub_url: https://binder.bioimagearchive.org/jhub/
 
+
+    
 jupyterhub:
   hub:
     extraConfig:
