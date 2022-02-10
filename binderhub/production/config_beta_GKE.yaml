@@ -1,9 +1,13 @@
 
 replicas: 1
+registry:
+  url: https://gcr.io
+  password: |
+
 dind:
   enabled: true
-  hostLibDir: /var/lib/dind/gke/production
-  hostSocketDir: /var/run/dind/gke/production
+  hostLibDir: /var/lib/dind/gke/staging
+  hostSocketDir: /var/run/dind/gke/staging
   resources:
     requests:
       cpu: "0.5"

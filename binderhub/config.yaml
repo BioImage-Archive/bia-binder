@@ -6,10 +6,10 @@ pdb:
 resources:
   requests:
     cpu: "1"
-    memory: 2Gi
+    memory: 4Gi
   limits:
     cpu: "2"
-    memory: 3Gi
+    memory: 6Gi
 config:
   BinderHub:
     template_path: /etc/binderhub/custom/binderhub/frontend-custom/template
@@ -83,6 +83,8 @@ jupyterhub:
     extraEnv: 
       GRANT_SUDO: "yes"
       NOTEBOOK_ARGS: "--allow-root"
+    # uid: 0
+    # cmd: start-singleuser.sh
       # JUPYTER_ENABLE_LAB: "true"
     # uid: 0
     # cmd: start-singleuser.sh
@@ -97,14 +99,19 @@ jupyterhub:
       guarantee: 1G
   #   storage:
   #     type: none
-  #     extraVolumes:
+      # extraVolumes:
   #       - name: nfs-bs-ftp
   #         persistentVolumeClaim:
   #           claimName: nfs-bs-ftp-pvc
+        # - name: nfs-volume
+        #   nfs: 
+        #     # URL for the NFS server
+        #     server: 10.108.211.244 # Change this!
+        #     path: /
   #     extraVolumeMounts:
-  #       - name: nfs-bs-ftp
-  #         mountPath: /home/jovyan/biostudies
-      # #     readOnly: true
+        # - name:  nfs-bs-ftp-pv-binderhub
+        #   mountPath: /home/jovyan/biostudies
+      #     readOnly: true
     profileList:
       - display_name: "GPU Server"
         description: "Spawns a notebook server with access to a GPU"

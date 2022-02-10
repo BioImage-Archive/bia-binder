@@ -7,8 +7,6 @@ settings:
 #   binderhub-production-gpu:
 #     protected: false
 
-
-
 apps:
   jupyterhub-github-production:
     version: 1.2.0
