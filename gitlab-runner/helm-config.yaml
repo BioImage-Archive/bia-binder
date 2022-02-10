@@ -2,7 +2,7 @@
 # # helm upgrade --install --namespace gitlab gitlab-runner -f gitlab-runner/helm-config.yaml gitlab/gitlab-runner
 
 # gitlabUrl: https://gitlab.ebi.ac.uk/
-# runnerRegistrationToken: SZLsc2yqVpypsjYmM7Fn
+# runnerRegistrationToken: ***REMOVED***
 # rbac:
 #   # Setup our own permissions
 #   create: true
@@ -20,7 +20,7 @@
 # helm upgrade --install --namespace gitlab gitlab-runner -f gitlab-runner/helm-config.yaml gitlab/gitlab-runner
 
 gitlabUrl: https://gitlab.ebi.ac.uk/
-runnerRegistrationToken: SZLsc2yqVpypsjYmM7Fn
+runnerRegistrationToken: ""
 rbac:
   # Setup our own permissions
   create: true

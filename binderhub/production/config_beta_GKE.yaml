@@ -1,13 +1,9 @@
 
 replicas: 1
-registry:
-  url: https://gcr.io
-  password: |
-
 dind:
   enabled: true
-  hostLibDir: /var/lib/dind/gke/staging
-  hostSocketDir: /var/run/dind/gke/staging
+  hostLibDir: /var/lib/dind/gke/production
+  hostSocketDir: /var/run/dind/gke/production
   resources:
     requests:
       cpu: "0.5"
@@ -80,7 +76,7 @@ config:
     auth_enabled: false
     use_registry: true
     hub_url: https://bia-binder.duckdns.org/jhub
-    # image_prefix: "eu.gcr.io/prj-ext-dev-bia-binder-113155/binder-"
+    # image_prefix: "eu.gcr.io/***REMOVED***/binder-"
     # banner_message: |
     #   <div style="text-align: center;">Alpha service with more RAM and CPU and GPU Support </div>
     # image_prefix: docker-registry.docker-registry:5000/binder-

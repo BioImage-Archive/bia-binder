@@ -93,7 +93,7 @@ appsTemplates:
       # config.BinderHub.image_prefix: "trow.ctr26.duckdns.org/"
       # registry.url: https://trow.ctr26.duckdns.org
       # registry.username: "bia"
-      # registry.password: "ocft71NtyxkbRkZpRzesA1bdjF0mr1Cc3f0Xb0btHN8="
+      # registry.password: "***REMOVED***="
       # config.BinderHub.use_registry: true
       # config.DockerRegistry.token_url: None
       # config.DockerRegistry.token_url: "https://registry.ctr26.duckdns.org/v2/token?service="
@@ -103,7 +103,6 @@ appsTemplates:
       # registry.username: "admin"
       # registry.password: "password"
       config.BinderHub.use_registry: true
-      # config.BinderHub.image_prefix: "gcr.io/prj-ext-dev-bia-binder-113155/binder-"
   jupyterhub: &jupyterhub
     name: "jupyterhub"
     chart: "jupyterhub/jupyterhub"
@@ -126,7 +125,6 @@ appsTemplates:
 
   persistent-binderhub: &persistent-binderhub
     name: "persistent-binderhub"
-
     chart: "persistent_binderhub/persistent_binderhub"
     version: "0.2.0-n563"
     wait: false # Lethal for binderhub
@@ -143,8 +141,9 @@ appsTemplates:
       # binderhub.config.BinderHub.image_prefix: "registry.alpha.binder.bioimagearchive.org/binder-"
       # binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
       binderhub.config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
-      # binderhub.config.DockerRegistry.token_url: ""
-      # binderhub.config.BinderHub.image_prefix: "gcr.io/prj-ext-dev-bia-binder-113155/"
+      binderhub.config.DockerRegistry.token_url: ""
+      binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
+      binderhub.registry.url: https://registry.binder.bioimagearchive.org
       
 
 
