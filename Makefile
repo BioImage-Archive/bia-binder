@@ -8,6 +8,14 @@ SOURCE:=$(shell source secrets.env)
 
 deploy.production:
 	helmsman --apply --debug --group production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/binder.yaml
+
+deploy.gpu.production:
+	helmsman --apply --debug --group production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/gpu.yaml
+
+deploy.denbi.production:
+	helmsman --apply --debug --group production -f helmsman.yaml -f helmsman/production.yaml -f helmsman/denbi.yaml
+
+
 deploy.staging:
 	helmsman --apply --debug --group staging -f helmsman.yaml -f helmsman/staging.yaml -f helmsman/binder.yaml
 
