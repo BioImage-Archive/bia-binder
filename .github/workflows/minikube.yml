@@ -1,0 +1,40 @@
+name: minikube
+on: [push]
+# on: ['deployment']
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    # container: praqma/helmsman:v3.8.1
+    steps:
+      # - run: sudo apt-get update && sudo apt-get install iptables -y
+      # - uses: WyriHaximus/github-action-helm3@v2
+      - name: Install Helmsman
+        run: 'wget -c https://github.com/Praqma/helmsman/releases/download/v3.8.1/helmsman_3.8.1_linux_amd64.tar.gz -O - | tar -xz -C /usr/local/bin/'
+        # - run: which helmsman
+        # - run: ls /usr/local/bin/
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.7.1
+      # - uses: actions/setup-node@v2
+        # - uses: actions/setup-python@v2
+      - name: helm-diff
+        run: helm plugin install https://github.com/databus23/helm-diff
+      # - name: install helmsman
+      #   run: 'curl -L https://github.com/Praqma/helmsman/releases/download/v3.8.1/helmsman_3.8.1_linux_amd64.tar.gz | tar zx && mv helmsman /usr/local/bin/helmsman'
+      - name: KinD (Kubernetes in Docker) Action
+        uses: engineerd/setup-kind@v0.5.0
+      # now you can run kubectl to see the pods in the cluster
+      - name: kubectl
+        run: kubectl get pods -A
+      - uses: actions/checkout@v2
+
+      # - uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: "${{ secrets.GITHUB_TOKEN }}"
+      #     branch: binderhub-bump
+      #     title: "Bump BinderHub Helm Chart"
+      #     body: |
+      #       Bump BinderHub Helm Chart
+      #     commit-message: |
+      #       Bump BinderHub Helm Chart
