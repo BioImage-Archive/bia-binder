@@ -1,5 +1,5 @@
 settings:
-  kubeContext: binder
+  kubeContext: bia-binder
 apps:
   binderhub-production:
     enabled: true
