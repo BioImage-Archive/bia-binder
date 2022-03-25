@@ -1,6 +1,6 @@
 # context: minikube
 settings:
-  kubeContext: binder
+  kubeContext: bia-binder
   # globalHooks:
     # preUpgrade: "ingress/gpu_redirect.yaml"
 
