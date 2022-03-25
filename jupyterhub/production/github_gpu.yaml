@@ -1,6 +1,9 @@
 hub:
   config:
     GitHubOAuthenticator:
+      client_id: "${SECRET_GITHUB_CLIENTID_GPU}"
+      client_secret: "${SECRET_GITHUB_CLIENTIDSECRET_GPU}"
+      oauth_callback_url: "${GITHUB_OAUTH_CALLBACK_URL_GPU}"
       # admin_users:
       #   - ctr26
       # allowed_organizations:
@@ -12,7 +15,6 @@ hub:
       authenticator_class: github
   # extraConfig:
   #   config:
-
 
 ingress:
   annotations:
