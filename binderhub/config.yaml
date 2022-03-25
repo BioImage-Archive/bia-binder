@@ -1,7 +1,5 @@
 # binderhub:
 replicas: 1
-pdb:
-  minAvailable: 1
 
 resources:
   requests:
@@ -12,6 +10,7 @@ resources:
     memory: 6Gi
 config:
   BinderHub:
+    cors_allow_origin: "*"
     template_path: /etc/binderhub/custom/binderhub/frontend-custom/template
     extra_static_path: /etc/binderhub/custom/binderhub/frontend-custom/static
     extra_static_url_prefix: /extra_static/
@@ -35,8 +34,6 @@ config:
     # networkPolicy:
     #   enabled: true
 #     # Good until this:
-cors: &cors
-  allowOrigin: '*'
 
 jupyterhub:
   proxy:
@@ -46,9 +43,10 @@ jupyterhub:
     users: True
   custom:
     binderauth_enabled: false
-    cors: *cors
   hub:
     config:
+      BinderSpawner:
+        cors_allow_origin: '*'
       GitHubOAuthenticator:
         admin_users:
           - ctr26
