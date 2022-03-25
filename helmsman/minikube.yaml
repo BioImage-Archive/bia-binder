@@ -1,3 +1,16 @@
 context: minikube
 settings:
   kubeContext: minikube
+apps:
+  cert-manager:
+    enabled: false
+  docker-registry:
+    enabled: false
+  ingress-nginx:
+    enabled: true
+  nvidia-device-plugin:
+    enabled: false
+  monitoring:
+    enabled: false
+  tritoninferenceserver:
+    enabled: false

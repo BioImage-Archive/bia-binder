@@ -1,8 +1,8 @@
 settings:
   kubeContext: bia-binder
 apps:
-  nginx-ingress:
-    enabled: false
+  # nginx-ingress:
+  #   enabled: false
 # namespaces:
 #   binderhub-staging-gpu:
 #     protected: false
