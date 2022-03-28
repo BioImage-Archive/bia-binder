@@ -63,7 +63,7 @@ binderhub:
         cpu: "4"
         memory: 6Gi
   ingress:
-    enabled: false
+    enabled: true
   service:
     type: ClusterIP
   config:
@@ -99,9 +99,9 @@ binderhub:
       # change this value as you wish,
       # or remove this line if you don't want to have any limit
       namedServerLimitPerUser: 50
-      singleuser:
-        # to make notebook servers aware of hub
-        cmd: jupyterhub-singleuser
+      # singleuser:
+      #   # to make notebook servers aware of hub
+      #   cmd: jupyterhub-singleuser
       redirectToServer: false
       baseUrl: /
       config:
@@ -124,17 +124,17 @@ binderhub:
       hosts:
         - "login.binder.bioimagearchive.org"
       tls:
-        - secretName: login-binder-bioimagearchive-org-cert
+        - secretName: binder-bioimagearchive-org-cert
           hosts:
             - login.binder.bioimagearchive.org
       annotations:
-        kubernetes.io/ingress.class: nginx
+        # kubernetes.io/ingress.class: nginx
         kubernetes.io/tls-acme: "true"
         cert-manager.k8s.io/acme-challenge-type: http01
         cert-manager.io/cluster-issuer: letsencrypt-production
-        https:
-          enabled: true
-          type: nginx
+        # https:
+        #   enabled: true
+        #   type: nginx
     proxy:
       secretToken: "790fd9f44ea71a380294cb1d3b483cef1b3d4cb0fe9335132c56661e85b6ab69"
       service:
