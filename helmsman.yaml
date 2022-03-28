@@ -66,10 +66,9 @@ appsTemplates:
       postUpgrade: "fuser/fuser.yml"
       postInstall: "fuser/fuser.yml"
     set:
-      registry.username: "$CI_REGISTRY_USER"
-      registry.password: "$CI_REGISTRY_PASSWORD"
+      # registry.username: "$CI_REGISTRY_USER"
+      # registry.password: "$CI_REGISTRY_PASSWORD"
       # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
-
       jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
       config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
@@ -208,11 +207,11 @@ apps:
     group: "production"
     enabled: false
     priority: -3
-    version: "1.11.0"
+    version: "2.1.0"
     set:
       proxy:enabled: true
-      proxy.username: "$CI_REGISTRY_USER"
-      proxy.password: "$CI_REGISTRY_PASSWORD"
+      # proxy.username: "$CI_REGISTRY_USER"
+      # proxy.password: "$CI_REGISTRY_PASSWORD"
     valuesFiles:
       - docker-registry/values.yaml 
 
@@ -245,11 +244,11 @@ apps:
   #   # valuesFiles:
   #   # - "daskgateway/staging.yaml"
 
-  daskgateway-production:
+  daskgateway:
     <<: *dask
-    name: "daskgateway-production"
+    name: "daskgateway"
     group: "production"
-    namespace: "daskgateway-production"
+    namespace: "daskgateway"
     # valuesFiles:
     # - "daskgateway/production.yaml"
 
@@ -405,7 +404,7 @@ apps:
     enabled: false
     priority: 0
     # timeout: 120
-    version: "v1.4.2"
+    version: "v1.7.2"
     wait: true
     group: "production"
     namespace: "cert-manager"
