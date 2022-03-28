@@ -29,17 +29,22 @@ apps:
       # - ""
   binderhub-production:
     enabled: true
+    # version: "0.2.0-n866.h4e75de4"
+    version: "0.2.0-n880.hd19a36a"
     valuesFiles:
-    - "../binderhub/config.yaml"
+      - "../binderhub/config.yaml"
+      - "../binderhub/production/config.yaml"
+      # - "../binderhub/production/config.yaml"
+    # - "../binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
-    - "../binderhub/production/config_beta.yaml"
+    # - "../binderhub/production/config_beta.yaml"
 
   binderhub-production-gpu:
     enabled: true
     version: "0.2.0-n866.h4e75de4"
     valuesFiles:
     # - ""
-    # - "../binderhub/config.yaml"
+    - "../binderhub/config.yaml"
     # - "binderhub/production/config.yaml"
     # - "../binderhub/production/config_beta.yaml"
     - "../binderhub/production/config_beta_GPU.yaml"
@@ -49,7 +54,7 @@ apps:
     version: 4.0.16
 
   nvidia-gpu-operator:
-    enabled: true
+    enabled: false
     set:
       # driver.repository: "quay.io/compendius"
       # toolkit.enabled: true
@@ -68,6 +73,19 @@ apps:
     enabled: true
 
 
+  docker-registry:
+    enabled: true
+  cert-manager-production:
+    enabled: true
+
+  daskgateway:
+    enabled: false
+
+  persistent-binderhub-production:
+    version: "0.2.0-n676"
+    enabled: true
+
+      # - "binderhub/persistentVolumes.yaml"
 
   # jupyterhub-sandbox-production:
   #   enabled: false
