@@ -159,10 +159,10 @@ ingress:
   enabled: true
   hosts:
     - "gpu.binder.bioimagearchive.org"
-  # tls:
-  # #   - secretName: binder-bioimagearchive-org
-  # #     hosts:
-  # #       - gpu.ctr26.duckdns.org
+  tls:
+    - secretName: binder-bioimagearchive-org-cert
+      hosts:
+        - gpu.binder.bioimagearchive.org
   annotations:
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "false"
