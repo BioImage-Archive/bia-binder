@@ -21,7 +21,7 @@ namespaces:
     protected: true
   daskgateway-staging:
     protected: false
-  daskgateway-production:
+  daskgateway:
     protected: true
   cert-manager:
     protected: true
@@ -41,3 +41,4 @@ namespaces:
     protected: true
   gpu-operator:
     protected: true
+    
