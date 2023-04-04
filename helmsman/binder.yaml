@@ -1,44 +1,18 @@
 settings:
-  kubeContext: bia-binder
+  kubeContext: gpu
 apps:
-  binderhub-production:
+  binderhub-prod:
     enabled: true
     valuesFiles:
     - "../binderhub/config.yaml"
-    - "../binderhub/production/config.yaml"
-  # binderhub-production-gpu:
-    # enabled: false
-  # trow:
-  #   enabled: false
-  # nvidia-device-plugin:
-  #   enabled: false
+    - "../binderhub/prod/config.yaml"
   docker-registry:
     enabled: true
   ingress-nginx:
     enabled: true
-  # daskgateway-production:
-  #   enabled: false
-  # binderhub-staging:
-  #   enabled: false
-  # binderhub-production:
-  #   enabled: false
-  persistent-binderhub-production:
+  jupyterhub-sandbox-prod:
+    enabled: false
+  jupyterhub-sandbox-dev:
+    enabled: false
+  cert-manager-prod:
     enabled: true
-  # binderhub-production-gpu:
-  #   enabled: false
-  # binderhub-staging-gpu:
-  #   enabled: false
-  jupyterhub-sandbox-production:
-    enabled: true
-  jupyterhub-sandbox-staging:
-    enabled: true
-  # jupyterhub-sandbox-production:
-  #   enabled: false
-  # jupyterhub-github-staging:
-  #   enabled: false
-  # jupyterhub-github-production:
-  #   enabled: false
-  cert-manager-production:
-    enabled: true
-  # nvidia-gpu-operator:
-  #   enabled: false

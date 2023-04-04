@@ -1,6 +1,6 @@
 # Minikube values
 
-jupyterhub_staging_overrides:
+jupyterhub_dev_overrides:
   - values/minikube/jupyterhub-config.yaml
 
 jupyterhub_training_overrides:

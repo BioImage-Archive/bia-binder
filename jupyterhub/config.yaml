@@ -1,8 +1,8 @@
-# Configuration for JupyterHub staging deployment
-# Overridden in production deployments
+# Configuration for JupyterHub dev deployment
+# Overridden in prod deployments
 
 hub:
-  # baseUrl: /staging/
+  # baseUrl: /dev/
   db:
     type: sqlite-memory
   networkPolicy:
@@ -11,7 +11,19 @@ hub:
   # This may help to avoid dangling servers
   # extraConfig: |
     # c.JupyterHub.cleanup_servers = True
-
+  extraConfig:
+      fuseConfig: |
+        from kubernetes import client
+        def modify_pod_hook(spawner, pod):
+          pod.spec.containers[0].security_context = client.V1SecurityContext(
+            privileged=True,
+            run_as_user=0,
+            capabilities=client.V1Capabilities(
+                add=['SYS_ADMIN']
+            )
+          )
+          return pod
+        c.KubeSpawner.modify_pod_hook = modify_pod_hook
 # auth:
 #   type: tmp
 
@@ -60,7 +72,7 @@ singleuser:
     IDR_HOST: idr.openmicroscopy.org
     IDR_USER: public
     JUPYTER_ENABLE_LAB: "true"
-  cmd: "/usr/local/bin/start-singleuser.sh"
+  cmd: "start-singleuser.sh"
 
 prePuller:
   hook:

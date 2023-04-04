@@ -1,4 +1,4 @@
 ingress:
   enabled: true
   hosts:
-    - "staging.binder.bioimagearchive.org"
+    - "dev.binder.bioimagearchive.org"

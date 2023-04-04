@@ -2,8 +2,8 @@
 replicas: 1
 dind:
   enabled: true
-  hostLibDir: /var/lib/dind/gke/production
-  hostSocketDir: /var/run/dind/gke/production
+  hostLibDir: /var/lib/dind/gke/prod
+  hostSocketDir: /var/run/dind/gke/prod
   resources:
     requests:
       cpu: "0.5"
@@ -44,7 +44,7 @@ jupyterhub:
     # annotations:
     #   kubernetes.io/ingress.class: nginx
     #   kubernetes.io/tls-acme: "true"
-    #   cert-manager.io/cluster-issuer: letsencrypt-production
+    #   cert-manager.io/cluster-issuer: letsencrypt-prod
     #   # cert-manager.io/issue-temporary-certificate: "true"
     #   # acme.cert-manager.io/http01-edit-in-place: "true" 
     #   cert-manager.k8s.io/acme-challenge-type: http01
@@ -93,7 +93,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   #   tls:
   # # - secretName: binder-bioimagearchive-org-cert
   # #   hosts:

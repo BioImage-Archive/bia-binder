@@ -18,7 +18,7 @@ repositories:
 environments:
   default:
     values:
-      - production.yaml
+      - prod.yaml
   minikube:
     values:
       - minikube.yaml
@@ -29,19 +29,19 @@ releases:
 
 
 ######################################################################
-# JupyterHub staging
+# JupyterHub dev
 
-  # - name: jupyterhub-staging
+  # - name: jupyterhub-dev
   #   chart: jupyterhub/jupyterhub
   #   # Wed, 23 Jan 2019 15:37:58 +0000
   #   # version: 0.8-d470e4f
-  #   namespace: jupyterhub-staging
+  #   namespace: jupyterhub-dev
   #   labels:
-  #     deployment: staging
-  #     application: staging
+  #     deployment: dev
+  #     application: dev
   #   values:
   #     - values/jupyterhub-config.yaml
-  #   {{ range .Environment.Values.jupyterhub_staging_overrides }}
+  #   {{ range .Environment.Values.jupyterhub_dev_overrides }}
   #     - {{ . }}
   #   {{ end }}
   #   set:
@@ -54,7 +54,7 @@ releases:
   #   # version: 0.8-d470e4f
   #   namespace: jupyterhub-sandbox
   #   labels:
-  #     deployment: production
+  #     deployment: prod
   #     application: sandbox
   #   values:
   #     - values/jupyterhub-config.yaml
@@ -77,7 +77,7 @@ releases:
     # version: 0.8-d470e4f
     namespace: jupyterhub-github
     labels:
-      deployment: production
+      deployment: prod
       application: github
     values:
       - values/jupyterhub-config.yaml

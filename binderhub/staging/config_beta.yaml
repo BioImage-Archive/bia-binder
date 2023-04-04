@@ -1,6 +1,6 @@
 config:
   BinderHub:
-    hub_url: http://staging.beta.binder.bioimagearchive.org/binderhub/
+    hub_url: http://dev.beta.binder.bioimagearchive.org/binderhub/
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU</div>
 jupyterhub:
@@ -9,9 +9,9 @@ jupyterhub:
   ingress:
     enabled: true
     hosts:
-      - staging.beta.binder.bioimagearchive.org
+      - dev.beta.binder.bioimagearchive.org
 
 ingress:
   enabled: true
   hosts:
-    - "staging.beta.binder.bioimagearchive.org"
+    - "dev.beta.binder.bioimagearchive.org"

@@ -38,7 +38,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     # https:
     #   enabled: true
     #   type: nginx
@@ -48,5 +48,5 @@ ingress:
         - "binder.bioimagearchive.org"
 dind:
   # enabled: true
-  hostLibDir: /var/lib/dind/production
-  hostSocketDir: /var/run/dind/production
+  hostLibDir: /var/lib/dind/prod
+  hostSocketDir: /var/run/dind/prod

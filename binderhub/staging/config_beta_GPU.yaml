@@ -4,7 +4,7 @@ jupyterhub:
   ingress:
     enabled: true
     hosts:
-      - staging.gpu.beta.binder.bioimagearchive.org
+      - dev.gpu.beta.binder.bioimagearchive.org
 
   profileList:
     - display_name: "GPU Server"
@@ -17,7 +17,7 @@ jupyterhub:
 
 config:
   BinderHub:
-    hub_url: http://staging.gpu.beta.binder.bioimagearchive.org/binderhub/
+    hub_url: http://dev.gpu.beta.binder.bioimagearchive.org/binderhub/
     banner_message: |
       <div style="text-align: center;">Beta service with more RAM and CPU and GPU Support</div>
 
@@ -25,4 +25,4 @@ config:
 ingress:
   enabled: true
   hosts:
-    - "staging.gpu.beta.binder.bioimagearchive.org"
+    - "dev.gpu.beta.binder.bioimagearchive.org"

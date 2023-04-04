@@ -12,19 +12,19 @@ brew install helmsman
 Once installed the full environment can be deployed using
 
 ```
-helmsman --apply -f helmsman.yaml -f helmsman-production.yaml
+helmsman --apply -f helmsman.yaml -f helmsman-prod.yaml
 ```
 
-This can be limited to only the staging environment say using 
+This can be limited to only the dev environment say using 
 
 ```
-helmsman --apply -f helmsman.yaml -f helmsman-production.yaml --group staging
+helmsman --apply -f helmsman.yaml -f helmsman-prod.yaml --group dev
 ```
 
 Helmsman is expecting that the context name of the cluster you are deploying to is called CPU. To deploy to a cluster called say GPU, and with the necessary GPU overrides for JupyterHub and Binderhub, you append the `helmsman-gpu.yaml` 
 
 ```
-helmsman --apply -f helmsman.yaml -f helmsman-production.yaml -f helmsman-gpu.yaml
+helmsman --apply -f helmsman.yaml -f helmsman-prod.yaml -f helmsman-gpu.yaml
 ``` 
 `helmsman-token.yaml` is reserved for runners within the cluster deploying to the cluster as would be the case with GitLab, which is how the BIA-Binder is deployed.
 

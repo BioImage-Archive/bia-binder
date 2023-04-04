@@ -28,12 +28,6 @@ config:
 
     banner_message: |
       <div style="text-align: center;">This is a public Beta and liable to downtime</div>
-    # build_image: "aicrowd/repo2docker"
-    # build_image: "aicrowd/repo2docker:latest"
-    # base_url: "/staging" #Doesn't work
-    # networkPolicy:
-    #   enabled: true
-#     # Good until this:
 
 jupyterhub:
   proxy:
@@ -130,12 +124,20 @@ jupyterhub:
     # cmd: start-singleuser.sh
     # cmd: null
     cpu:
-      limit: 2
-      guarantee: 1
+      limit: 4
+      guarantee: 2
     memory:
-      limit: 6G
-      guarantee: 1G
-  #   storage:
+      limit: 8G
+      guarantee: 6G
+    storage:
+      extraVolumes:
+        - name: biostudies-nfs-binder
+          persistentVolumeClaim:
+            claimName: biostudies-nfs-pvc-binder
+      extraVolumeMounts:
+        - name: biostudies-nfs-binder
+          mountPath: /home/jovyan/biostudies
+          readOnly: true
   #     type: none
       # extraVolumes:
   #       - name: nfs-bs-ftp
@@ -151,11 +153,35 @@ jupyterhub:
         #   mountPath: /home/jovyan/biostudies
       #     readOnly: true
     profileList:
-      - display_name: "GPU Server"
-        description: "Spawns a notebook server with access to a GPU"
+      # - display_name: "GPU Server"
+      #   description: "Spawns a notebook server with access to a GPU"
+      #   kubespawner_override:
+      #     extra_resource_limits:
+      #       smarter-devices/fuse: "1"
+      - display_name: "BioStudies"
+        description: "Spawns a notebook server BioStudies attached"
+        slug: "Biostudies"
         kubespawner_override:
           extra_resource_limits:
             smarter-devices/fuse: "1"
+          # image: cschranz/gpu-jupyter
+          # cpu_limit: 32
+          # cpu_guarantee: 16
+          # mem_limit: 32G
+          # mem_guarantee: 32G
+          # volume_mounts:
+          #   - name: biostudies-nfs
+          #     mountPath: /home/jovyan/biostudies
+          storage:
+            # type: none
+            extraVolumes:
+              - name: biostudies-nfs-binder
+                persistentVolumeClaim:
+                  claimName: biostudies-nfs-pvc-binder
+            extraVolumeMounts:
+              - name: biostudies-nfs-binder
+                mountPath: /home/jovyan/biostudies
+                readOnly: true
       # - display_name: "No GPU"
   #     description: "Spawns a notebook server with access to a GPU"
 # proxy:
@@ -193,16 +219,7 @@ extraVolumes:
 extraVolumeMounts:
   - name: custom-templates
     mountPath: /etc/binderhub/custom
-
-dind:
-  enabled: true
-  resources:
-    requests:
-      cpu: "2"
-      memory: 4Gi
-    limits:
-      cpu: "4"
-      memory: 6Gi
+imageBuilderType: dind
 
 ingress:
   enabled: true
@@ -213,7 +230,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     certmanager.k8s.io/acme-http01-edit-in-place: "true"
     # https:
     #   enabled: true
