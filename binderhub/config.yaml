@@ -1,6 +1,5 @@
 # binderhub:
 replicas: 1
-
 resources:
   requests:
     cpu: "1"
@@ -15,12 +14,12 @@ config:
     extra_static_path: /etc/binderhub/custom/binderhub/frontend-custom/static
     extra_static_url_prefix: /extra_static/
     template_variables:
-        EXTRA_STATIC_URL_PREFIX: "/extra_static/"
+      EXTRA_STATIC_URL_PREFIX: "/extra_static/"
     auth_enabled: false
     build_memory_limit: "8G"
     build_memory_request: "4G"
     # hub_url: http://10.43.114.27
-    # hub_url: http://binder.bioimagearchive.org/binderhub/
+    hub_url: http://binder.bioimagearchive.org/jupyter/
     use_registry: true
     image_prefix: bioimagearchive/binder-
     build_image: jupyter/repo2docker:2021.03.0-70.g43891a6
@@ -33,157 +32,149 @@ jupyterhub:
   proxy:
     service:
       type: ClusterIP
-  cull:
-    users: True
-  custom:
-    binderauth_enabled: false
+      # cull:
+    # users: True
+  # custom:
+  # binderauth_enabled: false
   hub:
     # services:
     #   dask-gateway:
     #     # This makes the gateway available at ${HUB_URL}/services/dask-gateway
     #     url: http://traefik-daskgateway-dask-gateway.daskgateway
-    config:
-      BinderSpawner:
-        cors_allow_origin: '*'
-      GitHubOAuthenticator:
-        admin_users:
-          - ctr26
-        allowed_organizations:
-          - bioimagearchive
-        scope:
-          - read:user
-    baseUrl: /jhub
+    # config:
+    # BinderSpawner:
+    # cors_allow_origin: '*'
+    # GitHubOAuthenticator:
+    #   admin_users:
+    #   - ctr26
+    #   allowed_organizations:
+    #   - bioimagearchive
+    #   scope:
+    #   - read:user
+    baseUrl: /jupyter
     networkPolicy:
       enabled: true
-    extraConfig:
-        fuseConfig: |
-          from kubernetes import client
-          def modify_pod_hook(spawner, pod):
-            pod.spec.containers[0].security_context = client.V1SecurityContext(
-              privileged=True,
-              capabilities=client.V1Capabilities(
-                  add=['SYS_ADMIN']
-              )
-            )
-            return pod
-          c.KubeSpawner.modify_pod_hook = modify_pod_hook
-        # 00-add-dask-gateway-values: |
-        #   # 1. Sets `DASK_GATEWAY__PROXY_ADDRESS` in the singleuser environment.
-        #   # 2. Adds the URL for the Dask Gateway JupyterHub service.
-        #   import os
-        #   # These are set by jupyterhub.
-        #   release_name = os.environ["HELM_RELEASE_NAME"]
-        #   release_namespace = os.environ["POD_NAMESPACE"]
-        #   if "PROXY_HTTP_SERVICE_HOST" in os.environ:
-        #       # https is enabled, we want to use the internal http service.
-        #       gateway_address = "http://{}:{}/services/dask-gateway/".format(
-        #           os.environ["PROXY_HTTP_SERVICE_HOST"],
-        #           os.environ["PROXY_HTTP_SERVICE_PORT"],
-        #       )
-        #       print("Setting DASK_GATEWAY__ADDRESS {} from HTTP service".format(gateway_address))
-        #   else:
-        #       gateway_address = "http://proxy-public/services/dask-gateway"
-        #       print("Setting DASK_GATEWAY__ADDRESS {}".format(gateway_address))
-        #   # Internal address to connect to the Dask Gateway.
-        #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__ADDRESS", gateway_address)
-        #   # Internal address for the Dask Gateway proxy.
-        #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PROXY_ADDRESS", "gateway://traefik-daskgateway-dask-gateway.daskgateway:80")
-        #   # Relative address for the dashboard link.
-        #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PUBLIC_ADDRESS", "/services/dask-gateway/")
-        #   # Use JupyterHub to authenticate with Dask Gateway.
-        #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__AUTH__TYPE", "jupyterhub")
-        #   # Adds Dask Gateway as a JupyterHub service to make the gateway available at
-        #   # {HUB_URL}/services/dask-gateway
-        #   service_url = "http://traefik-{}-dask-gateway.{}".format(release_name, release_namespace)
-        #   for service in c.JupyterHub.services:
-        #       if service["name"] == "dask-gateway":
-        #           if not service.get("url", None):
-        #               print("Adding dask-gateway service URL")
-        #               service.setdefault("url", service_url)
-        #           break
-        #   else:
-        #       print("dask-gateway service not found. Did you set jupyterhub.hub.services.dask-gateway.apiToken?")
   ingress:
     enabled: true
     hosts:
-      - ""
-      - localhost
+    - binder.bioimagearchive.org
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/proxy-body-size: 2m
-  singleuser:
-    extraEnv: 
-      GRANT_SUDO: "yes"
-      NOTEBOOK_ARGS: "--allow-root"
-    # uid: 0
-    # cmd: start-singleuser.sh
-      # JUPYTER_ENABLE_LAB: "true"
-    # uid: 0
-    # cmd: start-singleuser.sh
-    # cmd: jupyterhub-singleuser
-    # cmd: start-singleuser.sh
-    # cmd: null
-    cpu:
-      limit: 4
-      guarantee: 2
-    memory:
-      limit: 8G
-      guarantee: 6G
-    storage:
-      extraVolumes:
-        - name: biostudies-nfs-binder
-          persistentVolumeClaim:
-            claimName: biostudies-nfs-pvc-binder
-      extraVolumeMounts:
-        - name: biostudies-nfs-binder
-          mountPath: /home/jovyan/biostudies
-          readOnly: true
-  #     type: none
-      # extraVolumes:
-  #       - name: nfs-bs-ftp
-  #         persistentVolumeClaim:
-  #           claimName: nfs-bs-ftp-pvc
-        # - name: nfs-volume
-        #   nfs: 
-        #     # URL for the NFS server
-        #     server: 10.108.211.244 # Change this!
-        #     path: /
-  #     extraVolumeMounts:
-        # - name:  nfs-bs-ftp-pv-binderhub
-        #   mountPath: /home/jovyan/biostudies
+      # extraConfig:
+      # fuseConfig: |
+      #   from kubernetes import client
+      #   def modify_pod_hook(spawner, pod):
+      #     pod.spec.containers[0].security_context = client.V1SecurityContext(
+      #       privileged=True,
+      #       capabilities=client.V1Capabilities(
+      #           add=['SYS_ADMIN']
+      #       )
+      #     )
+      #     return pod
+      #   c.KubeSpawner.modify_pod_hook = modify_pod_hook
+      # 00-add-dask-gateway-values: |
+      #   # 1. Sets `DASK_GATEWAY__PROXY_ADDRESS` in the singleuser environment.
+      #   # 2. Adds the URL for the Dask Gateway JupyterHub service.
+      #   import os
+      #   # These are set by jupyterhub.
+      #   release_name = os.environ["HELM_RELEASE_NAME"]
+      #   release_namespace = os.environ["POD_NAMESPACE"]
+      #   if "PROXY_HTTP_SERVICE_HOST" in os.environ:
+      #       # https is enabled, we want to use the internal http service.
+      #       gateway_address = "http://{}:{}/services/dask-gateway/".format(
+      #           os.environ["PROXY_HTTP_SERVICE_HOST"],
+      #           os.environ["PROXY_HTTP_SERVICE_PORT"],
+      #       )
+      #       print("Setting DASK_GATEWAY__ADDRESS {} from HTTP service".format(gateway_address))
+      #   else:
+      #       gateway_address = "http://proxy-public/services/dask-gateway"
+      #       print("Setting DASK_GATEWAY__ADDRESS {}".format(gateway_address))
+      #   # Internal address to connect to the Dask Gateway.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__ADDRESS", gateway_address)
+      #   # Internal address for the Dask Gateway proxy.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PROXY_ADDRESS", "gateway://traefik-daskgateway-dask-gateway.daskgateway:80")
+      #   # Relative address for the dashboard link.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PUBLIC_ADDRESS", "/services/dask-gateway/")
+      #   # Use JupyterHub to authenticate with Dask Gateway.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__AUTH__TYPE", "jupyterhub")
+      #   # Adds Dask Gateway as a JupyterHub service to make the gateway available at
+      #   # {HUB_URL}/services/dask-gateway
+      #   service_url = "http://traefik-{}-dask-gateway.{}".format(release_name, release_namespace)
+      #   for service in c.JupyterHub.services:
+      #       if service["name"] == "dask-gateway":
+      #           if not service.get("url", None):
+      #               print("Adding dask-gateway service URL")
+      #               service.setdefault("url", service_url)
+      #           break
+      #   else:
+      #       print("dask-gateway service not found. Did you set jupyterhub.hub.services.dask-gateway.apiToken?")
+
+      # singleuser:
+      #   # extraEnv:
+      #   # GRANT_SUDO: "yes"
+      #   # NOTEBOOK_ARGS: "--allow-root"
+      #   cpu:
+      #     limit: 4
+      #     guarantee: 2
+      #   memory:
+      #     limit: 8G
+      #     guarantee: 6G
+      # storage:
+      #   extraVolumes:
+      #   - name: biostudies-nfs-binder
+      #     persistentVolumeClaim:
+      #       claimName: biostudies-nfs-pvc-binder
+      #   extraVolumeMounts:
+      #   - name: biostudies-nfs-binder
+      #     mountPath: /home/jovyan/biostudies
       #     readOnly: true
-    profileList:
-      # - display_name: "GPU Server"
-      #   description: "Spawns a notebook server with access to a GPU"
+      #     type: none
+      # extraVolumes:
+      #       - name: nfs-bs-ftp
+      #         persistentVolumeClaim:
+      #           claimName: nfs-bs-ftp-pvc
+      # - name: nfs-volume
+      #   nfs: 
+      #     # URL for the NFS server
+      #     server: 10.108.211.244 # Change this!
+      #     path: /
+      #     extraVolumeMounts:
+      # - name:  nfs-bs-ftp-pv-binderhub
+      #   mountPath: /home/jovyan/biostudies
+      #     readOnly: true
+      # profileList:
+      # # - display_name: "GPU Server"
+      # #   description: "Spawns a notebook server with access to a GPU"
+      # #   kubespawner_override:
+      # #     extra_resource_limits:
+      # #       smarter-devices/fuse: "1"
+      # - display_name: "BioStudies"
+      #   description: "Spawns a notebook server BioStudies attached"
+      #   slug: "Biostudies"
       #   kubespawner_override:
       #     extra_resource_limits:
-      #       smarter-devices/fuse: "1"
-      - display_name: "BioStudies"
-        description: "Spawns a notebook server BioStudies attached"
-        slug: "Biostudies"
-        kubespawner_override:
-          extra_resource_limits:
-            smarter-devices/fuse: "1"
-          # image: cschranz/gpu-jupyter
-          # cpu_limit: 32
-          # cpu_guarantee: 16
-          # mem_limit: 32G
-          # mem_guarantee: 32G
-          # volume_mounts:
-          #   - name: biostudies-nfs
-          #     mountPath: /home/jovyan/biostudies
-          storage:
-            # type: none
-            extraVolumes:
-              - name: biostudies-nfs-binder
-                persistentVolumeClaim:
-                  claimName: biostudies-nfs-pvc-binder
-            extraVolumeMounts:
-              - name: biostudies-nfs-binder
-                mountPath: /home/jovyan/biostudies
-                readOnly: true
+      #     # smarter-devices/fuse: "1"
+      #     # image: cschranz/gpu-jupyter
+      #     # cpu_limit: 32
+      #     # cpu_guarantee: 16
+      #     # mem_limit: 32G
+      #     # mem_guarantee: 32G
+      #     # volume_mounts:
+      #     #   - name: biostudies-nfs
+      #     #     mountPath: /home/jovyan/biostudies
+      #     storage:
+      #       # type: none
+      #       extraVolumes:
+      #       - name: biostudies-nfs-binder
+      #         persistentVolumeClaim:
+      #           claimName: biostudies-nfs-pvc-binder
+      #       extraVolumeMounts:
+      #       - name: biostudies-nfs-binder
+      #         mountPath: /home/jovyan/biostudies
+      #         readOnly: true
       # - display_name: "No GPU"
-  #     description: "Spawns a notebook server with access to a GPU"
+      #     description: "Spawns a notebook server with access to a GPU"
 # proxy:
 #   # secretToken:
 #   service:
@@ -197,48 +188,47 @@ jupyterhub:
 #     - ""
 #     - localhost
 
-initContainers:
-  - name: git-clone-templates
-    image: alpine/git:latest
-    args:
-      - clone
-      - --single-branch
-      - --branch=master
-      - --depth=1
-      - --
-      - https://github.com/bioimagearchive/k8s-jupyterhub
-      - /etc/binderhub/custom
-    securityContext:
-      runAsUser: 0
-    volumeMounts:
-      - name: custom-templates
-        mountPath: /etc/binderhub/custom
-extraVolumes:
-  - name: custom-templates
-    emptyDir: {}
-extraVolumeMounts:
-  - name: custom-templates
-    mountPath: /etc/binderhub/custom
-imageBuilderType: dind
+# initContainers:
+# - name: git-clone-templates
+#   image: alpine/git:latest
+#   args:
+#   - clone
+#   - --single-branch
+#   - --branch=master
+#   - --depth=1
+#   - --
+#   - https://github.com/bioimagearchive/k8s-jupyterhub
+#   - /etc/binderhub/custom
+#   securityContext:
+#     runAsUser: 0
+#   volumeMounts:
+#   - name: custom-templates
+#     mountPath: /etc/binderhub/custom
+# extraVolumes:
+# - name: custom-templates
+#   emptyDir: {}
+# extraVolumeMounts:
+# - name: custom-templates
+#   mountPath: /etc/binderhub/custom
+# imageBuilderType: pink
 
 ingress:
   enabled: true
   hosts:
-    - ""
-    - "localhost"
+  - "binder.bioimagearchive.org"
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-production
     certmanager.k8s.io/acme-http01-edit-in-place: "true"
-    # https:
-    #   enabled: true
-    #   type: nginx
+  https:
+    enabled: true
+    type: nginx
   tls:
-    - secretName: binder-bioimagearchive-org-cert
-      hosts:
-        - binder.bioimagearchive.org
+  - secretName: binder-bioimagearchive-org-cert
+    hosts:
+    - binder.bioimagearchive.org
 
 service:
   type: ClusterIP

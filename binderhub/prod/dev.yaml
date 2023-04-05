@@ -8,26 +8,23 @@ jupyterhub:
   ingress:
     enabled: true
     hosts:
-      - dev.binder.bioimagearchive.org
+    - dev.binder.bioimagearchive.org
 
 ingress:
   enabled: true
   hosts:
-    - "dev.binder.bioimagearchive.org"
+  - "dev.binder.bioimagearchive.org"
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    https:
-      enabled: true
-      type: nginx
+
   tls:
-    - secretName: binder-bioimagearchive-org-cert
-      hosts:
+  - secretName: binder-bioimagearchive-org-cert
+    hosts:
 service:
   type: ClusterIP
-
 
 dind:
   hostLibDir: /var/lib/dind/dev
