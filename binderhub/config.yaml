@@ -41,16 +41,9 @@ jupyterhub:
     #   dask-gateway:
     #     # This makes the gateway available at ${HUB_URL}/services/dask-gateway
     #     url: http://traefik-daskgateway-dask-gateway.daskgateway
-    # config:
-    # BinderSpawner:
-    # cors_allow_origin: '*'
-    # GitHubOAuthenticator:
-    #   admin_users:
-    #   - ctr26
-    #   allowed_organizations:
-    #   - bioimagearchive
-    #   scope:
-    #   - read:user
+    config:
+      BinderSpawner:
+        cors_allow_origin: '*'
     baseUrl: /jupyter
     networkPolicy:
       enabled: true
@@ -175,18 +168,7 @@ jupyterhub:
       #         readOnly: true
       # - display_name: "No GPU"
       #     description: "Spawns a notebook server with access to a GPU"
-# proxy:
-#   # secretToken:
-#   service:
-#     type: ClusterIP
-#   networkPolicy:
-#     enabled: true
 
-# ingress:
-#   enabled: true
-#   hosts:
-#     - ""
-#     - localhost
 
 initContainers:
 - name: git-clone-templates
