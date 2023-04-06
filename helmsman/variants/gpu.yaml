@@ -2,13 +2,13 @@ settings:
   kubeContext: gpu
 
 # namespaces:
-#   binderhub-staging-gpu:
+#   binderhub-dev-gpu:
 #     protected: false
-#   binderhub-production-gpu:
+#   binderhub-prod-gpu:
 #     protected: false
 
 apps:
-  jupyterhub-github-production:
+  jupyterhub-github-prod:
     version: 1.2.0
     enabled: true
     set:
@@ -20,34 +20,21 @@ apps:
       # hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTSECRET"
     valuesFiles:
       - "../jupyterhub/config.yaml"
-      - "../jupyterhub/production/config.yaml"
-    #   # - "jupyterhub/persistentVolumes.yaml"
-    #   - "jupyterhub/github.yaml"
-      - "../jupyterhub/production/github_gpu.yaml"
-      # - "jupyterhub/production/github.yaml"
-    # secretsFiles:
-      # - ""
-  binderhub-production:
+      - "../jupyterhub/prod/config.yaml"
+      - "../jupyterhub/prod/github_gpu.yaml"
+
+  binderhub-prod:
     enabled: true
-    # version: "0.2.0-n866.h4e75de4"
-    version: "0.2.0-n880.hd19a36a"
     valuesFiles:
       - "../binderhub/config.yaml"
-      - "../binderhub/production/config.yaml"
-      # - "../binderhub/production/config.yaml"
-    # - "../binderhub/config.yaml"
-    # - "binderhub/production/config.yaml"
-    # - "../binderhub/production/config_beta.yaml"
+      - "../binderhub/prod/config.yaml"
 
-  binderhub-production-gpu:
+  binderhub-prod-gpu:
     enabled: true
-    version: "0.2.0-n866.h4e75de4"
     valuesFiles:
     # - ""
     - "../binderhub/config.yaml"
-    # - "binderhub/production/config.yaml"
-    # - "../binderhub/production/config_beta.yaml"
-    - "../binderhub/production/config_beta_GPU.yaml"
+    - "../binderhub/prod/gpu.yaml"
 
   ingress-nginx:
     enabled: true
@@ -70,24 +57,15 @@ apps:
     setString:
       toolkit.env[3].value: true
   nvidia-device-plugin:
-    enabled: true
+    enabled: false
 
 
   docker-registry:
     enabled: true
-  cert-manager-production:
+  cert-manager-prod:
     enabled: true
 
   daskgateway:
-    enabled: false
-
-  persistent-binderhub-production:
-    version: "0.2.0-n676"
     enabled: true
 
-      # - "binderhub/persistentVolumes.yaml"
-
-  # jupyterhub-sandbox-production:
-  #   enabled: false
-  # jupyterhub-sandbox-staging:
-  #   enabled: false
+ 

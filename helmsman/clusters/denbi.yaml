@@ -1,0 +1,22 @@
+apps:
+  binderhub:
+    enabled: false
+    valuesFiles:
+    - "../binderhub/config.yaml"
+    - "../binderhub/prod/config_beta.yaml"
+
+  binderhub-gpu:
+    enabled: true
+    version: "0.2.0-n866.h4e75de4"
+    valuesFiles:
+    - "../binderhub/prod/GPU.yaml"
+
+  ingress-nginx:
+    enabled: false
+    version: 4.0.16
+
+  nvidia-gpu-operator:
+    enabled: true
+  nvidia-device-plugin:
+    enabled: true
+
