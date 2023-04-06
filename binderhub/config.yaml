@@ -109,16 +109,7 @@ jupyterhub:
       #   else:
       #       print("dask-gateway service not found. Did you set jupyterhub.hub.services.dask-gateway.apiToken?")
 
-      # singleuser:
-      #   # extraEnv:
-      #   # GRANT_SUDO: "yes"
-      #   # NOTEBOOK_ARGS: "--allow-root"
-      #   cpu:
-      #     limit: 4
-      #     guarantee: 2
-      #   memory:
-      #     limit: 8G
-      #     guarantee: 6G
+
       # storage:
       #   extraVolumes:
       #   - name: biostudies-nfs-binder
@@ -142,38 +133,6 @@ jupyterhub:
       # - name:  nfs-bs-ftp-pv-binderhub
       #   mountPath: /home/jovyan/biostudies
       #     readOnly: true
-      # profileList:
-      # # - display_name: "GPU Server"
-      # #   description: "Spawns a notebook server with access to a GPU"
-      # #   kubespawner_override:
-      # #     extra_resource_limits:
-      # #       smarter-devices/fuse: "1"
-      # - display_name: "BioStudies"
-      #   description: "Spawns a notebook server BioStudies attached"
-      #   slug: "Biostudies"
-      #   kubespawner_override:
-      #     extra_resource_limits:
-      #     # smarter-devices/fuse: "1"
-      #     # image: cschranz/gpu-jupyter
-      #     # cpu_limit: 32
-      #     # cpu_guarantee: 16
-      #     # mem_limit: 32G
-      #     # mem_guarantee: 32G
-      #     # volume_mounts:
-      #     #   - name: biostudies-nfs
-      #     #     mountPath: /home/jovyan/biostudies
-      #     storage:
-      #       # type: none
-      #       extraVolumes:
-      #       - name: biostudies-nfs-binder
-      #         persistentVolumeClaim:
-      #           claimName: biostudies-nfs-pvc-binder
-      #       extraVolumeMounts:
-      #       - name: biostudies-nfs-binder
-      #         mountPath: /home/jovyan/biostudies
-      #         readOnly: true
-      # - display_name: "No GPU"
-      #     description: "Spawns a notebook server with access to a GPU"
 
 
 initContainers:
