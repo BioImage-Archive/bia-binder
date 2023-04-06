@@ -1,0 +1,17 @@
+jupyterhub:
+  ingress:
+    enabled: true
+    hosts:
+    - dev.gpu.binder.bioimagearchive.org
+
+config:
+  BinderHub:
+    # hub_url: http://dev.gpu.binder.bioimagearchive.org/binderhub/
+    banner_message: |
+      <div style="text-align: center;">Dev branch</div>
+
+
+ingress:
+  enabled: true
+  hosts:
+  - "dev.gpu.binder.bioimagearchive.org"
