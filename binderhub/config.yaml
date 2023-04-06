@@ -22,7 +22,7 @@ config:
     hub_url: http://binder.bioimagearchive.org/jupyter/
     use_registry: true
     image_prefix: bioimagearchive/binder-
-    build_image: jupyter/repo2docker:2021.03.0-70.g43891a6
+    build_image: jupyter/repo2docker:2021.08.0
     # build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
 
     banner_message: |
