@@ -1,6 +1,6 @@
 jupyterhub:
-  nameOverride: binderhub-gpu-dev
-  fullnameOverride: binderhub-gpu-dev
+  nameOverride: binder-gpu-dev
+  fullnameOverride: binder-gpu-dev
   ingress:
     enabled: true
     hosts:

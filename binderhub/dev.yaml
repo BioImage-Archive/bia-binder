@@ -1,6 +1,6 @@
 jupyterhub:
-  nameOverride: binderhub-dev
-  fullnameOverride: binderhub-dev
+  nameOverride: binder-dev
+  fullnameOverride: binder-dev
   ingress:
     hosts:
     - dev.binder.bioimagearchive.org

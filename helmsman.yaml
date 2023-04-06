@@ -108,6 +108,7 @@ apps:
   daskhub:
     !!merge <<: *daskhub
     name: "dask"
+    enabled: false
     group: "prod"
     namespace: "prod"
     valuesFiles:
