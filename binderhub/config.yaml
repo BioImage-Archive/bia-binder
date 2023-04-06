@@ -36,17 +36,6 @@ jupyterhub:
     # users: True
   # custom:
   # binderauth_enabled: false
-  hub:
-    # services:
-    #   dask-gateway:
-    #     # This makes the gateway available at ${HUB_URL}/services/dask-gateway
-    #     url: http://traefik-daskgateway-dask-gateway.daskgateway
-    config:
-      BinderSpawner:
-        cors_allow_origin: '*'
-    baseUrl: /jupyter
-    networkPolicy:
-      enabled: true
   ingress:
     enabled: true
     hosts:
@@ -54,7 +43,24 @@ jupyterhub:
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/proxy-body-size: 2m
-      # extraConfig:
+  hub:
+    config:
+      BinderSpawner:
+        cors_allow_origin: '*'
+      singleuser:
+        extraEnv:
+          GRANT_SUDO: "yes"
+          JUPYTERHUB_SINGLEUSER_APP: "jupyterhub.singleuserapp.SingleUserNotebookApp"
+          NOTEBOOK_ARGS: "--allow-root"
+        cpu:
+          limit: 4
+          guarantee: 2
+        memory:
+          limit: 8G
+          guarantee: 6G
+    baseUrl: /jupyter
+    networkPolicy:
+      enabled: true
       # fuseConfig: |
       #   from kubernetes import client
       #   def modify_pod_hook(spawner, pod):
