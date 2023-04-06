@@ -1,0 +1,58 @@
+namespaces:
+  prod:
+    protected: true
+  dev:
+    protected: false
+  cert-manager:
+    protected: true
+  ingress-nginx:
+    protected: true
+  nginx-ingress:
+    protected: true
+  trow:
+    protected: true
+  docker-registry:
+    protected: true
+  tritoninferenceserver:
+    protected: true
+  monitoring:
+    protected: true
+  nvidia-device-plugin:
+    protected: true
+  gpu-operator:
+    protected: true
+
+apps:
+  # trow:
+    # enabled: false
+  # nvidia-device-plugin:
+    # enabled: true
+  # docker-registry:
+    # enabled: true
+  # ingress-nginx:
+    # enabled: true
+  daskhub:
+    namespace: "dev"
+    group: "dev"
+    valuesFiles:
+    - "../daskhub/values.yaml"
+    - "../daskhub/dev.yaml"
+  binderhub:
+    namespace: "dev"
+    group: "dev"
+    name: "binderhub-dev"
+    valuesFiles:
+    - "../binderhub/values.yaml"
+    - "../binderhub/dev.yaml"
+  binderhub-gpu:
+    namespace: "dev"
+    group: "dev"
+    name: "binderhub-gpu-dev"
+    valuesFiles:
+    - "../binderhub/values.yaml"
+    - "../binderhub/dev.yaml"
+    - "../binderhub/dev/gpu.yaml" 
+  # cert-manager:
+    # enabled: true
+  # nvidia-gpu-operator:
+    # enabled: true
