@@ -29,6 +29,8 @@ config:
       <div style="text-align: center;">This is a public Beta and liable to downtime</div>
 
 jupyterhub:
+  nameOverride: binderhub
+  fullnameOverride: binderhub
   proxy:
     service:
       type: ClusterIP

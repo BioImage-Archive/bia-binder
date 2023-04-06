@@ -1,4 +1,6 @@
 jupyterhub:
+  nameOverride: binderhub-dev
+  fullnameOverride: binderhub-dev
   ingress:
     hosts:
     - dev.binder.bioimagearchive.org
@@ -7,7 +9,7 @@ jupyterhub:
       nginx.ingress.kubernetes.io/proxy-body-size: 2m
 config:
   BinderHub:
-    hub_url: https://dev.binder.bioimagearchive.org/jupyter/
+    hub_url: http://dev.binder.bioimagearchive.org/jupyter/
 
 ingress:
   enabled: true

@@ -1,4 +1,6 @@
 jupyterhub:
+  nameOverride: binderhub-gpu-dev
+  fullnameOverride: binderhub-gpu-dev
   ingress:
     enabled: true
     hosts:
@@ -15,3 +17,7 @@ ingress:
   enabled: true
   hosts:
   - "dev.gpu.binder.bioimagearchive.org"
+
+
+rbac:
+  enabled: false
