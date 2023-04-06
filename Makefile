@@ -1,34 +1,32 @@
-#!make
-
+# Makefile
 
 BASEDIR = $(shell pwd)
 
 VARIANTS := embassy denbi
 ENVIRONMENTS := prod dev
 
-.PHONY: $(VARIANTS) $(ENVIRONMENTS)
+.PHONY: all $(VARIANTS) $(ENVIRONMENTS) $(VARIANTS:%=%.prod) $(VARIANTS:%=%.dev) htpassword
 
-$(VARIANTS):
+all: $(VARIANTS)
+
+$(VARIANTS): %:
 	@echo "Deploying $@..."
-	ENV_FILE=$*.env # set the ENV_FILE variable based on the variant name
-	# commands to deploy the variant using the specified .env file
+	$(MAKE) $@.prod
+	$(MAKE) $@.dev
 
-$(ENVIRONMENTS):
+$(ENVIRONMENTS): %:
 	@echo "Deploying to $@..."
-	# commands to deploy to the environment
+	ENV_FILE="$*.$@.env"
+	$(MAKE) $(VARIANTS:%=%.$@)
 
 $(VARIANTS:%=%.prod): %.prod:
 	@echo "Deploying $* to prod..."
-	ENV_FILE=$*.prod.env"
-	helmsman --apply --debug --group "prod" -f helmsman.yaml -f helmsman/prod.yaml -f helmsman/$*.yaml
+	helmsman --apply --debug --group "prod" -f helmsman.yaml -f helmsman/prod.yaml -e $*.prod.env
 
 $(VARIANTS:%=%.dev): %.dev:
 	@echo "Deploying $* to dev..."
-	ENV_FILE=$*.prod.env"
-	helmsman --apply --debug --group "dev" -f helmsman.yaml -f helmsman/dev.yaml -f helmsman/$*.yaml
+	helmsman --apply --debug --group "dev" -f helmsman.yaml -f helmsman/dev.yaml -e $*.dev.env
 
-set-env-file:
-	
 htpassword:
 	docker run --rm -ti xmartlabs/htpasswd ${CI_REGISTRY_USER} ${CI_REGISTRY_PASSWORD} > htpasswd_file
 	cat htpasswd_file
