@@ -18,7 +18,7 @@ helmRepos:
   # kube-state-metrics: "https://kubernetes.github.io/kube-state-metrics"
   nvdp: "https://nvidia.github.io/k8s-device-plugin"
   nvidia: "https://nvidia.github.io/gpu-operator"
-  
+
 appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
@@ -38,13 +38,13 @@ appsTemplates:
       config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
       registry.url: https://registry.binder.bioimagearchive.org
       config.BinderHub.use_registry: true
-  
+
   jupyterhub: &jupyterhub
     name: "jupyterhub"
     chart: "jupyterhub/jupyterhub"
     version: "0.10.2-n047.hb387f987"
     helmFlags:
-      - "--debug"
+    - "--debug"
     wait: false
     timeout: 1200
     enabled: false
@@ -52,10 +52,10 @@ appsTemplates:
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
 
-  dask: &dask
-    name: "dask-gateway"
-    chart: "dask/dask-gateway"
-    version: "2022.4.0"
+  daskhub: &daskhub
+    name: "dask"
+    chart: "dask/daskhub"
+    version: "2023.1.0"
     enabled: false
     priority: -10
     timeout: 120
@@ -69,8 +69,7 @@ apps:
     enabled: false
     version: "0.3.3"
     valuesFiles:
-      - trow/values.yaml
-      - trow/values.yaml 
+    - trow/values.yaml
 
   nvidia-device-plugin:
     name: "nvidia-device-plugin"
@@ -85,7 +84,7 @@ apps:
     namespace: "docker-registry"
     chart: "twuni/docker-registry"
     group: "prod"
-    enabled: false
+    enabled: true
     priority: -3
     version: "2.1.0"
     set:
@@ -93,123 +92,52 @@ apps:
       # proxy.username: "$CI_REGISTRY_USER"
       # proxy.password: "$CI_REGISTRY_PASSWORD"
     valuesFiles:
-      - docker-registry/values.yaml 
+    - docker-registry/values.yaml
 
   ingress-nginx:
     name: "ingress-nginx"
     namespace: "ingress-nginx"
     chart: "ingress-nginx/ingress-nginx"
     group: "prod"
-    enabled: false
+    enabled: true
     priority: -100
     version: "4.6.0"
     valuesFiles:
-      - ingress/nginx-ingress.yaml 
+    - ingress/nginx-ingress.yaml
 
-  daskgateway:
-    <<: *dask
-    name: "daskgateway"
+  daskhub:
+    !!merge <<: *daskhub
+    name: "dask"
     group: "prod"
-    namespace: "daskgateway"
-    # valuesFiles:
-    # - "daskgateway/prod.yaml"
+    namespace: "prod"
+    valuesFiles:
+    - "daskhub/values.yaml"
 
-  binderhub-dev:
-    <<: *binderhub
-    name: "binderhub-dev"
-    namespace: "binderhub-dev"
-    group: "dev"
+  binderhub:
+    !!merge <<: *binderhub
+    name: "binderhub"
+    enabled: true
+    priority: -17
+    namespace: "prod"
+    group: "prod"
     # protected: false
     valuesFiles:
-      - "binderhub/config.yaml"
-      - "binderhub/dev/config.yaml"
+    - "binderhub/values.yaml"
 
 
-  binderhub-prod:
-    <<: *binderhub
-    name: "binderhub-prod"
-    namespace: "binderhub-prod"
-    group: "prod"
-    valuesFiles:
-      - "binderhub/config.yaml"
-      - "binderhub/prod/config.yaml"
-      # - "binderhub/persistentVolumes.yaml"
-
-  binderhub-prod-gpu:
-    <<: *binderhub
+  binderhub-gpu:
+    !!merge <<: *binderhub
     enabled: false
-    name: "binderhub-prod-gpu"
-    namespace: "binderhub-prod-gpu"
+    name: "binderhub-gpu"
+    namespace: "prod"
     group: "prod"
-    # valuesFiles:
-
-  binderhub-dev-gpu:
-    <<: *binderhub
-    enabled: false
-    name: "binderhub-dev-gpu"
-    namespace: "binderhub-dev-gpu"
-    group: "dev"
-
-  jupyterhub-sandbox-dev:
-    <<: *jupyterhub
-    name: "jupyterhub-sandbox-dev"
-    group: "dev"
-    namespace: "jupyterhub-sandbox-dev"
-    # hooks:
-    #   preInstall: "jupyterhub/dev/volumes/biostudies.yaml"
     valuesFiles:
-      - "jupyterhub/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/dev/config.yaml"
-      - "jupyterhub/sandbox.yaml"
-      # - "jupyterhub/dev/sandbox.yaml"
+    - "binderhub/values.yaml"
 
-  jupyterhub-sandbox-prod:
-    <<: *jupyterhub
-    name: "jupyterhub-sandbox-prod"
-    group: "prod"
-    namespace: "jupyterhub-sandbox-prod"
-    # hooks:
-    #   preInstall: "jupyterhub/prod/volumes/biostudies.yaml"
-    valuesFiles:
-      - "jupyterhub/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/prod/config.yaml"
-      - "jupyterhub/sandbox.yaml"
-      # - "jupyterhub/prod/sandbox.yaml"
-
-  jupyterhub-github-dev:
-    <<: *jupyterhub
-    name: "jupyterhub-github-dev"
-    group: "dev"
-    namespace: "jupyterhub-github-dev"
-    set:
-      auth.github.callbackUrl: "dev.$HOST_NAME/github/hub/oauth_callback"
-    valuesFiles:
-      - "jupyterhub/config.yaml"
-      - "jupyterhub/dev/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/github.yaml"
-      - "jupyterhub/dev/github.yaml"
-
-  jupyterhub-github-prod:
-    <<: *jupyterhub
-    name: "jupyterhub-github-prod"
-    group: "prod"
-    namespace: "jupyterhub-github-prod"
-    # set:
-      # auth.github.callbackUrl: "$HOST_NAME/github/hub/oauth_callback"
-    valuesFiles:
-      - "jupyterhub/config.yaml"
-      - "jupyterhub/prod/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/github.yaml"
-      # - "jupyterhub/prod/github.yaml"
-
-  cert-manager-prod:
+  cert-manager:
     name: "cert-manager"
     chart: "jetstack/cert-manager"
-    enabled: false
+    enabled: true
     priority: 0
     # timeout: 120
     version: "v1.7.2"
