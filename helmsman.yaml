@@ -42,12 +42,12 @@ appsTemplates:
   jupyterhub: &jupyterhub
     name: "jupyterhub"
     chart: "jupyterhub/jupyterhub"
-    version: "0.10.2-n047.hb387f987"
+    version: "2.0.0"
     helmFlags:
     - "--debug"
     wait: false
     timeout: 1200
-    enabled: false
+    enabled: true
     priority: -9
     set:
       proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
@@ -59,6 +59,8 @@ appsTemplates:
     enabled: false
     priority: -10
     timeout: 120
+    set:
+      jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
 
 apps:
 
@@ -105,10 +107,19 @@ apps:
     valuesFiles:
     - ingress/nginx-ingress.yaml
 
+  jupyterhub:
+    !!merge <<: *jupyterhub
+    name: "jupyterhub"
+    enabled: false
+    group: "prod"
+    namespace: "prod"
+    valuesFiles:
+    - "jupyterhub/values.yaml"
+
   daskhub:
     !!merge <<: *daskhub
-    name: "dask"
-    enabled: false
+    name: "daskhub"
+    enabled: true
     group: "prod"
     namespace: "prod"
     valuesFiles:

@@ -31,6 +31,12 @@ apps:
     # enabled: true
   # ingress-nginx:
     # enabled: true
+  jupyterhub:
+    namespace: "dev"
+    group: "dev"
+    valuesFiles:
+    - "../jupyterhub/values.yaml"
+    - "../jupyterhub/dev.yaml"
   daskhub:
     namespace: "dev"
     group: "dev"
