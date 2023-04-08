@@ -17,54 +17,54 @@ hub:
   # extraConfig: |
     # c.JupyterHub.cleanup_servers = True
   extraConfig:
-      fuseConfig: |
-        from kubernetes import client
-        def modify_pod_hook(spawner, pod):
-          pod.spec.containers[0].security_context = client.V1SecurityContext(
-            privileged=True,
-            run_as_user=0,
-            capabilities=client.V1Capabilities(
-                add=['SYS_ADMIN']
-            )
-          )
-          return pod
-        c.KubeSpawner.modify_pod_hook = modify_pod_hook
-      00-add-dask-gateway-values: |
-        # 1. Sets `DASK_GATEWAY__PROXY_ADDRESS` in the singleuser environment.
-        # 2. Adds the URL for the Dask Gateway JupyterHub service.
-        import os
-        # These are set by jupyterhub.
-        release_name = os.environ["HELM_RELEASE_NAME"]
-        release_namespace = os.environ["POD_NAMESPACE"]
-        if "PROXY_HTTP_SERVICE_HOST" in os.environ:
-            # https is enabled, we want to use the internal http service.
-            gateway_address = "http://{}:{}/services/dask-gateway/".format(
-                os.environ["PROXY_HTTP_SERVICE_HOST"],
-                os.environ["PROXY_HTTP_SERVICE_PORT"],
-            )
-            print("Setting DASK_GATEWAY__ADDRESS {} from HTTP service".format(gateway_address))
-        else:
-            gateway_address = "http://proxy-public/services/dask-gateway"
-            print("Setting DASK_GATEWAY__ADDRESS {}".format(gateway_address))
-        # Internal address to connect to the Dask Gateway.
-        c.KubeSpawner.environment.setdefault("DASK_GATEWAY__ADDRESS", gateway_address)
-        # Internal address for the Dask Gateway proxy.
-        c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PROXY_ADDRESS", "gateway://traefik-{}-dask-gateway.{}:80".format(release_name, release_namespace))
-        # Relative address for the dashboard link.
-        c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PUBLIC_ADDRESS", "/services/dask-gateway/")
-        # Use JupyterHub to authenticate with Dask Gateway.
-        c.KubeSpawner.environment.setdefault("DASK_GATEWAY__AUTH__TYPE", "jupyterhub")
-        # Adds Dask Gateway as a JupyterHub service to make the gateway available at
-        # {HUB_URL}/services/dask-gateway
-        service_url = "http://traefik-{}-dask-gateway.{}".format(release_name, release_namespace)
-        for service in c.JupyterHub.services:
-            if service["name"] == "dask-gateway":
-                if not service.get("url", None):
-                    print("Adding dask-gateway service URL")
-                    service.setdefault("url", service_url)
-                break
-        else:
-            print("dask-gateway service not found, this should not happen!")
+      # fuseConfig: |
+      #   from kubernetes import client
+      #   def modify_pod_hook(spawner, pod):
+      #     pod.spec.containers[0].security_context = client.V1SecurityContext(
+      #       privileged=True,
+      #       run_as_user=0,
+      #       capabilities=client.V1Capabilities(
+      #           add=['SYS_ADMIN']
+      #       )
+      #     )
+      #     return pod
+      #   c.KubeSpawner.modify_pod_hook = modify_pod_hook
+      # 00-add-dask-gateway-values: |
+      #   # 1. Sets `DASK_GATEWAY__PROXY_ADDRESS` in the singleuser environment.
+      #   # 2. Adds the URL for the Dask Gateway JupyterHub service.
+      #   import os
+      #   # These are set by jupyterhub.
+      #   release_name = os.environ["HELM_RELEASE_NAME"]
+      #   release_namespace = os.environ["POD_NAMESPACE"]
+      #   if "PROXY_HTTP_SERVICE_HOST" in os.environ:
+      #       # https is enabled, we want to use the internal http service.
+      #       gateway_address = "http://{}:{}/services/dask-gateway/".format(
+      #           os.environ["PROXY_HTTP_SERVICE_HOST"],
+      #           os.environ["PROXY_HTTP_SERVICE_PORT"],
+      #       )
+      #       print("Setting DASK_GATEWAY__ADDRESS {} from HTTP service".format(gateway_address))
+      #   else:
+      #       gateway_address = "http://proxy-public/services/dask-gateway"
+      #       print("Setting DASK_GATEWAY__ADDRESS {}".format(gateway_address))
+      #   # Internal address to connect to the Dask Gateway.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__ADDRESS", gateway_address)
+      #   # Internal address for the Dask Gateway proxy.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PROXY_ADDRESS", "gateway://traefik-{}-dask-gateway.{}:80".format(release_name, release_namespace))
+      #   # Relative address for the dashboard link.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__PUBLIC_ADDRESS", "/services/dask-gateway/")
+      #   # Use JupyterHub to authenticate with Dask Gateway.
+      #   c.KubeSpawner.environment.setdefault("DASK_GATEWAY__AUTH__TYPE", "jupyterhub")
+      #   # Adds Dask Gateway as a JupyterHub service to make the gateway available at
+      #   # {HUB_URL}/services/dask-gateway
+      #   service_url = "http://traefik-{}-dask-gateway.{}".format(release_name, release_namespace)
+      #   for service in c.JupyterHub.services:
+      #       if service["name"] == "dask-gateway":
+      #           if not service.get("url", None):
+      #               print("Adding dask-gateway service URL")
+      #               service.setdefault("url", service_url)
+      #           break
+      #   else:
+      #       print("dask-gateway service not found, this should not happen!")
 
 
 # auth:
