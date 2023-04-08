@@ -112,8 +112,9 @@ apps:
     group: "prod"
     namespace: "prod"
     enabled: true
+    wait: true
     priority: -10
-    timeout: 120
+    timeout: 600
     set:
       jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
     valuesFiles:
@@ -149,6 +150,7 @@ apps:
     version: "v1.7.2"
     wait: true
     group: "prod"
+    timeout: 240
     namespace: "cert-manager"
     set:
       installCRDs: true
