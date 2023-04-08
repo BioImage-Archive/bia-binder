@@ -64,6 +64,8 @@ appsTemplates:
 
 apps:
 
+
+
   trow:
     name: "trow"
     namespace: "trow"
@@ -108,11 +110,19 @@ apps:
     - ingress/nginx-ingress.yaml
 
   jupyterhub:
-    !!merge <<: *jupyterhub
     name: "jupyterhub"
-    enabled: false
+    chart: "jupyterhub/jupyterhub"
+    version: "2.0.0"
     group: "prod"
     namespace: "prod"
+    helmFlags:
+    - "--debug"
+    wait: false
+    timeout: 1200
+    enabled: false
+    priority: -11
+    set:
+      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
     valuesFiles:
     - "jupyterhub/values.yaml"
 
