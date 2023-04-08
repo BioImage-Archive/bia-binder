@@ -1,0 +1,16 @@
+nameOverride: "daskhub-dev"
+fullnameOverride: "daskhub-dev"
+
+jupyterhub:
+
+  ingress:
+    enabled: false
+    hosts:
+    - localhost
+    - ""
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-body-size: 2m
+    tls:
+    - secretName: 
+      hosts:

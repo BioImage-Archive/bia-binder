@@ -1,0 +1,61 @@
+namespaces:
+  prod:
+    protected: false
+  dev:
+    protected: true
+  cert-manager:
+    protected: true
+  ingress-nginx:
+    protected: true
+  nginx-ingress:
+    protected: true
+  trow:
+    protected: true
+  docker-registry:
+    protected: true
+  tritoninferenceserver:
+    protected: true
+  monitoring:
+    protected: true
+  nvidia-device-plugin:
+    protected: true
+  gpu-operator:
+    protected: true
+  kfp:
+    protected: true
+
+apps:
+  # trow:
+    # enabled: false
+  # nvidia-device-plugin:
+    # enabled: true
+  # docker-registry:
+    # enabled: true
+  # ingress-nginx:
+    # enabled: true
+  jupyterhub:
+    namespace: "prod"
+    valuesFiles:
+    - "../jupyterhub/values.yaml"
+    - "../jupyterhub/local.yaml"
+  daskhub:
+    namespace: "prod"
+    valuesFiles:
+    - "../daskhub/values.yaml"
+    - "../daskhub/local.yaml"
+  binderhub:
+    namespace: "prod"
+    valuesFiles:
+    - "../binderhub/values.yaml"
+    - "../binderhub/local.yaml"
+  binderhub-gpu:
+    namespace: "prod"
+    enabled: false
+    # valuesFiles:
+    # - "../binderhub/values.yaml"
+    # - "../binderhub/local.yaml"
+    # - "../binderhub/local/gpu.yaml" 
+  # cert-manager:
+    # enabled: true
+  # nvidia-gpu-operator:
+    # enabled: true
