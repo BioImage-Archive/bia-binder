@@ -18,6 +18,7 @@ helmRepos:
   # kube-state-metrics: "https://kubernetes.github.io/kube-state-metrics"
   nvdp: "https://nvidia.github.io/k8s-device-plugin"
   nvidia: "https://nvidia.github.io/gpu-operator"
+  getindata: "https://getindata.github.io/helm-charts/"
 
 appsTemplates:
   binderhub: &binderhub
@@ -39,28 +40,7 @@ appsTemplates:
       registry.url: https://registry.binder.bioimagearchive.org
       config.BinderHub.use_registry: true
 
-  jupyterhub: &jupyterhub
-    name: "jupyterhub"
-    chart: "jupyterhub/jupyterhub"
-    version: "2.0.0"
-    helmFlags:
-    - "--debug"
-    wait: false
-    timeout: 1200
-    enabled: true
-    priority: -9
-    set:
-      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
 
-  daskhub: &daskhub
-    name: "dask"
-    chart: "dask/daskhub"
-    version: "2023.1.0"
-    enabled: false
-    priority: -10
-    timeout: 120
-    set:
-      jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
 
 apps:
 
@@ -127,11 +107,15 @@ apps:
     - "jupyterhub/values.yaml"
 
   daskhub:
-    !!merge <<: *daskhub
-    name: "daskhub"
-    enabled: true
+    chart: "dask/daskhub"
+    version: "2023.1.0"
     group: "prod"
     namespace: "prod"
+    enabled: true
+    priority: -10
+    timeout: 120
+    set:
+      jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
     valuesFiles:
     - "daskhub/values.yaml"
 
