@@ -19,7 +19,7 @@ config:
     build_memory_limit: "8G"
     build_memory_request: "4G"
     # hub_url: http://10.43.114.27
-    hub_url: http://binder.bioimagearchive.org/jupyter/
+    hub_url: https://binder.bioimagearchive.org/jupyter
     use_registry: true
     image_prefix: bioimagearchive/binder-
     build_image: jupyter/repo2docker:2021.08.0
@@ -168,7 +168,8 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
-    cert-manager.k8s.io/acme-challenge-type: http01
+    # Because we're using http01 we need to not use wildcard tls
+    # https://letsencrypt.org/docs/faq/
     cert-manager.io/cluster-issuer: letsencrypt-production
     certmanager.k8s.io/acme-http01-edit-in-place: "true"
   https:
