@@ -17,6 +17,10 @@ ingress:
   enabled: true
   hosts:
   - "dev.gpu.binder.bioimagearchive.org"
+  tls:
+  - secretName: dev-gpu-binder-bioimagearchive-org-cert
+    hosts:
+    - dev.gpu.binder.bioimagearchive.org
 
 
 rbac:
