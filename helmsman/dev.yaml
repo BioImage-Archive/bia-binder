@@ -21,6 +21,9 @@ namespaces:
     protected: true
   gpu-operator:
     protected: true
+  kfp:
+    protected: true
+
 
 apps:
   # trow:
@@ -40,6 +43,7 @@ apps:
   daskhub:
     namespace: "dev"
     group: "dev"
+    name: "daskhub-dev"
     valuesFiles:
     - "../daskhub/values.yaml"
     - "../daskhub/dev.yaml"
