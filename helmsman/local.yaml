@@ -21,8 +21,7 @@ namespaces:
     protected: true
   gpu-operator:
     protected: true
-  kfp:
-    protected: true
+
 
 apps:
   # trow:
@@ -54,7 +53,8 @@ apps:
     # valuesFiles:
     # - "../binderhub/values.yaml"
     # - "../binderhub/local.yaml"
-    # - "../binderhub/local/gpu.yaml" 
+    # - "../binderhub/local/gpu.yaml"
+ 
   # cert-manager:
     # enabled: true
   # nvidia-gpu-operator:

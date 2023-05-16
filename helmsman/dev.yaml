@@ -21,9 +21,6 @@ namespaces:
     protected: true
   gpu-operator:
     protected: true
-  kfp:
-    protected: true
-
 
 apps:
   # trow:
@@ -66,3 +63,9 @@ apps:
     # enabled: true
   # nvidia-gpu-operator:
     # enabled: true
+  kfp:
+    name: "kfp-dev"
+    group: "dev"
+    namespace: "dev"
+    valuesFiles:
+    - ../kubeflow-pipelines/dev.yaml

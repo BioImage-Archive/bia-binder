@@ -19,6 +19,7 @@ helmRepos:
   nvdp: "https://nvidia.github.io/k8s-device-plugin"
   nvidia: "https://nvidia.github.io/gpu-operator"
   getindata: "https://getindata.github.io/helm-charts/"
+  argo: "https://argoproj.github.io/argo-helm"
 
 appsTemplates:
   binderhub: &binderhub
@@ -43,7 +44,39 @@ appsTemplates:
 
 
 apps:
+  argo-workflows:
+    name: "argo-workflows"
+    namespace: "prod"
+    group: "prod"
+    version: "0.23.0"
+    chart: "argo/argo-workflows"
+    enabled: true
+    # version: "1.10.0"
+    set:
+      # argo-workflowsUsername: admin
+      # argo-workflowsPassword: abc
+      # mysql.auth.rootPassword: abd
+      # global.postgresql.auth.postgresPassword: abc
+      # global.postgresql.auth.password: abc
+      # mysql.auth.password: abc
+      # externalDatabase.password: abc
 
+    valuesFiles:
+    - argo-workflows/values.yaml
+
+  kfp:
+    name: "kfp"
+    namespace: "prod"
+    group: "prod"
+    chart: "getindata/kubeflow-pipelines"
+    enabled: false
+    version: "1.10.0"
+    set:
+      platform.manageStoage.minioAccessKey: minio
+      minioSecretKey: $SECRET_JUPYTERHUB_PROXY_TOKEN
+      platform.managedStorage.dbPassword: $SECRET_JUPYTERHUB_PROXY_TOKEN
+    valuesFiles:
+    - kubeflow-pipelines/values.yaml
 
 
   trow:
@@ -82,6 +115,7 @@ apps:
     name: "ingress-nginx"
     namespace: "ingress-nginx"
     chart: "ingress-nginx/ingress-nginx"
+    wait: true
     group: "prod"
     enabled: true
     priority: -100

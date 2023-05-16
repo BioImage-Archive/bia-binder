@@ -20,3 +20,7 @@ ingress:
     hosts:
     - dev.binder.bioimagearchive.org
 
+pink:
+  hostStorageDir: /var/lib/pink/storage/dev
+  hostSocketDir: /var/run/pink/dev
+

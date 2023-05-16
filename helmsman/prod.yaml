@@ -21,6 +21,8 @@ namespaces:
     protected: true
   gpu-operator:
     protected: true
+  argo:
+    protected: true
 
 apps:
   # trow:
@@ -52,3 +54,14 @@ apps:
     # enabled: true
   # nvidia-gpu-operator:
     # enabled: true
+  kfp:
+    name: "kfp"
+    namespace: "prod"
+    valuesFiles:
+    - ../kubeflow-pipelines/values.yaml
+
+  argo-workflows:
+    name: "argo-workflows"
+    namespace: "prod"
+    # valuesFiles:
+    # - ../kubeflow-pipelines/values.yaml
