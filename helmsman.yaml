@@ -1,28 +1,3 @@
-# context: minikube
-settings:
-  kubeContext: bia-binder
-  # globalHooks:
-    # preUpgrade: "ingress/gpu_redirect.yaml"
-
-#   # username = "admin"
-#   # password = "$K8S_PASSWORD"
-#   # clusterURI = "https://192.168.99.100:8443"
-# settings:
-#   # kubeContext: "config" # the name of the context to be created
-#   # bearerToken: true
-#   # clusterURI: "https://kubernetes.default"
-#   # # bearerTokenPath: "/path/to/custom/bearer/token/file"
-#   kubeContext: "internal"
-#   clusterURI: "https://kubernetes.default"
-#   bearerToken: true
-#   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token" # optional if a token is provided by the user in another location
-
-# settings:
-  # globalHooks:
-  #   preInstall: 
-  #     # - "persistentVolumes/biostudies.yaml"
-  #     - "ingress/gpu_redirect.yaml"
-
 metadata:
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
@@ -30,35 +5,28 @@ metadata:
 
 helmRepos:
   jupyterhub: "https://jupyterhub.github.io/helm-chart/"
-  daskgateway: "https://dask.org/dask-gateway-helm-repo/"
+  # daskgateway: "https://dask.org/dask-gateway-helm-repo/"
+  dask: "https://helm.dask.org/"
   jetstack: "https://charts.jetstack.io"
   persistent_binderhub: "https://gesiscss.github.io/persistent_binderhub"
   nginx-stable: "https://helm.nginx.com/stable"
   ingress-nginx: "https://kubernetes.github.io/ingress-nginx"
   trow: "https://trow.io"
   twuni: "https://helm.twun.io"
-  # triton: "https://helm.ngc.nvidia.com/nvidia"
   triton: "https://ctr26.github.io/tritoninferenceserver/"
   # prometheus-community: "https://prometheus-community.github.io/helm-charts"
   # kube-state-metrics: "https://kubernetes.github.io/kube-state-metrics"
   nvdp: "https://nvidia.github.io/k8s-device-plugin"
   nvidia: "https://nvidia.github.io/gpu-operator"
-  
+  getindata: "https://getindata.github.io/helm-charts/"
+  argo: "https://argoproj.github.io/argo-helm"
+
 appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
     chart: "jupyterhub/binderhub"
-    version: "0.2.0-n645.h06139f0"
+    version: "1.0.0-0.dev.git.3035.h32213a4"
     priority: -8
-    # version: "0.2.0-n575.h2dc091f"
-    # version: "0.2.0-n467.hbc700d4"
-    # version: "0.2.0-n519.hf5c1a19"
-    # version: "0.2.0-n217.h35366ea"
-    # version: "0.2.0-n217.h35366ea"
-    # helmFlags:
-    #   - "--debug"
-    # # test: true
-    # # protected: true
     wait: false # Lethal for binderhub
     timeout: 180
     enabled: false
@@ -66,95 +34,50 @@ appsTemplates:
       postUpgrade: "fuser/fuser.yml"
       postInstall: "fuser/fuser.yml"
     set:
-      # registry.username: "$CI_REGISTRY_USER"
-      # registry.password: "$CI_REGISTRY_PASSWORD"
-      # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
       jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
       jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
-      config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
-      # jupyterhub.auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
-      # jupyterhub.auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
-      jupyterhub.hub.config.GitHubOAuthenticator.client_id: "$SECRET_GITHUB_CLIENTID"
-      jupyterhub.hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTSECRET"
-      # config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
-      # config.BinderHub.hub_url: "$HOST_NAME/binderhub/"
-    # hooks:
-      # preUpgrade: "binderhub/persistentVolumes/biostudies.yaml"
-    # hub_url: http://10.43.114.27
-    # config.DockerRegistry.url: "https://dockerhub.ebi.ac.uk"
-    # config.DockerRegistry.token_url: ""
-    # registry.url: "https://dockerhub.ebi.ac.uk"
-      # registry.username: "$CI_REGISTRY_USER"
-      # registry.password: "$CI_REGISTRY_PASSWORD"
-      # config.DockerRegistry.url: https://trow.ctr26.duckdns.org
-      # config.DockerRegistry.token_url: ""
-      # config.DockerRegistry.token_url: "https://trow.ctr26.duckdns.org/v2/token?service="
-      # config.BinderHub.image_prefix: "trow.ctr26.duckdns.org/"
-      # registry.url: https://trow.ctr26.duckdns.org
-      # registry.username: "bia"
-      # registry.password: "***REMOVED***="
-      # config.BinderHub.use_registry: true
-      # config.DockerRegistry.token_url: None
-      # config.DockerRegistry.token_url: "https://registry.ctr26.duckdns.org/v2/token?service="
       config.DockerRegistry.token_url: ""
       config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
       registry.url: https://registry.binder.bioimagearchive.org
-      # registry.username: "admin"
-      # registry.password: "password"
       config.BinderHub.use_registry: true
-  jupyterhub: &jupyterhub
-    name: "jupyterhub"
-    chart: "jupyterhub/jupyterhub"
-    version: "0.10.2-n047.hb387f987"
-    helmFlags:
-      - "--debug"
-    # test: true
-    # protected: true
-    wait: false
-    timeout: 1200
-    enabled: false
-    priority: -9
-    set:
-      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-      # auth.github.clientId: "$SECRET_GITHUB_CLIENTID"
-      # auth.github.clientSecret: "$SECRET_GITHUB_CLIENTSECRET"
-      # ingress.hosts: "binder.bioimagearchive.org"
-    # hooks:
-      # preUpgrade: "persistentVolumes/biostudies.yaml"
-
-  persistent-binderhub: &persistent-binderhub
-    name: "persistent-binderhub"
-    chart: "persistent_binderhub/persistent_binderhub"
-    version: "0.2.0-n563"
-    wait: false # Lethal for binderhub
-    timeout: 1200
-    enabled: false
-    priority: -11
-    set:
-      # binderhub.registry.username: "$CI_REGISTRY_USER"
-      # binderhub.registry.password: "$CI_REGISTRY_PASSWORD"
-      # binderhub.registry.url: https://registry.binder.bioimagearchive.org
-      binderhub.jupyterhub.hub.services.binder.apiToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-      binderhub.jupyterhub.proxy.secretToken: "$SECRET_BINDERHUB_SERVICE"
-      # binderhub.config.BinderHub.image_prefix: "$CI_REGISTRY_IMAGE"
-      # binderhub.config.BinderHub.image_prefix: "registry.alpha.binder.bioimagearchive.org/binder-"
-      # binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
-      binderhub.config.GitHubRepoProvider.access_token: "$SECRET_GITHUBREPOPROVIDER"
-      binderhub.config.DockerRegistry.token_url: ""
-      binderhub.config.BinderHub.image_prefix: "registry.binder.bioimagearchive.org/"
-      binderhub.registry.url: https://registry.binder.bioimagearchive.org
-      
 
 
-  dask: &dask
-    name: "daskgateway"
-    chart: "daskgateway/dask-gateway"
-    version: "0.9.0"
-    enabled: false
-    priority: -10
-    timeout: 120
 
 apps:
+  argo-workflows:
+    name: "argo-workflows"
+    namespace: "prod"
+    group: "prod"
+    version: "0.23.0"
+    chart: "argo/argo-workflows"
+    enabled: true
+    # version: "1.10.0"
+    set:
+      # argo-workflowsUsername: admin
+      # argo-workflowsPassword: abc
+      # mysql.auth.rootPassword: abd
+      # global.postgresql.auth.postgresPassword: abc
+      # global.postgresql.auth.password: abc
+      # mysql.auth.password: abc
+      # externalDatabase.password: abc
+
+    valuesFiles:
+    - argo-workflows/values.yaml
+
+  kfp:
+    name: "kfp"
+    namespace: "prod"
+    group: "prod"
+    chart: "getindata/kubeflow-pipelines"
+    enabled: false
+    version: "1.10.0"
+    set:
+      platform.manageStoage.minioAccessKey: minio
+      minioSecretKey: $SECRET_JUPYTERHUB_PROXY_TOKEN
+      platform.managedStorage.dbPassword: $SECRET_JUPYTERHUB_PROXY_TOKEN
+    valuesFiles:
+    - kubeflow-pipelines/values.yaml
+
 
   trow:
     name: "trow"
@@ -163,49 +86,22 @@ apps:
     enabled: false
     version: "0.3.3"
     valuesFiles:
-      - trow/values.yaml
-      - trow/values.yaml 
-
-  # tritoninferenceserver:
-  #   name: "tritoninferenceserver"
-  #   namespace: "tritoninferenceserver"
-  #   chart: "triton/tritoninferenceserver"
-  #   enabled: false
-  #   version: "1.0.0"
-  #   valuesFiles:
-  #     - triton/values.yaml
+    - trow/values.yaml
 
   nvidia-device-plugin:
     name: "nvidia-device-plugin"
     namespace: "nvidia-device-plugin"
     chart: "nvdp/nvidia-device-plugin"
-    group: "production"
+    group: "prod"
     enabled: false
     version: "0.10.0"
-    # valuesFiles:
-    #   - triton/values.yaml
-
-  # prometheus:
-  #   name: "prometheus"
-  #   namespace: "tritoninferenceserver"
-  #   chart: "prometheus-community/prometheus"
-  #   # chart: "prometheus/prometheus-adapter"
-  #   enabled: false
-  #   version: "14.7.1"
-  #   # hooks:
-  #   #   postUpgrade: 
-  #   #     - "triton/config_map.yaml"
-  #   #     - "triton/deployment.yaml"
-  #   #   postInstall:
-  #   #     - "triton/config_map.yaml"
-  #   #     - "triton/deployment.yaml"
 
   docker-registry:
     name: "docker-registry"
     namespace: "docker-registry"
     chart: "twuni/docker-registry"
-    group: "production"
-    enabled: false
+    group: "prod"
+    enabled: true
     priority: -3
     version: "2.1.0"
     set:
@@ -213,205 +109,87 @@ apps:
       # proxy.username: "$CI_REGISTRY_USER"
       # proxy.password: "$CI_REGISTRY_PASSWORD"
     valuesFiles:
-      - docker-registry/values.yaml 
-
-
-  # nginx-ingress:
-  #   name: "nginx-ingress"
-  #   namespace: "nginx-ingress"
-  #   chart: "nginx-stable/nginx-ingress"
-  #   enabled: false
-  #   version: "3.35.0"
-  #   valuesFiles:
-  #     - ingress/nginx-ingress.yaml 
+    - docker-registry/values.yaml
 
   ingress-nginx:
     name: "ingress-nginx"
     namespace: "ingress-nginx"
     chart: "ingress-nginx/ingress-nginx"
-    group: "production"
-    enabled: false
-    priority: 0
-    version: "3.35.0"
+    wait: true
+    group: "prod"
+    enabled: true
+    priority: -100
+    version: "4.6.0"
     valuesFiles:
-      - ingress/nginx-ingress.yaml 
+    - ingress/nginx-ingress.yaml
 
-  # daskgateway-staging:
-  #   <<: *dask
-  #   name: "daskgateway-staging"
-  #   group: "staging"
-  #   namespace: "daskgateway-staging"
-  #   # valuesFiles:
-  #   # - "daskgateway/staging.yaml"
+  jupyterhub:
+    name: "jupyterhub"
+    chart: "jupyterhub/jupyterhub"
+    version: "2.0.0"
+    group: "prod"
+    namespace: "prod"
+    helmFlags:
+    - "--debug"
+    wait: false
+    timeout: 1200
+    enabled: false
+    priority: -11
+    set:
+      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+    valuesFiles:
+    - "jupyterhub/values.yaml"
 
-  daskgateway:
-    <<: *dask
-    name: "daskgateway"
-    group: "production"
-    namespace: "daskgateway"
-    # valuesFiles:
-    # - "daskgateway/production.yaml"
+  daskhub:
+    chart: "dask/daskhub"
+    version: "2023.1.0"
+    group: "prod"
+    namespace: "prod"
+    enabled: true
+    wait: true
+    priority: -10
+    timeout: 600
+    set:
+      jupyterhub.proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+    valuesFiles:
+    - "daskhub/values.yaml"
 
-  binderhub-staging:
-    <<: *binderhub
-    name: "binderhub-staging"
-    namespace: "binderhub-staging"
-    group: "staging"
+  binderhub:
+    !!merge <<: *binderhub
+    name: "binderhub"
+    enabled: true
+    priority: -17
+    namespace: "prod"
+    group: "prod"
     # protected: false
     valuesFiles:
-      # - "binderhub/secret.yaml"
-      - "binderhub/config.yaml"
-      # - "binderhub/secret.yaml"
-      - "binderhub/staging/config.yaml"
-      # - "binderhub/ebi_dockerhub.yaml"
-    # set:
-    #   config.BinderHub.base_url: "staging"
-    #   ingress.pathSuffix: "/staging"
-    #   registry.username: "$SECRET_DOCKERHUB_USERNAME"
-    #   registry.password: "$SECRET_DOCKERHUB_PASSWORD"
-    # set:
-    #   jupyterhub.hub.baseUrl: "/binderhub/staging/"
-    #   config.BinderHub.hub_url: "$HOST_NAME"
+    - "binderhub/values.yaml"
 
 
-  binderhub-production:
-    <<: *binderhub
-    name: "binderhub-production"
-    namespace: "binderhub-production"
-    group: "production"
-    valuesFiles:
-      - "binderhub/config.yaml"
-      - "binderhub/production/config.yaml"
-      # - "binderhub/persistentVolumes.yaml"
-
-  persistent-binderhub-production:
-    <<: *persistent-binderhub
-    name: "persistent-binderhub-production"
-    namespace: "persistent-binderhub-production"
+  binderhub-gpu:
+    !!merge <<: *binderhub
     enabled: false
-    group: "production"
+    name: "binderhub-gpu"
+    namespace: "prod"
+    group: "prod"
     valuesFiles:
-      - "binderhub-persistent/config.yaml"
-      - "binderhub-persistent/production/config.yaml"
-      # - "binderhub/persistentVolumes.yaml"
+    - "binderhub/values.yaml"
 
-
-  binderhub-production-gpu:
-    <<: *binderhub
-    enabled: false
-    name: "binderhub-production-gpu"
-    namespace: "binderhub-production-gpu"
-    group: "production"
-    # valuesFiles:
-
-  binderhub-staging-gpu:
-    <<: *binderhub
-    enabled: false
-    name: "binderhub-staging-gpu"
-    namespace: "binderhub-staging-gpu"
-    group: "staging"
-    # valuesFiles:
-    #   - "binderhub/config.yaml"
-    #   - "binderhub/production/config.yaml"
-      # - "binderhub/persistentVolumes.yaml"
-  # binderhub-production-gpu:
-  #   <<: *binderhub
-  #   name: "binderhub-production-gpu"
-  #   namespace: "binderhub-production"
-  #   group: "production-gpu"
-  #   valuesFiles:
-  #     - "binderhub/config.yaml"
-  #     - "binderhub/production/config.yaml"
-  #     - "binderhub/gpu_support.yaml"
-
-  jupyterhub-sandbox-staging:
-    <<: *jupyterhub
-    name: "jupyterhub-sandbox-staging"
-    group: "staging"
-    namespace: "jupyterhub-sandbox-staging"
-    # hooks:
-    #   preInstall: "jupyterhub/staging/volumes/biostudies.yaml"
-    valuesFiles:
-      - "jupyterhub/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/staging/config.yaml"
-      - "jupyterhub/sandbox.yaml"
-      # - "jupyterhub/staging/sandbox.yaml"
-
-  jupyterhub-sandbox-production:
-    <<: *jupyterhub
-    name: "jupyterhub-sandbox-production"
-    group: "production"
-    namespace: "jupyterhub-sandbox-production"
-    # hooks:
-    #   preInstall: "jupyterhub/production/volumes/biostudies.yaml"
-    valuesFiles:
-      - "jupyterhub/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/production/config.yaml"
-      - "jupyterhub/sandbox.yaml"
-      # - "jupyterhub/production/sandbox.yaml"
-  # -------------------- JUNK ----------------------------------
-  # jupyterhub-test:
-  #   valuesFiles:
-  #     - "values/jupyterhub-config.yaml"
-  #     # - "values/staging/jupyterhub-config.yaml"
-  #     - "values/jupyterhub-sandbox.yaml"
-  #     # - "values/staging/jupyterhub-sandbox.yaml"
-  #   name: "jupyterhub-staging"
-  #   namespace: "staging"
-  #   chart: "jupyterhub/jupyterhub"
-  #   # version: "0.9.0"
-  #   version: "0.10.2-n047.hb387f987"
-  #   enabled: false
-  #   priority: 0
-  #   timeout: 1200
-  #   # wait: true
-  #   set:
-  #     proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-
-  jupyterhub-github-staging:
-    <<: *jupyterhub
-    name: "jupyterhub-github-staging"
-    group: "staging"
-    namespace: "jupyterhub-github-staging"
-    set:
-      auth.github.callbackUrl: "staging.$HOST_NAME/github/hub/oauth_callback"
-    valuesFiles:
-      - "jupyterhub/config.yaml"
-      - "jupyterhub/staging/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/github.yaml"
-      - "jupyterhub/staging/github.yaml"
-
-  jupyterhub-github-production:
-    <<: *jupyterhub
-    name: "jupyterhub-github-production"
-    group: "production"
-    namespace: "jupyterhub-github-production"
-    # set:
-      # auth.github.callbackUrl: "$HOST_NAME/github/hub/oauth_callback"
-    valuesFiles:
-      - "jupyterhub/config.yaml"
-      - "jupyterhub/production/config.yaml"
-      # - "jupyterhub/persistentVolumes.yaml"
-      - "jupyterhub/github.yaml"
-      # - "jupyterhub/production/github.yaml"
-
-  cert-manager-production:
+  cert-manager:
     name: "cert-manager"
     chart: "jetstack/cert-manager"
-    enabled: false
+    enabled: true
     priority: 0
     # timeout: 120
     version: "v1.7.2"
     wait: true
-    group: "production"
+    group: "prod"
+    timeout: 240
     namespace: "cert-manager"
     set:
       installCRDs: true
       ingressShim.defaultIssuerKind: "ClusterIssuer"
-      ingressShim.defaultIssuerName: "letsencrypt-production"
+      ingressShim.defaultIssuerName: "letsencrypt-prod"
     hooks:
       postUpgrade: "cert-managment/cluster_issuer.yaml"
       postInstall: "cert-managment/cluster_issuer.yaml"
@@ -422,37 +200,4 @@ apps:
     chart: "nvidia/gpu-operator"
     enabled: false
     version: "1.9.1"
-    group: "production"
-
-# -------------------- JUNK ----------------------------------
-# jupyterhub-test:
-#   valuesFiles:
-#     - "values/jupyterhub-config.yaml"
-#     # - "values/staging/jupyterhub-config.yaml"
-#     - "values/jupyterhub-sandbox.yaml"
-#     # - "values/staging/jupyterhub-sandbox.yaml"
-#   name: "jupyterhub-staging"
-#   namespace: "staging"
-#   chart: "jupyterhub/jupyterhub"
-#   # version: "0.9.0"
-#   version: "0.10.2-n047.hb387f987"
-#   enabled: false
-#   priority: 0
-#   timeout: 1200
-#   # wait: true
-#   set:
-#     proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-
-# binderhub:
-#   valuesFiles:
-#     - "binderhub/secret.yaml"
-#     - "binderhub/config.yaml"
-#     - "binderhub/production.yaml"
-#   name: "binderhub"
-#   namespace: "staging"
-#   protected: true
-#   chart: "jupyterhub/binderhub"
-#   version: "0.2.0-n361.h6f57706"
-#   enabled: false
-#   priority: 0
-#   # set:
+    group: "prod"

@@ -9,7 +9,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.k8s.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
   tls:
   - secretName: docker-alpha-binder-bioimagearchive-org
@@ -34,7 +34,7 @@ ingress:
 #     kubernetes.io/ingress.class: nginx
 #     kubernetes.io/tls-acme: "true"
 #     cert-manager.k8s.io/acme-challenge-type: http01
-#     cert-manager.io/cluster-issuer: letsencrypt-production
+#     cert-manager.io/cluster-issuer: letsencrypt-prod
 #     # https:
 #     #   enabled: true
 #     #   type: nginx

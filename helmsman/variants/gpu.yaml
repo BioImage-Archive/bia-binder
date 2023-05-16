@@ -1,0 +1,71 @@
+settings:
+  kubeContext: gpu
+
+# namespaces:
+#   binderhub-dev-gpu:
+#     protected: false
+#   binderhub-prod-gpu:
+#     protected: false
+
+apps:
+  jupyterhub-github-prod:
+    version: 1.2.0
+    enabled: true
+    set:
+      # hub.config.GitHubOAuthenticator.client_id: "$SECRET_GITHUB_CLIENTID_GPU"
+      # hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTIDSECRET_GPU"
+      # hub.config.GitHubOAuthenticator.oauth_callback_url: "$GITHUB_OAUTH_CALLBACK_URL_GPU"
+      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
+      # hub.config.GitHubOAuthenticator.clientId: "$SECRET_GITHUB_CLIENTID"
+      # hub.config.GitHubOAuthenticator.client_secret: "$SECRET_GITHUB_CLIENTSECRET"
+    valuesFiles:
+      - "../jupyterhub/config.yaml"
+      - "../jupyterhub/prod/config.yaml"
+      - "../jupyterhub/prod/github_gpu.yaml"
+
+  binderhub-prod:
+    enabled: true
+    valuesFiles:
+      - "../binderhub/config.yaml"
+      - "../binderhub/prod/config.yaml"
+
+  binderhub-prod-gpu:
+    enabled: true
+    valuesFiles:
+    # - ""
+    - "../binderhub/config.yaml"
+    - "../binderhub/prod/gpu.yaml"
+
+  ingress-nginx:
+    enabled: true
+    version: 4.0.16
+
+  nvidia-gpu-operator:
+    enabled: false
+    set:
+      # driver.repository: "quay.io/compendius"
+      # toolkit.enabled: true
+      # driver.enabled: true
+      operator.defaultRuntime: "containerd"
+      toolkit.env[0].name: CONTAINERD_CONFIG
+      toolkit.env[0].value: /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl
+      toolkit.env[1].name: CONTAINERD_SOCKET
+      toolkit.env[1].value: /run/k3s/containerd/containerd.sock
+      toolkit.env[2].name: CONTAINERD_RUNTIME_CLASS
+      toolkit.env[2].value: nvidia
+      toolkit.env[3].name: CONTAINERD_SET_AS_DEFAULT
+    setString:
+      toolkit.env[3].value: true
+  nvidia-device-plugin:
+    enabled: false
+
+
+  docker-registry:
+    enabled: true
+  cert-manager-prod:
+    enabled: true
+
+  daskgateway:
+    enabled: true
+
+ 

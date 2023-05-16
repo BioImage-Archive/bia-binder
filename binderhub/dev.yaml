@@ -1,0 +1,26 @@
+jupyterhub:
+  nameOverride: binder-dev
+  fullnameOverride: binder-dev
+  ingress:
+    hosts:
+    - dev.binder.bioimagearchive.org
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-body-size: 2m
+config:
+  BinderHub:
+    hub_url: https://dev.binder.bioimagearchive.org/jupyter
+
+ingress:
+  enabled: true
+  hosts:
+  - dev.binder.bioimagearchive.org
+  tls:
+  - secretName: dev-binder-bioimagearchive-org-cert
+    hosts:
+    - dev.binder.bioimagearchive.org
+
+pink:
+  hostStorageDir: /var/lib/pink/storage/dev
+  hostSocketDir: /var/run/pink/dev
+

@@ -1,0 +1,114 @@
+# DaskHub configuration values
+# ----------------------------
+rbac:
+  enabled: true  # Create and use roles and service accounts on an RBAC-enabled cluster.
+
+jupyterhub:
+# Easier to install dask raw and put binder around it
+  # nameOverride: dask
+  # fullnameOverride: dask
+  proxy:
+    service:
+      type: ClusterIP
+  ingress:
+    enabled: true
+    hosts:
+    - "login.binder.bioimagearchive.org"
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      cert-manager.k8s.io/acme-challenge-type: http01
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      certmanager.k8s.io/acme-http01-edit-in-place: "true"
+    # https:
+    #   enabled: true
+    #   type: nginx
+    tls:
+    - secretName: login-binder-bioimagearchive-org-cert
+      hosts:
+      - "login.binder.bioimagearchive.org"
+  # JupyterHub configuration goes here.
+  # See https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
+  hub:
+    baseUrl: /
+  #   config:
+  #     GenericOAuthenticator:
+  #     client_id: your-client-id
+  #     client_secret: your-client-secret
+  #     oauth_callback_url: https://login.binder.bioimagearchive.org/oauth_callback
+  #     authorize_url: https://your-domain.us.auth0.com/authorize
+  #     token_url: https://your-domain.us.auth0.com/oauth/token
+  #     userdata_url: https://your-domain.us.auth0.com/userinfo
+  #     scope:
+  #       - openid
+  #       - name
+  #       - profile
+  #       - email
+  #     username_key: name
+  #   JupyterHub:
+  #     authenticator_class: generic-oauth
+    services:
+      dask-gateway:
+        display: false
+
+    # extraConfig:
+      # Register Dask Gateway service and setup singleuser environment.
+  singleuser:
+    image:
+      name: pangeo/base-notebook  # Image to use for singleuser environment. Must include dask-gateway.
+      # tag: "2023.02.27"
+    defaultUrl: "/lab"  # Use jupyterlab by defualt.
+    extraEnv:
+      GRANT_SUDO: "yes"
+      # JUPYTERHUB_SINGLEUSER_APP: "jupyterhub.singleuserapp.SingleUserNotebookApp"
+      NOTEBOOK_ARGS: "--allow-root"
+    cpu:
+      limit: 4
+      guarantee: 2
+    memory:
+      limit: 8G
+      guarantee: 6G
+    profileList:
+      - display_name: "Medium Memory"
+        description: "Environment with 4 CPUs and 16Gi RAM"
+        kubespawner_override:
+          cpu_limit: 4
+          mem_limit: "16G"
+      - display_name: "High Memory"
+        description: "Environment with 8 CPUs and 32Gi RAM"
+        kubespawner_override:
+          cpu_limit: 8
+          mem_limit: "32G"
+      - display_name: "1 GPU High Memory"
+        description: "Environment with 4 CPUs, 16Gi RAM, and 1 GPU"
+        kubespawner_override:
+          image: pangeo/ml-notebook
+          cpu_limit: 4
+          mem_limit: "16G"
+          extra_resource_limits:
+            nvidia.com/gpu: "1"
+
+dask-gateway:
+  enabled: true  # Enabling dask-gateway will install Dask Gateway as a dependency.
+  # Futher Dask Gateway configuration goes here
+  # See https://github.com/dask/dask-gateway/blob/master/resources/helm/dask-gateway/values.yaml
+  gateway:
+    auth:
+      type: jupyterhub  # Use JupyterHub to authenticate with Dask Gateway
+      # jupyterhub:
+        # apiUrl: "http://dask-hub:8081/hub/api"  # JupyterHub API URL
+    #     apiToken:
+        # apiTokenFromSecretName: dask-hub
+        # apiTokenFromSecretKey: dask-hub.services.dask-gateway.apiToken
+    # prefix: "/services/dask-gateway"  # Users connect to the Gateway through the JupyterHub service.
+  traefik:
+    service:
+      type: ClusterIP  # Access Dask Gateway through JupyterHub. To access the Gateway from outside JupyterHub, this must be changed to a `LoadBalancer`.
+
+
+dask-kubernetes:
+  # Use dask-kubernetes, rather than Dask Gateway, for creating Dask Clusters.
+  # Enabling this also requires
+  # 1. Setting `jupyterhub.singleuser.serviceAccountName: daskkubernetes`.
+  # 2. Ensuring that `dask-kubernetes` is in your singleuser environment.
+  enabled: false

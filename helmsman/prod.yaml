@@ -1,0 +1,67 @@
+namespaces:
+  prod:
+    protected: false
+  dev:
+    protected: true
+  cert-manager:
+    protected: true
+  ingress-nginx:
+    protected: true
+  nginx-ingress:
+    protected: true
+  trow:
+    protected: true
+  docker-registry:
+    protected: true
+  tritoninferenceserver:
+    protected: true
+  monitoring:
+    protected: true
+  nvidia-device-plugin:
+    protected: true
+  gpu-operator:
+    protected: true
+  argo:
+    protected: true
+
+apps:
+  # trow:
+    # enabled: false
+  # nvidia-device-plugin:
+    # enabled: true
+  # docker-registry:
+    # enabled: true
+  # ingress-nginx:
+    # enabled: true
+  jupyterhub:
+    namespace: "prod"
+    valuesFiles:
+    - "../jupyterhub/values.yaml"
+  daskhub:
+    namespace: "prod"
+    valuesFiles:
+    - "../daskhub/values.yaml"
+  binderhub:
+    namespace: "prod"
+    valuesFiles:
+    - "../binderhub/values.yaml"
+  binderhub-gpu:
+    namespace: "prod"
+    valuesFiles:
+    - "../binderhub/values.yaml"
+    - "../binderhub/prod/gpu.yaml" 
+  # cert-manager:
+    # enabled: true
+  # nvidia-gpu-operator:
+    # enabled: true
+  kfp:
+    name: "kfp"
+    namespace: "prod"
+    valuesFiles:
+    - ../kubeflow-pipelines/values.yaml
+
+  argo-workflows:
+    name: "argo-workflows"
+    namespace: "prod"
+    # valuesFiles:
+    # - ../kubeflow-pipelines/values.yaml

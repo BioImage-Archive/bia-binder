@@ -1,0 +1,12 @@
+
+apps:
+  binderhub-prod:
+    valuesFiles:
+    - "../binderhub/config.yaml"
+    - "../binderhub/prod/config.yaml"
+
+  binderhub-prod-gpu:
+    enabled: true
+    valuesFiles:
+    - "../binderhub/config.yaml"
+    - "../binderhub/prod/GPU.yaml"

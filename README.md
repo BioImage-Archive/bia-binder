@@ -27,7 +27,7 @@ This will give the GitLab runner almost full administrative access to the cluste
     bash gitlab-ci/install-helm.sh
     helmfile -e minikube sync
 
-For production
+For prod
 
     helmfile -e default sync -->
 

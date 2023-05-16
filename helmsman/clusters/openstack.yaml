@@ -1,0 +1,5 @@
+apps:
+  binderhub:
+    valuesFiles:
+    - "../binderhub/config.yaml"
+    - "../binderhub/prod/config_beta_openstack.yaml"

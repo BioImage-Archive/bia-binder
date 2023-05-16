@@ -1,0 +1,28 @@
+namespaces:
+  cert-manager:
+    protected: false
+    namespace: "prod"
+  ingress-nginx:
+    protected: false
+    namespace: "prod"
+  nginx-ingress:
+    protected: false
+    namespace: "prod"
+  trow:
+    protected: false
+    namespace: "prod"
+  docker-registry:
+    protected: false
+    namespace: "prod"
+  tritoninferenceserver:
+    protected: true
+    namespace: "prod"
+  monitoring:
+    protected: false
+    namespace: "prod"
+  nvidia-device-plugin:
+    protected: false
+    namespace: "prod"
+  gpu-operator:
+    protected: false
+    namespace: "prod"

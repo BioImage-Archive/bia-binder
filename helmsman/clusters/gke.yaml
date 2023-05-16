@@ -1,0 +1,9 @@
+apps:
+  nginx-ingress:
+    enabled: false
+# namespaces:
+
+  binderhub:
+    valuesFiles:
+    - "../binderhub/config.yaml"
+    - "../binderhub/prod/GKE.yaml"

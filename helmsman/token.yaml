@@ -1,3 +1,5 @@
+# Useful for accessing the service account runner when running from inside the kubernetes cluster
+
 settings:
   kubeContext: "default" # the name of the context to be created
   bearerToken: true
@@ -5,17 +7,3 @@ settings:
   bearerTokenPath: "/var/run/secrets/kubernetes.io/serviceaccount/token"
 certificates:
   caCrt: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-
-# namespaces:
-#   jupyterhub-sandbox-staging:
-#     protected: true 
-#   jupyterhub-sandbox-production:
-#     protected: true
-#   binderhub-staging:
-#     protected: true 
-#   binderhub-production:
-#     protected: true
-#   daskgateway-staging:
-#     protected: true 
-#   daskgateway-production:
-#     protected: true
