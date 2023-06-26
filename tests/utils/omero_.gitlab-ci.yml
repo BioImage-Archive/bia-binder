@@ -1,0 +1,152 @@
+######################################################################
+# Common settings
+
+# image: imagedata/kube-helm-docker:0.2.0
+image: praqma/helmsman:v3.4.6
+
+stages:
+  - setup
+  - dev
+  - approval
+  - prod
+
+variables:
+  # Don't use default since we need extra permissions for deployment
+  KUBERNETES_SERVICE_ACCOUNT_OVERWRITE: gitlab-runner
+
+before_script:
+  # Helm may not be installed so don't fail
+  - helm version || true
+  - helm list || true
+
+
+######################################################################
+# Jobs
+# Deployment logs are public so ensure all you never echo any secret
+# variables
+
+
+# Install or upgrade helm
+# This is always run
+setup:
+  stage: setup
+  script:
+    - sh gitlab-ci/install-helm.sh
+  only:
+  - master
+
+# dev is run automatically when master is updated
+# Deletes an existing deployment before installing
+dev:
+  stage: dev
+  before_script:
+    - helm list
+    # Disable delete for now to see if it fixes an redeployment problem
+    #- helmfile --hide-args --selector application=dev delete || true
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: dev-dev
+    url: https://idr-analysis.openmicroscopy.org/dev
+  only:
+  - master
+
+# prod requires a manual trigger
+approval:
+  stage: approval
+  script:
+    - echo Manual approval required
+  allow_failure: false
+  only:
+  - master
+  when: manual
+
+# Training (no login) prod
+# Upgrades if already installed
+deploy_training:
+  stage: prod
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: prod-training
+    url: https://idr-analysis.openmicroscopy.org/training
+  only:
+  - master
+
+# ITR Public (no login) prod
+# Upgrades if already installed
+deploy_itr_public:
+  stage: prod
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: prod-itr-public
+    url: https://idr-analysis.openmicroscopy.org/itr-public
+  only:
+  - master
+
+# Public (no login) prod
+# Upgrades if already installed
+deploy_public:
+  stage: prod
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: prod-public
+    url: https://idr-analysis.openmicroscopy.org/public
+  only:
+  - master
+
+# VAE prod
+# Upgrades if already installed
+deploy_vae:
+  stage: prod
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: prod-vae
+    url: https://idr-analysis.openmicroscopy.org/vae
+  only:
+  - master
+
+# VAE AAI prod
+# Upgrades if already installed
+deploy_vaeaai:
+  stage: prod
+  script:
+    - sh gitlab-ci/deploy.sh
+    # TODO: Check we can run singleuser servers
+  environment:
+    name: prod-vae-aai
+    url: https://idr-analysis.openmicroscopy.org/vae-aai
+  only:
+  - master
+
+# Website
+# Upgrades if already installed
+deploy_website:
+  stage: prod
+  script:
+    - helmfile --selector application=website sync
+  environment:
+    name: prod-website
+    url: https://idr-analysis.openmicroscopy.org/
+  only:
+  - master
+
+# Monitoring
+# Upgrades if already installed
+deploy_monitoring:
+  stage: prod
+  script:
+    - helmfile --selector application=monitoring sync
+  environment:
+    name: prod-monitoring
+    url: https://idr-analysis.openmicroscopy.org/grafana
+  only:
+  - master

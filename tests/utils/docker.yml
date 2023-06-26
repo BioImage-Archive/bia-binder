@@ -1,0 +1,13 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: docker
+spec:
+  # Add the server as an NFS volume for the pod
+
+  containers:
+    - name: docker
+      image: docker
+      command:
+        - "sleep"
+        - "604800"

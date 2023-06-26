@@ -1,0 +1,28 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: ubuntu
+spec:
+  imagePullSecrets:
+    - name: trow-password
+  # Add the server as an NFS volume for the pod
+  containers:
+    - name: trow
+      # image: ubuntu
+      image: trow.ctr26.duckdns.org/ubuntu
+      # image: docker-registry.docker-registry:5000/ubuntu
+      # image: docker-registry:5000/ubuntu
+      # image:  docker-registry.svc.cluster.local:5000/ubuntu
+      # image: docker-registry.docker-registry.svc.cluster.local:5000/ubuntu
+      # image: gcr.io/kubernetes-e2e-test-images/dnsutils:1.3
+      # image: docker-registry.docker-registry.svc.cluster.local:5000/ubuntu
+      command:
+        - "sleep"
+        - "604800"
+      # resources:
+      #   requests:
+      #     memory: "4073741824"
+        # limits:
+        #   nvidia.com/gpu: 1
+
+

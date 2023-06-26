@@ -1,0 +1,154 @@
+# kind: Deployment
+# apiVersion: apps/v1
+# metadata:
+#   name: ubuntu
+#   namespace: default
+# spec:
+#   # Add the server as an NFS volume for the pod
+#   volumes:
+#   - hostPath:
+#       path: /
+#       type: DirectoryOrCreate
+#     name: mnt
+#   # # - hostPath:
+#   #     # path: /var/run/dind/gpu/prod
+#   #     # type: DirectoryOrCreate
+#   #   # name: rundind
+#   # - name: default-token-x578d
+#   #   secret:
+#   #     defaultMode: 420
+#   #     secretName: default-token-x578d
+#   containers:
+#     - name: ubuntu
+#       # image: ubuntu
+#       image: ubuntu
+#       volumeMounts:
+#       - mountPath: /
+#         name: mnt
+#       # - mountPath: /var/run/dind/gpu/prod
+#         # name: rundind
+#       # - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+#       #   name: default-token-x578d
+#       #   readOnly: true
+#       # resources:
+#         # limits:
+#           # smarter-devices/fuse: "1"
+#           # cpu: 1
+#           # memory: 50Mi
+#         # requests:
+#           # smarter-devices/fuse: "1"
+#           # cpu: 10m
+#           # memory: 50Mi
+#         # cpu: 10m
+#         # memory: 50Mi
+#       # securityContext: "privileged"
+#       #   privileged: true
+#       # image: docker-registry.docker-registry:5000/ubuntu
+#       # image: docker-registry:5000/ubuntu
+#       # image:  docker-registry.svc.cluster.local:5000/ubuntu
+#       # image: docker-registry.docker-registry.svc.cluster.local:5000/ubuntu
+#       # image: gcr.io/kubernetes-e2e-test-images/dnsutils:1.3
+#       # image: docker-registry.docker-registry.svc.cluster.local:5000/ubuntu
+#       command:
+#         - "sleep"
+#         - "60480000"
+#       # resources:
+#       #   requests:
+#       #     memory: "4073741824"
+#       #   # limits:
+#       #   #   nvidia.com/gpu: 1
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu
+  labels:
+    app: ubuntu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      volumes:
+      - hostPath:
+          path: /
+          type: DirectoryOrCreate
+        name: mnt
+      containers:
+      - name: ubuntu
+        volumeMounts:
+        - mountPath: /
+          name: mnt
+        # image: linuxserver/openssh-server:latest
+        image: rastasheep/ubuntu-sshd
+        # image: ubuntu
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: true
+        ports:
+        - containerPort: 22
+        - containerPort: 8888
+        # - containerPort: 22
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            # memory: 64Gi
+          requests:
+            nvidia.com/gpu: 1
+            # memory: 64Gi
+        # command:
+        # - "sleep"
+        # - "999999999999999999"
+
+--- 
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mnt
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mnt
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssh-service
+spec:
+  type: LoadBalancer
+  ports:
+  - name: jupyter
+    port: 8888
+    targetPort: 8888
+  - name: ssh
+    port: 22222
+    targetPort: 22
+  # - port: 8888
+    # targetPort: 8888
+  selector:
+    app: ubuntu
