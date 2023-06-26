@@ -21,15 +21,15 @@ $(ENVIRONMENTS): %:
 
 $(VARIANTS:%=%.prod): %.prod:
 	@echo "Deploying $* to prod..."
-	helmsman --apply --debug --group "prod" -f helmsman.yaml -f helmsman/prod.yaml -e $*.prod.env
+	helmsman --apply --debug --group "prod" -f helmsman.yaml -f helmsman/prod.yaml -e $*.prod.env --subst-env-values
 
 $(VARIANTS:%=%.dev): %.dev:
 	@echo "Deploying $* to dev..."
-	helmsman --apply --debug --group "dev" -f helmsman.yaml -f helmsman/dev.yaml -e $*.dev.env
+	helmsman --apply --debug --group "dev" -f helmsman.yaml -f helmsman/dev.yaml -e $*.dev.env --subst-env-values
 
 $(VARIANTS:%=%.local): %.local:
 	@echo "Deploying $* to local..."
-	helmsman --apply --debug --group "prod" -f helmsman.yaml -f helmsman/local.yaml -e $*.local.env
+	helmsman --apply --debug --group "prod" -f helmsman.yaml -f helmsman/local.yaml -e $*.local.env --subst-env-values
 
 htpassword:
 	docker run --rm -ti xmartlabs/htpasswd ${CI_REGISTRY_USER} ${CI_REGISTRY_PASSWORD} > htpasswd_file
