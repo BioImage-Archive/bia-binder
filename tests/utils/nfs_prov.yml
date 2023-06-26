@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temp
+  labels:
+    app: temp
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: temp
+  template:
+    metadata:
+      labels:
+        app: temp
+    spec:
+      serviceAccountName: nfs-provisioner-nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner-arm:latest
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: nfs-storage
+            - name: NFS_SERVER
+              value: 10.35.105.251
+            - name: NFS_PATH
+              value: /srv
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 10.35.105.251
+            path: "/fg_biostudies/.adm/databases/prod/submission/ftp/"

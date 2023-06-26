@@ -1,0 +1,17 @@
+namespaces:
+  binderhub-dev:
+
+helmRepos:
+  jupyterhub: "https://jupyterhub.github.io/helm-chart/"
+
+apps:
+  binderhub-dev:
+    valuesFiles:
+      - "binderhub/config.yaml"
+      - "binderhub/secret.yaml"
+    name: "binderhub-dev"
+    namespace: "binderhub-dev"
+    chart: "jupyterhub/binderhub"
+    version: "0.2.0-n219.hbc17443"
+    priority: -3
+    enable: true
