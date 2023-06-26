@@ -163,8 +163,8 @@ extraVolumeMounts:
 imageBuilderType: pink
 # Podman in Kubernetes
 pink:
-  hostStorageDir: /var/lib/pink/storage/prod
-  hostSocketDir: /var/run/pink/prod
+  hostStorageDir: /var/lib/pink/storage/production
+  hostSocketDir: /var/run/pink/production
 
 ingress:
   enabled: true
