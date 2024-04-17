@@ -29,6 +29,9 @@ config:
       <div style="text-align: center;">This is a public Beta and liable to downtime</div>
 
 jupyterhub:
+  scheduling:
+    userScheduler:
+      enabled: false
   nameOverride: binder
   fullnameOverride: binder
   proxy:
