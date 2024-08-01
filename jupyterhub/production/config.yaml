@@ -1,6 +1,0 @@
-ingress:
-  annotations:
-      kubernetes.io/ingress.class: nginx
-  enabled: true
-  hosts:
-    - "binder.bioimagearchive.org"
