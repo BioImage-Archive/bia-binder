@@ -64,20 +64,6 @@ apps:
     valuesFiles:
     - argo-workflows/values.yaml
 
-  kfp:
-    name: "kfp"
-    namespace: "prod"
-    group: "prod"
-    chart: "getindata/kubeflow-pipelines"
-    enabled: false
-    version: "1.10.0"
-    set:
-      platform.manageStoage.minioAccessKey: minio
-      minioSecretKey: $SECRET_JUPYTERHUB_PROXY_TOKEN
-      platform.managedStorage.dbPassword: $SECRET_JUPYTERHUB_PROXY_TOKEN
-    valuesFiles:
-    - kubeflow-pipelines/values.yaml
-
 
   trow:
     name: "trow"
@@ -122,23 +108,6 @@ apps:
     version: "4.6.0"
     valuesFiles:
     - ingress/nginx-ingress.yaml
-
-  jupyterhub:
-    name: "jupyterhub"
-    chart: "jupyterhub/jupyterhub"
-    version: "2.0.0"
-    group: "prod"
-    namespace: "prod"
-    helmFlags:
-    - "--debug"
-    wait: false
-    timeout: 1200
-    enabled: false
-    priority: -11
-    set:
-      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-    valuesFiles:
-    - "jupyterhub/values.yaml"
 
   daskhub:
     chart: "dask/daskhub"
