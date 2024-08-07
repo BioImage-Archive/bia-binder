@@ -12,7 +12,12 @@ This repository contains the materials for deploying the BIA Binder, including t
     cd bia-binder
     ```
 
-2. **Install Helmsman**: Follow the instructions on the [Helmsman GitHub page](https://github.com/Praqma/helmsman) to install Helmsman on your system.
+2. **Install the necessary tools**:
+2.i **Install Helm**: Follow the instructions on the [Helm page](https://helm.sh/docs/intro/install/)
+2.ii **Install Helmsman**: Follow the instructions on the [Helmsman GitHub page](https://github.com/Praqma/helmsman) to install Helmsman on your system.
+2.iii *Install helm-diff* plugin: 
+
+    helm plugin install https://github.com/databus23/helm-diff
 
 ### Deployment
 
