@@ -1,3 +1,7 @@
+namespaces:
+  prod:
+  dev:
+
 metadata:
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
@@ -42,9 +46,7 @@ appsTemplates:
       config.BinderHub.use_registry: true
 
 
-
 apps:
-
   docker-registry:
     name: "docker-registry"
     namespace: "docker-registry"

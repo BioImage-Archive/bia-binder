@@ -9,8 +9,6 @@ namespaces:
     protected: true
   nginx-ingress:
     protected: true
-  trow:
-    protected: true
   docker-registry:
     protected: true
   tritoninferenceserver:
@@ -23,20 +21,6 @@ namespaces:
     protected: true
 
 apps:
-  # trow:
-    # enabled: false
-  # nvidia-device-plugin:
-    # enabled: true
-  # docker-registry:
-    # enabled: true
-  # ingress-nginx:
-    # enabled: true
-  jupyterhub:
-    namespace: "dev"
-    group: "dev"
-    valuesFiles:
-    - "../jupyterhub/values.yaml"
-    - "../jupyterhub/dev.yaml"
   daskhub:
     namespace: "dev"
     group: "dev"
@@ -51,21 +35,7 @@ apps:
     valuesFiles:
     - "../binderhub/values.yaml"
     - "../binderhub/dev.yaml"
-  binderhub-gpu:
-    namespace: "dev"
-    group: "dev"
-    name: "binderhub-gpu-dev"
-    valuesFiles:
-    - "../binderhub/values.yaml"
-    - "../binderhub/dev.yaml"
-    - "../binderhub/dev/gpu.yaml" 
   # cert-manager:
     # enabled: true
   # nvidia-gpu-operator:
     # enabled: true
-  kfp:
-    name: "kfp-dev"
-    group: "dev"
-    namespace: "dev"
-    valuesFiles:
-    - ../kubeflow-pipelines/dev.yaml
