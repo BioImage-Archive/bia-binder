@@ -30,6 +30,24 @@ jupyterhub:
   # JupyterHub configuration goes here.
   # See https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
   hub:
+    config:
+      GenericOAuthenticator:
+        # client_id: cfac1c45-ab70-4596-b5b6-d1d92cf8ce3b
+        # client_secret: c064871e-2b7b-4b64-a6cb-0c0b3821d262e1002124-2cb5-4d80-ab64-f82b1ad6e2c6
+        client_id: ${AAI_CLIENT_ID}
+        client_secret: ${AAI_CLIENT_SECRET}
+        # client_id: cfac1c45-ab70-4596-b5b6-d1d92cf8ce3b
+        oauth_callback_url: https://login.binder.bioimagearchive.org/hub/oauth_callback
+        authorize_url: https://login.elixir-czech.org/oidc/authorize
+        token_url: https://login.elixir-czech.org/oidc/token
+        userdata_url: https://login.elixir-czech.org/oidc/userinfo
+        scope:
+          - openid
+          - email
+        username_key: email
+      JupyterHub:
+        admin_access: true
+        authenticator_class: generic-oauth
     baseUrl: /
   #   config:
   #     GenericOAuthenticator:

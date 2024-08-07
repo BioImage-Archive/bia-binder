@@ -49,7 +49,7 @@ BinderHub allows users to share reproducible interactive computing environments 
 ## Quick start
 
 
-> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/bia-binder-rclone/HEAD) &emsp; Mounting Biostudies using rclone
+<!-- > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/bia-binder-rclone/HEAD) &emsp; Mounting Biostudies using rclone -->
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/EBIBioStudies/biostudies-notebooks/HEAD) &emsp; Reading Biostudies images
 >
@@ -61,7 +61,7 @@ BinderHub allows users to share reproducible interactive computing environments 
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/IDR/idr0079-hartmann-lateralline/HEAD) &emsp; Some [IDR](https://idr.openmicroscopy.org/) studies are availiable
 >
-> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/basic-gpu-binder/HEAD) &emsp; Binder for machine learning using GPUs
+<!-- > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/basic-gpu-binder/HEAD) &emsp; Binder for machine learning using GPUs -->
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/betatim/vscode-binder/master?urlpath=vscode) &emsp; Vs Code on Binderhub
 
@@ -70,14 +70,14 @@ BinderHub allows users to share reproducible interactive computing environments 
 | Tier |URL|Flavour|Resources|
 |:----:|:----:|:----:|:----:|
 |   1  | [binder.bioimagearchive.org](binder.bioimagearchive.org)| Public Binderhub | 8Gb RAM, 4 vCPUs, Ephemeral|
-|   2  | [login.binder.bioimagearchive.org](login.binder.bioimagearchive.org)| Persistent Binderhub | <16Gb RAM, <8 vCPUs, 15 GB Storage, Dask|
-|   2  | [gpu.binder.bioimagearchive.org](gpu.binder.bioimagearchive.org)| Authenticated Binderhub | <32Gb RAM, <8 vCPUs, (1-2) GPUs, Ephemeral, Dask|
-|   3  | [kubeflow.binder.bioimagearchive.org](kubeflow.binder.bioimagearchive.org)* | Authenticated Kubeflow | n x (<32Gb RAM, <8 vCPUs), 15 GB Storage, (1-2) GPUs, Dask |
+|   2  | [login.binder.bioimagearchive.org](login.binder.bioimagearchive.org)| Persistent JupyterHub | <16Gb RAM, <8 vCPUs, 15 GB Storage, Dask|
+<!-- |   2  | [gpu.binder.bioimagearchive.org](gpu.binder.bioimagearchive.org)| Authenticated Binderhub | <32Gb RAM, <8 vCPUs, (1-2) GPUs, Ephemeral, Dask| -->
+<!-- |   3  | [kubeflow.binder.bioimagearchive.org](kubeflow.binder.bioimagearchive.org)* | Authenticated Kubeflow | n x (<32Gb RAM, <8 vCPUs), 15 GB Storage, (1-2) GPUs, Dask | -->
 
-* Kubeflow is a highly experimental deployment at the moment
+<!-- * Kubeflow is a highly experimental deployment at the moment -->
 <!-- |   1  | binder.bioimagearchive.org/sandbox     | Public Jupyterhub        | 8Gb RAM, 4 vCPUs                                           | -->
 <!-- |   2  | beta.binder.bioimagearchive.org/github | Authenticated Jupyterhub | <32Gb RAM, <8 vCPUs, 15 GB Storage, (1-2) GPUs, Dask       | -->
-### To request access to Tier 2/3, please contact [bioimagearchive@ebi.ac.uk](mailto:bioimagearchive@ebi.ac.uk)
+<!-- ### To request access to Tier 2/3, please contact [bioimagearchive@ebi.ac.uk](mailto:bioimagearchive@ebi.ac.uk) -->
 
 
 <!-- - [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/bia-binder-rclone/HEAD) Mounting Biostudies using rclone
