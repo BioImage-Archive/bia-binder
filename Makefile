@@ -2,7 +2,8 @@
 
 BASEDIR = $(shell pwd)
 
-VARIANTS := embassy denbi minikube
+# VARIANTS := embassy denbi minikube
+VARIANTS := embassy minikube
 ENVIRONMENTS := prod dev local
 
 .PHONY: all $(VARIANTS) $(ENVIRONMENTS) $(VARIANTS:%=%.prod) $(VARIANTS:%=%.dev) htpassword
