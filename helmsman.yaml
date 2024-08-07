@@ -29,7 +29,7 @@ appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
     chart: "jupyterhub/binderhub"
-    version: "1.0.0-0.dev.git.3035.h32213a4"
+    version: "1.0.0-0.dev.git.3396.h693ba30"
     priority: -8
     wait: false # Lethal for binderhub
     timeout: 180
@@ -76,7 +76,7 @@ apps:
 
   daskhub:
     chart: "dask/daskhub"
-    version: "2023.1.0"
+    version: "2024.1.1"
     group: "prod"
     namespace: "prod"
     enabled: true
