@@ -50,7 +50,7 @@ apps:
     namespace: "nvidia-device-plugin"
     chart: "nvdp/nvidia-device-plugin"
     group: "prod"
-    enabled: false
+    enabled: true
     version: "0.10.0"
 
   docker-registry:
@@ -129,6 +129,6 @@ apps:
     name: "nvidia-gpu-operator"
     namespace: "gpu-operator"
     chart: "nvidia/gpu-operator"
-    enabled: false
+    enabled: true
     version: "1.9.1"
     group: "prod"
