@@ -45,15 +45,3 @@ apps:
     valuesFiles:
     - "../binderhub/values.yaml"
     - "../binderhub/local.yaml"
-  binderhub-gpu:
-    namespace: "prod"
-    enabled: false
-    # valuesFiles:
-    # - "../binderhub/values.yaml"
-    # - "../binderhub/local.yaml"
-    # - "../binderhub/local/gpu.yaml"
- 
-  # cert-manager:
-    # enabled: true
-  # nvidia-gpu-operator:
-    # enabled: true
