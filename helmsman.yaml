@@ -1,3 +1,7 @@
+namespaces:
+  prod:
+  dev:
+
 metadata:
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
@@ -25,7 +29,7 @@ appsTemplates:
   binderhub: &binderhub
     name: "binderhub"
     chart: "jupyterhub/binderhub"
-    version: "1.0.0-0.dev.git.3035.h32213a4"
+    version: "1.0.0-0.dev.git.3396.h693ba30"
     priority: -8
     wait: false # Lethal for binderhub
     timeout: 180
@@ -42,60 +46,7 @@ appsTemplates:
       config.BinderHub.use_registry: true
 
 
-
 apps:
-  argo-workflows:
-    name: "argo-workflows"
-    namespace: "prod"
-    group: "prod"
-    version: "0.23.0"
-    chart: "argo/argo-workflows"
-    enabled: true
-    # version: "1.10.0"
-    set:
-      # argo-workflowsUsername: admin
-      # argo-workflowsPassword: abc
-      # mysql.auth.rootPassword: abd
-      # global.postgresql.auth.postgresPassword: abc
-      # global.postgresql.auth.password: abc
-      # mysql.auth.password: abc
-      # externalDatabase.password: abc
-
-    valuesFiles:
-    - argo-workflows/values.yaml
-
-  kfp:
-    name: "kfp"
-    namespace: "prod"
-    group: "prod"
-    chart: "getindata/kubeflow-pipelines"
-    enabled: false
-    version: "1.10.0"
-    set:
-      platform.manageStoage.minioAccessKey: minio
-      minioSecretKey: $SECRET_JUPYTERHUB_PROXY_TOKEN
-      platform.managedStorage.dbPassword: $SECRET_JUPYTERHUB_PROXY_TOKEN
-    valuesFiles:
-    - kubeflow-pipelines/values.yaml
-
-
-  trow:
-    name: "trow"
-    namespace: "trow"
-    chart: "trow/trow"
-    enabled: false
-    version: "0.3.3"
-    valuesFiles:
-    - trow/values.yaml
-
-  nvidia-device-plugin:
-    name: "nvidia-device-plugin"
-    namespace: "nvidia-device-plugin"
-    chart: "nvdp/nvidia-device-plugin"
-    group: "prod"
-    enabled: false
-    version: "0.10.0"
-
   docker-registry:
     name: "docker-registry"
     namespace: "docker-registry"
@@ -123,26 +74,9 @@ apps:
     valuesFiles:
     - ingress/nginx-ingress.yaml
 
-  jupyterhub:
-    name: "jupyterhub"
-    chart: "jupyterhub/jupyterhub"
-    version: "2.0.0"
-    group: "prod"
-    namespace: "prod"
-    helmFlags:
-    - "--debug"
-    wait: false
-    timeout: 1200
-    enabled: false
-    priority: -11
-    set:
-      proxy.secretToken: "$SECRET_JUPYTERHUB_PROXY_TOKEN"
-    valuesFiles:
-    - "jupyterhub/values.yaml"
-
   daskhub:
     chart: "dask/daskhub"
-    version: "2023.1.0"
+    version: "2024.1.1"
     group: "prod"
     namespace: "prod"
     enabled: true
@@ -162,16 +96,6 @@ apps:
     namespace: "prod"
     group: "prod"
     # protected: false
-    valuesFiles:
-    - "binderhub/values.yaml"
-
-
-  binderhub-gpu:
-    !!merge <<: *binderhub
-    enabled: false
-    name: "binderhub-gpu"
-    namespace: "prod"
-    group: "prod"
     valuesFiles:
     - "binderhub/values.yaml"
 
@@ -201,3 +125,11 @@ apps:
     enabled: false
     version: "1.9.1"
     group: "prod"
+
+  nvidia-device-plugin:
+    name: "nvidia-device-plugin"
+    namespace: "nvidia-device-plugin"
+    chart: "nvdp/nvidia-device-plugin"
+    group: "prod"
+    enabled: false
+    version: "0.10.0"

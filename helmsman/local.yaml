@@ -9,8 +9,6 @@ namespaces:
     protected: true
   nginx-ingress:
     protected: true
-  trow:
-    protected: true
   docker-registry:
     protected: true
   tritoninferenceserver:
