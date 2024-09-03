@@ -1,7 +1,3 @@
-namespaces:
-  prod:
-  dev:
-
 metadata:
   organization: EBI
   maintainer: Craig Russell (ctr26@ebi.ac.uk)
@@ -46,7 +42,17 @@ appsTemplates:
       config.BinderHub.use_registry: true
 
 
+
 apps:
+
+  nvidia-device-plugin:
+    name: "nvidia-device-plugin"
+    namespace: "nvidia-device-plugin"
+    chart: "nvdp/nvidia-device-plugin"
+    group: "prod"
+    enabled: false
+    version: "0.10.0"
+
   docker-registry:
     name: "docker-registry"
     namespace: "docker-registry"
@@ -68,7 +74,7 @@ apps:
     chart: "ingress-nginx/ingress-nginx"
     wait: true
     group: "prod"
-    enabled: true
+    enabled: false
     priority: -100
     version: "4.6.0"
     valuesFiles:
@@ -99,6 +105,7 @@ apps:
     valuesFiles:
     - "binderhub/values.yaml"
 
+
   cert-manager:
     name: "cert-manager"
     chart: "jetstack/cert-manager"
@@ -125,11 +132,3 @@ apps:
     enabled: false
     version: "1.9.1"
     group: "prod"
-
-  nvidia-device-plugin:
-    name: "nvidia-device-plugin"
-    namespace: "nvidia-device-plugin"
-    chart: "nvdp/nvidia-device-plugin"
-    group: "prod"
-    enabled: false
-    version: "0.10.0"

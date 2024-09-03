@@ -31,6 +31,9 @@ jupyterhub:
   # See https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml
   hub:
     config:
+      Authenticator:
+        enable_auth_state: true
+        allow_all: true   ## Add this to allow all users
       GenericOAuthenticator:
         # client_id: cfac1c45-ab70-4596-b5b6-d1d92cf8ce3b
         # client_secret: c064871e-2b7b-4b64-a6cb-0c0b3821d262e1002124-2cb5-4d80-ab64-f82b1ad6e2c6
@@ -97,14 +100,14 @@ jupyterhub:
         kubespawner_override:
           cpu_limit: 8
           mem_limit: "32G"
-      - display_name: "1 GPU High Memory"
-        description: "Environment with 4 CPUs, 16Gi RAM, and 1 GPU"
-        kubespawner_override:
-          image: pangeo/ml-notebook
-          cpu_limit: 4
-          mem_limit: "16G"
-          extra_resource_limits:
-            nvidia.com/gpu: "1"
+      # - display_name: "1 GPU High Memory"
+      #   description: "Environment with 4 CPUs, 16Gi RAM, and 1 GPU"
+      #   kubespawner_override:
+      #     image: pangeo/ml-notebook
+      #     cpu_limit: 4
+      #     mem_limit: "16G"
+      #     extra_resource_limits:
+      #       nvidia.com/gpu: "1"
 
 dask-gateway:
   enabled: true  # Enabling dask-gateway will install Dask Gateway as a dependency.
