@@ -53,17 +53,19 @@ BinderHub allows users to share reproducible interactive computing environments 
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/EBIBioStudies/biostudies-notebooks/HEAD) &emsp; Reading Biostudies images
 >
->  [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://gpu.binder.bioimagearchive.org/v2/gh/HenriquesLab/ZeroCostDL4Mic/master?urlpath=lab/tree/ipynb) &emsp; Running ZeroCostDL4Mic
+<!-- >  [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://gpu.binder.bioimagearchive.org/v2/gh/HenriquesLab/ZeroCostDL4Mic/master?urlpath=lab/tree/ipynb) &emsp; Running ZeroCostDL4Mic -->
 >
-> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/HenriquesLab/ZeroCostDL4Mic/master?urlpath=lab/tree/Colab_notebooks/StarDist_2D_ZeroCostDL4Mic.ipynb) &emsp; ↳ with a specific notebook
+<!-- > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/HenriquesLab/ZeroCostDL4Mic/master?urlpath=lab/tree/Colab_notebooks/StarDist_2D_ZeroCostDL4Mic.ipynb) &emsp; ↳ with a specific notebook -->
 >
-> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://gpu.binder.bioimagearchive.org/v2/gh/ctr26/splinedist/HEAD?urlpath=lab/tree) &emsp; Splinedist
+> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/splinedist/HEAD?urlpath=lab/tree) &emsp; Splinedist
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/IDR/idr0079-hartmann-lateralline/HEAD) &emsp; Some [IDR](https://idr.openmicroscopy.org/) studies are availiable
 >
 <!-- > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/ctr26/basic-gpu-binder/HEAD) &emsp; Binder for machine learning using GPUs -->
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/betatim/vscode-binder/master?urlpath=vscode) &emsp; Vs Code on Binderhub
+>
+> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/imjoy-team/imjoy-hybrid-desktop/binder?urlpath=desktop) &emsp; ImJoy Hybrid Desktop
 
 ## Services and capabilities
 
