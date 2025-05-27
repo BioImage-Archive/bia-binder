@@ -13,7 +13,7 @@ mkdocs:
 # (Optional) if you need Python dependencies, e.g. mkdocs-material
 python:
   install:
-    - requirements: requirements.txt
+    - requirements: docs/requirements.txt
 
 # (Optional) target formats
 formats:
