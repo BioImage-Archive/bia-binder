@@ -1,0 +1,15 @@
+# .readthedocs.yaml
+version: 2
+
+# Tell RTD to use MkDocs and point at your config
+mkdocs:
+  configuration: mkdocs.yaml
+
+# (Optional) if you need Python dependencies, e.g. mkdocs-material
+python:
+  install:
+    - requirements: requirements.txt
+
+# (Optional) target formats
+formats:
+  - htmlzip
