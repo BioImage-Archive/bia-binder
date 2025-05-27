@@ -67,6 +67,21 @@ BinderHub allows users to share reproducible interactive computing environments 
 >
 > [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/imjoy-team/imjoy-hybrid-desktop/binder?urlpath=desktop) &emsp; ImJoy Hybrid Desktop
 
+## Experimental Features
+
+> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/IDR/idr0094-ellinger-sarscov2/master?urlpath=notebooks%2Fnotebooks%2Fidr0094-ic50.ipynb%3FscreenId%3D2602) &emsp; IC50 Notebook for SARS-CoV-2 Data
+>
+> [![Binder](https://binder.bioimagearchive.org/badge_logo.svg)](https://binder.bioimagearchive.org/v2/gh/BioImage-Archive/bia-explorer/HEAD?labpath=BIA-explorer-visualisation-notebook.ipynb) &emsp; BIA Explorer Visualisation Notebook
+
+### Additional Resources
+
+- **IDR Screen Data**: [IDR Screen 2451](https://idr.openmicroscopy.org/webclient/?show=screen-2451)
+- **S-BSST522 Image Gallery**: [EBI Image Gallery](https://www.ebi.ac.uk/bioimage-archive/galleries/S-BSST522.html)
+- **BIA Explorer GitHub Repository**: [GitHub - BIA Explorer](https://github.com/BioImage-Archive/bia-explorer)
+- **BIA Training Repository**: [GitHub - BIA Training](https://github.com/BioImage-Archive/bia-training)
+- **BIA BMZ Integration**: [GitHub - BIA BMZ Integration](https://github.com/BioImage-Archive/bia-bmz-integration)
+- **BioImage Archive Notebooks**: [GitHub - BioImage Archive Notebooks](https://github.com/BioImage-Archive/bioimagearchive_notebooks)
+
 ## Services and capabilities
 
 | Tier |URL|Flavour|Resources|
