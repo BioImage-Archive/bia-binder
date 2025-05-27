@@ -8,7 +8,7 @@ build:
 
 # Tell RTD to use MkDocs and point at your config
 mkdocs:
-  configuration: mkdocs.yaml
+  configuration: mkdocs.yml
 
 # (Optional) if you need Python dependencies, e.g. mkdocs-material
 python:
