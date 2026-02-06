@@ -26,7 +26,7 @@ config:
     # build_image: jupyter/repo2docker:2021.01.0-35.gb6e451d
 
     banner_message: |
-      <div style="text-align: center;">This is a public Beta and liable to downtime</div>
+      <div style="text-align: center;" background-color: "yellow">The beta offering of bia-binder is no longer supported.</div>
 
 jupyterhub:
   scheduling:
